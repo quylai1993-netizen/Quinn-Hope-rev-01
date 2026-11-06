@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: a classroom blackboard. Each character is a ruled chalk column; scores are kept as 正 tally marks. */
+  --board:#14231e; --board-hi:#1b2f28; --chalk:#eef1e4; --dim:#a9b8aa;
+  --faint:rgba(238,241,228,.18); --faint2:rgba(238,241,228,.07);
+  --win:#8fe3a1; --draw:#f3d676; --lose:#ff9a8d;
+  --sky:#8ccaff; --lilac:#c9aaff; --ink:#10201a;
+  --display:'Patrick Hand','Be Vietnam Pro',system-ui,sans-serif;
+  --body:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:16px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--board);color-scheme:dark}
+html,body{margin:0}
+body{background:var(--board);color:var(--chalk);font:400 15px/1.55 var(--body);-webkit-text-size-adjust:100%;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1100px 520px at 12% -8%,rgba(255,255,255,.075),transparent 62%),radial-gradient(900px 480px at 108% 108%,rgba(255,255,255,.05),transparent 60%)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.10'/></svg>")}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--draw);outline-offset:2px;border-radius:6px}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:22px 16px 72px}
+.muted{color:var(--dim)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 20px;flex-wrap:wrap}
+.kicker{margin:0 0 4px;font:600 12px var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+h1{display:inline-block;margin:0;padding-bottom:9px;font:400 clamp(40px,8vw,62px)/1 var(--display);letter-spacing:.01em;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 8' preserveAspectRatio='none'><path d='M2 5 C 30 1, 60 8, 90 4 S 150 1, 180 5 S 250 8, 298 3' fill='none' stroke='%23eef1e4' stroke-width='2.2' stroke-linecap='round' opacity='.7'/></svg>") left bottom/100% 8px no-repeat}
+.sync{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border:1.5px solid var(--faint);border-radius:999px;font-size:12.5px;color:var(--dim)}
+.sync i{width:9px;height:9px;border-radius:50%;background:var(--dim)}
+.sync[data-s="synced"] i{background:var(--win)}
+.sync[data-s="connecting"] i,.sync[data-s="syncing"] i{background:var(--draw)}
+.sync[data-s="error"] i{background:var(--lose)}
+
+/* tabs */
+.tabs{display:flex;gap:4px;margin:18px 0 20px;border-bottom:1.5px solid var(--faint);overflow-x:auto}
+.tab{flex:none;background:none;border:0;padding:10px 16px;font:600 15px var(--body);color:var(--dim);border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.tab:hover{color:var(--chalk)}
+.tab[aria-selected="true"]{color:var(--chalk);border-bottom-color:var(--chalk)}
+
+/* buttons */
+.btn{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 18px;border:1.5px solid var(--chalk);border-radius:999px;background:transparent;color:var(--chalk);font-weight:600;font-size:14px;transition:background .15s,transform .08s}
+.btn:hover{background:rgba(238,241,228,.1)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.38;cursor:not-allowed;transform:none;background:transparent}
+.btn.fill{background:var(--chalk);color:var(--ink)}
+.btn.fill:hover{background:#fff}
+.btn.fill:disabled{background:var(--chalk)}
+.btn.danger{border-color:var(--lose);color:var(--lose)}
+.btn.danger:hover{background:rgba(255,154,141,.12)}
+.btn.small{min-height:32px;padding:4px 13px;font-size:13px}
+.btn.ghost{border-color:transparent;color:var(--dim)}
+.btn.ghost:hover{color:var(--chalk);background:var(--faint2)}
+.btn.big{min-height:52px;padding:10px 30px;font:400 26px/1 var(--display);letter-spacing:.02em}
+
+/* lineup */
+.panel{border:1.5px dashed var(--faint);border-radius:var(--r);padding:14px 16px}
+.panel + .panel{margin-top:14px}
+.panel h2{margin:0 0 2px;font:400 24px/1.2 var(--display)}
+.panel .hint{margin:0 0 10px;font-size:13px;color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip-btn{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:5px 14px;border:1.5px solid var(--faint);border-radius:999px;background:transparent;font-weight:500;font-size:14px;max-width:100%}
+.chip-btn:hover{border-color:var(--dim)}
+.chip-btn[aria-pressed="true"]{border-color:var(--chalk);background:rgba(238,241,228,.1);font-weight:600}
+.chip-btn:disabled{opacity:.4;cursor:not-allowed}
+.chip-btn.add{border-style:dashed;color:var(--dim)}
+.chip-btn .sl{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid var(--c,var(--chalk));color:var(--c,var(--chalk));font:400 15px/1 var(--display)}
+.chip-btn .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* roll bar */
+.rollbar{display:flex;align-items:center;gap:14px 24px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1.5px solid var(--faint);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;padding:6px 14px;border-radius:999px;font-weight:600;font-size:13.5px;color:var(--dim);min-height:34px}
+.seg button[aria-checked="true"]{background:var(--chalk);color:var(--ink)}
+.rollnote{flex:1 1 220px;margin:0;font-size:13px;color:var(--dim)}
+
+/* cards */
+.cards{display:grid;gap:16px;margin-top:16px}
+.cards[data-n="1"]{grid-template-columns:minmax(0,560px)}
+.cards[data-n="2"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards[data-n="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:980px){.cards[data-n="3"]{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:680px){.cards[data-n="2"]{grid-template-columns:minmax(0,1fr)}}
+.col{--slot:var(--sky);border:1.5px solid var(--faint);border-top:4px solid var(--slot);border-radius:var(--r);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));padding:16px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.col[data-slot="2"]{--slot:var(--lilac)}
+.col[data-slot="3"]{--slot:var(--chalk)}
+.c-head{display:flex;align-items:center;gap:10px}
+.badge{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:2px solid var(--slot);color:var(--slot);font:400 20px/1 var(--display)}
+.c-name{flex:1;min-width:0;margin:0;font:400 28px/1.1 var(--display)}
+.name-in{display:block;width:100%;min-width:0;margin:0;padding:2px 0;border:0;border-bottom:1.5px dashed var(--faint);border-radius:0;background:transparent;color:var(--chalk);font:inherit;text-overflow:ellipsis}
+.name-in:hover{border-bottom-color:var(--dim)}
+.name-in:focus,.name-in:focus-visible{outline:none;border-bottom:2px solid var(--slot)}
+.name-in::placeholder{color:var(--dim)}
+.c-rate{text-align:right;font-size:12px;line-height:1.2;color:var(--dim)}
+.c-rate b{display:block;font:400 28px/1 var(--display);color:var(--chalk)}
+
+.score{display:grid;gap:2px}
+.srow{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:30px}
+.srow .lb{font-weight:600;font-size:13px}
+.srow .tl{display:flex;flex-wrap:wrap;gap:3px 2px;align-items:center;min-width:0}
+.srow .nm{font:400 28px/1 var(--display);min-width:34px;text-align:right}
+.srow.win{color:var(--win)} .srow.draw{color:var(--draw)} .srow.lose{color:var(--lose)}
+.tg{width:20px;height:21px;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;fill:none;overflow:visible;flex:none}
+.tg-more,.tg-none{font-size:12.5px;font-weight:600;opacity:.85;padding-left:4px}
+
+.sect{border-top:1.5px dashed var(--faint);padding-top:14px}
+.stage{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ring{flex:none;display:grid;place-items:center;width:92px;height:92px;border-radius:50%;border:2.5px solid var(--slot);background:rgba(255,255,255,.04);font-size:50px;line-height:1}
+.ring.empty{font:400 46px/1 var(--display);color:var(--dim);border-style:dashed}
+.ring.rolling{animation:wob .14s linear infinite}
+@keyframes wob{0%{transform:rotate(-7deg) scale(1.04)}50%{transform:rotate(7deg) scale(.98)}100%{transform:rotate(-7deg) scale(1.04)}}
+.stage .tx{flex:1;min-width:120px}
+.mv{font:400 36px/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.mv-sub{margin-top:4px;font-size:13px;color:var(--dim)}
+.stage-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn.agree{background:var(--draw);border-color:var(--draw);color:var(--ink)}
+.btn.agree:hover{background:#ffe48f}
+.prof{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding-top:2px}
+.prof .kind{padding:1px 10px;border-radius:999px;background:var(--lilac);color:var(--ink);font:400 18px/1.3 var(--display)}
+.prof .pl{flex-basis:100%;font-size:12.5px;color:var(--dim)}
+
+.ai{border:1.5px dashed rgba(238,241,228,.28);border-radius:12px;padding:12px 14px;display:grid;gap:9px}
+.ai-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ai-t{font:600 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.verdict{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;font:400 22px/1.25 var(--display);color:var(--ink);background:var(--dim)}
+.verdict.win{background:var(--win)} .verdict.draw{background:var(--draw)} .verdict.lose{background:var(--lose)}
+.conf{font-size:12.5px;color:var(--dim)}
+.pbar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--faint)}
+.pbar i{display:block;height:100%}
+.pbar .w{background:var(--win)} .pbar .d{background:var(--draw)} .pbar .l{background:var(--lose)}
+.plabels{display:flex;justify-content:space-between;gap:6px;font-size:12.5px;font-weight:600}
+.plabels .w{color:var(--win)} .plabels .d{color:var(--draw)} .plabels .l{color:var(--lose)}
+.ai-line{margin:0;font-size:14px}
+.ai-line.dim{font-size:12.5px;color:var(--dim)}
+.advice{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.advice b{font-weight:700}
+.dots5{display:inline-flex;gap:5px}
+.dots5 i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--dim)}
+.dots5 i.on{background:var(--chalk);border-color:var(--chalk)}
+
+.res-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.res{min-height:58px;border:0;border-radius:14px;font:400 26px/1 var(--display);color:var(--ink);letter-spacing:.02em;transition:transform .08s,filter .15s}
+.res:hover{filter:brightness(1.08)}
+.res:active{transform:translateY(2px)}
+.res:disabled{opacity:.3;cursor:not-allowed;filter:none;transform:none}
+.res.win{background:var(--win)} .res.draw{background:var(--draw)} .res.lose{background:var(--lose)}
+.res-hint{margin:8px 0 0;font-size:12.5px;color:var(--dim)}
+.foot{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.foot .sp{flex:1}
+.strip{display:flex;flex-wrap:wrap;gap:4px}
+.sq{width:14px;height:14px;border-radius:4px;background:var(--faint)}
+.sq.win{background:var(--win)} .sq.draw{background:var(--draw)} .sq.lose{background:var(--lose)}
+.strip-wrap{display:grid;gap:6px}
+.cap{font-size:12px;color:var(--dim)}
+
+.note{margin:22px 0 0;font-size:12.5px;color:var(--dim);max-width:78ch}
+.empty-box{border:1.5px dashed var(--faint);border-radius:var(--r);padding:28px 18px;text-align:center;color:var(--dim)}
+.empty-box b{display:block;margin-bottom:4px;font:400 24px/1.2 var(--display);color:var(--chalk)}
+
+/* history */
+.hist-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;margin-top:14px;align-items:start}
+@media (max-width:860px){.hist-grid{grid-template-columns:minmax(0,1fr)}}
+.sess-list{display:grid;gap:8px}
+.sess{display:grid;gap:2px;text-align:left;width:100%;padding:10px 14px;border:1.5px solid var(--faint);border-radius:12px;background:transparent}
+.sess:hover{border-color:var(--dim)}
+.sess[aria-pressed="true"]{border-color:var(--chalk);background:rgba(238,241,228,.09)}
+.sess .t{font-weight:600;font-size:14px}
+.sess .s{font-size:12.5px;color:var(--dim);overflow-wrap:anywhere}
+.sess .m{font-size:12.5px;display:flex;gap:10px;flex-wrap:wrap}
+.m .w{color:var(--win)} .m .d{color:var(--draw)} .m .l{color:var(--lose)}
+.detail h2{margin:0;font:400 28px/1.2 var(--display);overflow-wrap:anywhere}
+.detail .sub{margin:2px 0 12px;font-size:13px;color:var(--dim)}
+.sum-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:12px 0 4px}
+@media (max-width:700px){.sum-grid{grid-template-columns:minmax(0,1fr)}}
+.blk h3{margin:0 0 8px;font:600 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;font-size:13px;color:var(--dim)}
+.facts b{color:var(--chalk);font-weight:600}
+.bars{display:grid;gap:9px}
+.bar{display:grid;grid-template-columns:62px minmax(0,1fr) 44px;align-items:center;gap:10px;font-size:13px}
+.bar .tr{height:12px;border-radius:6px;background:var(--faint);overflow:hidden;display:flex}
+.bar .tr i{display:block;height:100%;background:var(--chalk)}
+.bar .tr i.w{background:var(--win)} .bar .tr i.d{background:var(--draw)} .bar .tr i.l{background:var(--lose)}
+.bar .v{text-align:right;color:var(--dim)}
+.timeline{display:flex;flex-wrap:wrap;gap:4px}
+.tbl-wrap{overflow-x:auto;border:1.5px solid var(--faint);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:340px;font-size:13.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--faint2)}
+th{font:600 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+tr:last-child td{border-bottom:0}
+td.swc{font-size:12.5px;color:var(--draw)}
+td.w{color:var(--win);font-weight:600} td.d{color:var(--draw);font-weight:600} td.l{color:var(--lose);font-weight:600}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.kind-t{margin-left:6px;padding:1px 10px;border-radius:999px;background:var(--lilac);color:var(--ink);font:400 18px/1.3 var(--display)}
+.pf-list{margin:6px 0 0;padding-left:20px;font-size:13px;color:var(--dim)}
+.ai-see{margin:14px 0 0;padding:10px 14px;border:1.5px dashed rgba(238,241,228,.28);border-radius:12px;font-size:13.5px}
+
+/* characters */
+.rows{display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;padding:12px 14px;border:1.5px solid var(--faint);border-radius:12px}
+.row .who{flex:1 1 200px;min-width:0}
+.row .who b{font:400 24px/1.2 var(--display);overflow-wrap:anywhere}
+.row .who span{display:block;font-size:12.5px;color:var(--dim)}
+.row .btns{display:flex;gap:6px;flex-wrap:wrap}
+.sw{display:flex;align-items:flex-start;gap:12px;padding:8px 0;cursor:pointer}
+.sw input{position:absolute;opacity:0;width:1px;height:1px}
+.sw .ui{flex:none;position:relative;width:42px;height:24px;margin-top:1px;border-radius:999px;border:1.5px solid var(--dim);transition:background .15s}
+.sw .ui::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:var(--dim);transition:transform .15s,background .15s}
+.sw input:checked + .ui{background:var(--win);border-color:var(--win)}
+.sw input:checked + .ui::after{transform:translateX(18px);background:var(--ink)}
+.sw input:focus-visible + .ui{outline:2.5px solid var(--draw);outline-offset:2px}
+.sw .tx b{display:block;font-weight:600}
+.sw .tx span{font-size:13px;color:var(--dim)}
+
+/* dialog + toast */
+dialog{width:calc(100% - 32px);max-width:460px;padding:22px;border:1.5px solid var(--chalk);border-radius:18px;background:var(--board-hi);color:var(--chalk)}
+dialog::backdrop{background:rgba(4,10,8,.72)}
+dialog h2{margin:0 0 8px;font:400 28px/1.15 var(--display);overflow-wrap:anywhere}
+.dlg-text{margin:0 0 12px;font-size:14px;color:var(--dim)}
+.dlg-text b{color:var(--chalk)}
+.fld{display:block;margin:6px 0 4px;font-size:13px;font-weight:600}
+dialog input,dialog textarea{width:100%;padding:10px 12px;border:1.5px solid var(--faint);border-radius:10px;background:rgba(0,0,0,.25);color:var(--chalk);font:inherit}
+dialog textarea{font:12.5px/1.4 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+dialog input:focus,dialog textarea:focus{outline:none;border-color:var(--chalk)}
+.dlg-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:20px;z-index:50;transform:translate(-50%,20px);max-width:min(520px,calc(100% - 32px));padding:10px 18px;border-radius:12px;background:var(--chalk);color:var(--ink);font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Hope</h1>
+    </div>
+    <div class="sync" id="sync" role="status" data-s="local"><i></i><span>Lưu trên thiết bị này</span></div>
+  </header>
+  <nav class="tabs" role="tablist" aria-label="Màn hình">
+    <button class="tab" role="tab" id="tab-play" data-act="tab" data-x="play" aria-selected="true">Chơi</button>
+    <button class="tab" role="tab" id="tab-hist" data-act="tab" data-x="hist" aria-selected="false">Lịch sử</button>
+    <button class="tab" role="tab" id="tab-chars" data-act="tab" data-x="chars" aria-selected="false">Nhân vật</button>
+  </nav>
+  <main id="view" role="tabpanel" tabindex="-1"></main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <h2 id="dlgTitle"></h2>
+  <div id="dlgBody"></div>
+  <div class="dlg-actions" id="dlgActions"></div>
+</dialog>
+
+<script>
+'use strict';
+/* ============================== hằng số & tiện ích ============================== */
+const MV = 'RSP';                                   // R = Búa, S = Kéo, P = Bao
+const MV_NAME = ['Búa', 'Kéo', 'Bao'];
+const MV_GLYPH = ['✊', '✌️', '✋'];
+const RES_NAME = { W: 'Thắng', D: 'Hòa', L: 'Thua' };
+const RES_CLS = { W: 'win', D: 'draw', L: 'lose' };
+const MAX_ACTIVE = 3, MIN_AI = 5, MAX_CHARS = 30, NAME_MAX = 24;
+const LS_KEY = 'bang-oan-tu-ti:v1';
+const ROUND_RE = /^[RSP][WDL][RSP]?$/;   // ký tự thứ 3 (nếu có): nước random gốc trước khi bạn đồng ý đổi theo AI
+const SLOT_COLORS = ['var(--sky)', 'var(--lilac)', 'var(--chalk)'];
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pc = x => Math.round(x * 100);
+
+function rnd(n) {                                   // số nguyên ngẫu nhiên 0..n-1, không lệch
+  try {
+    const lim = Math.floor(4294967296 / n) * n, b = new Uint32Array(1);
+    do { crypto.getRandomValues(b); } while (b[0] >= lim);
+    return b[0] % n;
+  } catch (e) { return Math.floor(Math.random() * n); }
+}
+function newId() { let s = ''; for (let i = 0; i < 8; i++) s += 'abcdefghijklmnopqrstuvwxyz0123456789'[rnd(36)]; return s; }
+function stable(o) {
+  if (Array.isArray(o)) return '[' + o.map(stable).join(',') + ']';
+  if (o && typeof o === 'object') return '{' + Object.keys(o).sort().map(k => JSON.stringify(k) + ':' + stable(o[k])).join(',') + '}';
+  return JSON.stringify(o === undefined ? null : o);
+}
+function fmtDate(iso) {
+  const d = new Date(iso); if (isNaN(d)) return '—';
+  const p = n => String(n).padStart(2, '0');
+  return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+/* ============================== luật chơi & random ============================== */
+const dec = s => { const m = MV.indexOf(s[0]), r = s[1]; return { m, r, o: r === 'W' ? (m + 1) % 3 : r === 'D' ? m : (m + 2) % 3, sw: s.length > 2 ? MV.indexOf(s[2]) : null }; };
+const outcomeOf = (m, o) => m === o ? 'D' : (m + 1) % 3 === o ? 'W' : 'L';   // Búa(0) thắng Kéo(1), Kéo thắng Bao(2), Bao thắng Búa
+
+function rollMoves(n, mode) {                       // mỗi nhân vật một lần random riêng
+  if (mode === 'distinct') {
+    const a = [0, 1, 2];
+    for (let i = 2; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; }
+    return a.slice(0, n);
+  }
+  return Array.from({ length: n }, () => rnd(3));
+}
+
+/* ============================== thống kê ============================== */
+function statsOf(rounds) {
+  const t = { W: 0, D: 0, L: 0, n: rounds.length };
+  const opp = [0, 0, 0], byMove = [{ W: 0, D: 0, L: 0 }, { W: 0, D: 0, L: 0 }, { W: 0, D: 0, L: 0 }], chg = { n: 0, W: 0, D: 0, L: 0 }, kept = { n: 0, W: 0, D: 0, L: 0 };
+  let bestW = 0, bestL = 0, cur = null;
+  for (const s of rounds) {
+    const d = dec(s); t[d.r]++; opp[d.o]++; byMove[d.m][d.r]++;
+    const g = d.sw !== null ? chg : kept; g.n++; g[d.r]++;
+    cur = cur && cur.r === d.r ? { r: d.r, k: cur.k + 1 } : { r: d.r, k: 1 };
+    if (d.r === 'W') bestW = Math.max(bestW, cur.k);
+    if (d.r === 'L') bestL = Math.max(bestL, cur.k);
+  }
+  return { ...t, opp, byMove, chg, kept, bestW, bestL, cur, winRate: t.n ? t.W / t.n : 0 };
+}
+
+/* ============================== AI: dự đoán nước đi của đối thủ ==============================
+   Mỗi ván lưu nước của bạn + kết quả => suy ra nước của đối thủ. Các "chuyên gia" thống kê học từ
+   lịch sử rồi được chấm điểm bằng chính lịch sử (log-likelihood so với đoán ngẫu nhiên, điểm cũ
+   phai dần để theo kịp khi đối thủ đổi cách chơi) và trộn theo điểm.
+
+   Hai nhóm chuyên gia:
+   1) Nhóm "thói quen đối thủ": tần suất, gần đây, sau nước trước, sau 2 nước trước, phản ứng với
+      nước của bạn, theo vòng Búa → Kéo → Bao. Chỉ đúng khi cùng một đối thủ / nhân vật đối thủ.
+   2) Nhóm "đối thủ đọc bài bạn" (share): đối thủ biết bạn đã ra gì nên khắc nước vừa ra, khắc nước
+      bạn hay ra, khắc nước bạn có xu hướng ra tiếp, hoặc đổi nước theo kết quả ván trước. Các quy luật
+      này được viết theo nước CỦA BẠN (đối thủ ra cách nước của bạn mấy bước) nên vẫn đúng khi đối
+      thủ đổi sang nhân vật khác; vì vậy nhóm này được học chung giữa các phiên và các nhân vật. */
+const PRED = [
+  { k: 'freq',   decay: 1,   ctx: (h, t) => '*' },
+  { k: 'recent', decay: .82, ctx: (h, t) => '*' },
+  { k: 'o1',     decay: 1,   ctx: (h, t) => t >= 1 ? '' + h[t - 1].o : null },
+  { k: 'o2',     decay: 1,   ctx: (h, t) => t >= 2 ? '' + h[t - 2].o + h[t - 1].o : null },
+  { k: 'm1',     decay: 1,   ctx: (h, t) => t >= 1 ? '' + h[t - 1].m : null },
+  { k: 'or',     decay: 1,   ctx: (h, t) => t >= 1 ? h[t - 1].o + h[t - 1].r : null },
+  // đối thủ đi theo vòng, tính theo nước trước của chính họ (gộp 3 ngữ cảnh nên học nhanh hơn o1)
+  { k: 'od',     decay: 1,   ctx: (h, t) => t >= 1 ? '*' : null, rel: (h, t) => h[t - 1].o },
+  // ---- kiểu "lì": giữ một nước rồi đổi bất ngờ. Học theo độ dài chuỗi giữ nước và theo tâm lý (thắng/thua liên tiếp) ----
+  { k: 'run',    decay: 1,   ctx: (h, t) => t >= 1 ? '' + Math.min(infoOf(h).run[t], 8) : null, rel: (h, t) => h[t - 1].o },
+  { k: 'runres', decay: 1,   ctx: (h, t) => t >= 1 ? Math.min(infoOf(h).run[t], 6) + oppRes(h[t - 1].r) : null, rel: (h, t) => h[t - 1].o },
+  { k: 'streak', decay: 1,   ctx: (h, t) => { if (t < 1) return null; const s = infoOf(h).st[t]; return s[0] + Math.min(s[1], 4); }, rel: (h, t) => h[t - 1].o },
+  // ---- kiểu "hay đổi": thắng thì giữ/thua thì đổi, hoặc đổi theo hướng nhất định ----
+  { k: 'wsls',   decay: 1,   ctx: (h, t) => t >= 1 ? oppRes(h[t - 1].r) : null, rel: (h, t) => h[t - 1].o },
+  { k: 'd1',     decay: 1,   ctx: (h, t) => t >= 2 ? '' + step(h, t - 1) : null, rel: (h, t) => h[t - 1].o },
+  { k: 'd2',     decay: 1,   ctx: (h, t) => t >= 3 ? '' + step(h, t - 2) + step(h, t - 1) : null, rel: (h, t) => h[t - 1].o },
+  // ---- đối thủ đọc bài bạn: kết quả học là "đối thủ ra cách mốc bao nhiêu bước", mốc là nước của bạn ----
+  { k: 'cl',     decay: 1,   share: true, ctx: (h, t) => t >= 1 ? '*' : null, rel: (h, t) => h[t - 1].m },
+  { k: 'cf',     decay: 1,   share: true, ctx: (h, t) => '*', rel: (h, t) => favOf(h, t) },
+  { k: 'cm',     decay: 1,   share: true, ctx: (h, t) => '*', rel: (h, t) => habitOf(h)[t] },
+  { k: 'cr',     decay: 1,   share: true, ctx: (h, t) => t >= 1 ? h[t - 1].r : null, rel: (h, t) => h[t - 1].m },
+];
+const GAMMA = .98, GAMMA_F = .88, W_SLOW = .7, W_FAST = .5, FAV_WIN = 12, SESSION_KEEP = .6;
+const oppRes = r => r === 'W' ? 'L' : r === 'L' ? 'W' : 'D';          // kết quả theo góc nhìn của ĐỐI THỦ
+const step = (h, i) => (h[i].o - h[i - 1].o + 3) % 3;                  // ván i đối thủ đổi nước thế nào so với ván i-1 (0 = giữ nguyên)
+/* độ dài chuỗi giữ nước và chuỗi thắng/thua của đối thủ ngay trước ván t (lưu cache trên mảng) */
+function infoOf(h) {
+  if (h.info) return h.info;
+  const n = h.length, run = new Array(n + 1).fill(0), st = new Array(n + 1).fill(null);
+  for (let t = 1; t <= n; t++) {
+    run[t] = t >= 2 && h[t - 1].o === h[t - 2].o ? run[t - 1] + 1 : 1;
+    const r = oppRes(h[t - 1].r);
+    st[t] = t >= 2 && st[t - 1][0] === r ? [r, st[t - 1][1] + 1] : [r, 1];
+  }
+  return h.info = { run, st };
+}
+const probsFrom = c => { const a = .5, s = c[0] + c[1] + c[2] + 3 * a; return [(c[0] + a) / s, (c[1] + a) / s, (c[2] + a) / s]; };
+
+/* nước bạn hay ra nhất trong FAV_WIN ván gần nhất (null nếu chưa rõ) */
+function favOf(h, t) {
+  if (t < 3) return null;
+  const k = [0, 0, 0];
+  for (let i = Math.max(0, t - FAV_WIN); i < t; i++) k[h[i].m]++;
+  const mx = Math.max(...k);
+  return mx >= 2 && k.filter(x => x === mx).length === 1 ? k.indexOf(mx) : null;
+}
+/* thói quen của bạn: đối thủ đoán nước kế tiếp của bạn từ "sau nước X bạn hay ra gì" (chỉ dùng thứ họ đã thấy) */
+function habitOf(h) {
+  if (h.habit) return h.habit;
+  const n = h.length, out = new Array(n + 1).fill(null), tr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  for (let t = 1; t <= n; t++) {
+    if (t >= 2) tr[h[t - 2].m][h[t - 1].m]++;
+    const row = tr[h[t - 1].m], mx = Math.max(...row);
+    out[t] = mx > 0 && row.filter(x => x === mx).length === 1 ? row.indexOf(mx) : null;
+  }
+  return h.habit = out;
+}
+
+/* own: các chuỗi cho nhóm "thói quen đối thủ" (chuỗi cuối là phiên hiện tại).
+   shared: các chuỗi cho nhóm "đối thủ đọc bài bạn" (chuỗi cuối là toàn bộ lịch sử của nhân vật đang xét);
+   bỏ trống thì dùng luôn own. */
+function analyze(own, shared) {
+  shared = shared || own;
+  const P = PRED.map(p => ({ p, counts: new Map(), S: 0, F: 0 }));
+  const feed = (h, share) => {
+    for (let t = 0; t < h.length; t++) {
+      for (const q of P) {
+        if (!!q.p.share !== share) continue;
+        q.S *= GAMMA; q.F *= GAMMA_F;
+        const ctx = q.p.ctx(h, t); if (ctx === null) continue;
+        const ref = q.p.rel ? q.p.rel(h, t) : 0; if (ref === null) continue;
+        const sym = (h[t].o - ref + 3) % 3;
+        let c = q.counts.get(ctx); if (!c) { c = [0, 0, 0]; q.counts.set(ctx, c); }
+        const lg = Math.log(probsFrom(c)[sym] * 3); q.S += lg; q.F += lg;
+        if (q.p.decay < 1) { c[0] *= q.p.decay; c[1] *= q.p.decay; c[2] *= q.p.decay; }
+        c[sym]++;
+      }
+    }
+  };
+  own.forEach((h, i) => {
+    if (i > 0) for (const q of P) if (!q.p.share) for (const c of q.counts.values()) { c[0] *= SESSION_KEEP; c[1] *= SESSION_KEEP; c[2] *= SESSION_KEEP; }   // sang phiên mới: thói quen cũ nhạt bớt
+    feed(h, false);
+  });
+  shared.forEach(h => feed(h, true));
+  const curO = own[own.length - 1] || [], curS = shared[shared.length - 1] || [], TAU = .6;
+  const items = P.map(q => {
+    const cur = q.p.share ? curS : curO, t = cur.length;
+    const ctx = q.p.ctx(cur, t), ref = ctx !== null && q.p.rel ? q.p.rel(cur, t) : 0;
+    const c = ctx !== null && ref !== null ? q.counts.get(ctx) : null, r = ref === null ? 0 : ref;
+    const ps = c ? probsFrom(c) : [1 / 3, 1 / 3, 1 / 3];       // ps[d]: xác suất đối thủ ra cách mốc d bước
+    return { k: q.p.k, ctx, ref: r, c, ps, probs: [0, 1, 2].map(j => ps[(j - r + 3) % 3]), S: q.S * W_SLOW + q.F * W_FAST, share: !!q.p.share };
+  });
+  const R = items.length;                            // niềm tin ban đầu 50/50 giữa "đối thủ ngẫu nhiên" và "có quy luật": nhiều chuyên gia thì cần bằng chứng mạnh hơn mới tin
+  const ws = items.map(i => Math.exp(TAU * Math.max(-40, Math.min(40, i.S))));
+  const sum = ws.reduce((a, b) => a + b, 0) + R;
+  const p = [R / 3 / sum, R / 3 / sum, R / 3 / sum];
+  items.forEach((it, i) => { it.w = ws[i] / sum; for (let j = 0; j < 3; j++) p[j] += it.w * it.probs[j]; });
+  const len = a => a.reduce((s, x) => s + x.length, 0);
+  return { n: Math.max(len(own), len(shared)), p, items, edge: 1 - R / sum };
+}
+function seqsFor(c) {
+  const cur = c.rounds.map(dec);
+  if (!state.settings.learnArchives) return [cur];
+  const arcs = [...c.archives].sort((x, y) => x.at < y.at ? -1 : 1).map(a => a.rounds.map(dec)).filter(s => s.length);
+  return [...arcs, cur];
+}
+/* nhóm "đối thủ đọc bài bạn" học từ: mọi nhân vật khác + toàn bộ lịch sử (cả phiên đã lưu) của nhân vật này.
+   Nhờ vậy khi đối thủ đổi nhân vật và bạn bấm "Đối thủ đổi", quy luật bắt bài vẫn còn nguyên. */
+function sharedFor(c) {
+  if (!state.settings.crossLearn) return null;
+  const tail = (id, k) => allRounds(state.chars[id]).slice(-k).map(dec);          // chỉ lấy phần gần nhất cho nhẹ máy
+  const others = state.order.filter(id => id !== c.id).map(id => tail(id, 300)).filter(s => s.length);
+  return [...others, tail(c.id, 600)];
+}
+const analysisOf = c => analyze(seqsFor(c), sharedFor(c));
+const evalMove = (a, m) => ({ W: a.p[(m + 1) % 3], D: a.p[m], L: a.p[(m + 2) % 3] });
+function bestMove(a) {
+  let bm = 0, bv = -9;
+  for (let m = 0; m < 3; m++) { const e = evalMove(a, m), v = e.W - e.L + e.W * 1e-3; if (v > bv) { bv = v; bm = m; } }
+  return bm;
+}
+function advise(a, m) {
+  const ev = evalMove(a, m);
+  const top = [['W', ev.W], ['D', ev.D], ['L', ev.L]].sort((x, y) => y[1] - x[1])[0];
+  const conf = top[1] >= .55 && a.edge > .8 ? 2 : top[1] >= .42 && a.edge > .5 ? 1 : 0;
+  const bm = bestMove(a), be = evalMove(a, bm);
+  const change = conf > 0 && bm !== m && (be.W - be.L) - (ev.W - ev.L) > .12;
+  return { ev, verdict: top[0], conf, bm, be, change };
+}
+function topItem(a) {                               // chuyên gia đóng góp nhiều nhất vào nhận định
+  let best = null, score = 0;
+  for (const it of a.items) {
+    if (!it.c) continue;
+    const kl = it.ps.reduce((s, x) => s + x * Math.log(3 * x), 0), sc = it.w * kl;
+    if (sc > score) { score = sc; best = it; }
+  }
+  return best && Math.max(...best.ps) >= .42 ? best : null;
+}
+function reasonOf(a) {
+  const best = topItem(a);
+  if (!best) return 'Chưa thấy quy luật rõ ràng trong các ván trước.';
+  const d = best.ps.indexOf(Math.max(...best.ps)), j = (best.ref + d) % 3, B = MV_NAME[j], A = MV_NAME[best.ref];
+  const tot = Math.round(best.c[0] + best.c[1] + best.c[2]), hit = Math.round(best.c[d]), ctx = best.ctx, cnt = `(${hit}/${tot} lần)`;
+  switch (best.k) {
+    case 'freq': return `Đối thủ hay ra ${B} (${hit}/${tot} ván).`;
+    case 'recent': return `Mấy ván gần đây đối thủ hay ra ${B} (khoảng ${pc(best.probs[j])}%).`;
+    case 'o1': return `Sau khi ra ${MV_NAME[+ctx]}, đối thủ thường ra ${B} ở ván kế ${cnt}.`;
+    case 'o2': return `Sau chuỗi ${MV_NAME[+ctx[0]]} → ${MV_NAME[+ctx[1]]}, đối thủ thường ra ${B} ${cnt}.`;
+    case 'm1': return `Khi bạn ra ${MV_NAME[+ctx]}, ván sau đối thủ thường ra ${B} ${cnt}.`;
+    case 'or': return `Sau ván bạn ${RES_NAME[ctx[1]].toLowerCase()} (đối thủ ra ${MV_NAME[+ctx[0]]}), đối thủ thường ra ${B} ${cnt}.`;
+    case 'od': return d === 1 ? `Đối thủ hay đi theo vòng Búa → Kéo → Bao: sau ${A} thì ra ${B} ${cnt}.`
+      : d === 2 ? `Đối thủ hay đi ngược vòng: sau ${A} thì ra ${B} ${cnt}.` : `Đối thủ hay lặp lại nước cũ (${A}) ${cnt}.`;
+    case 'cl': return d === 2 ? `Đối thủ đang đọc bài bạn: hay khắc nước bạn vừa ra (bạn ra ${A} thì họ ra ${B}) ${cnt}.`
+      : d === 0 ? `Đối thủ hay ra giống nước bạn vừa ra (bạn ra ${A} thì họ ra ${B}) ${cnt}.` : `Sau khi bạn ra ${A}, đối thủ hay ra ${B} (đoán bạn sẽ đổi nước) ${cnt}.`;
+    case 'cf': return d === 2 ? `Đối thủ đang đọc bài bạn: hay khắc nước bạn ra nhiều nhất (${A}) bằng ${B} ${cnt}.`
+      : `Nước bạn hay ra nhất là ${A}; đối thủ hay đáp bằng ${B} ${cnt}.`;
+    case 'cm': return d === 2 ? `Đối thủ đang đọc thói quen của bạn: đoán bạn sắp ra ${A} rồi khắc bằng ${B} ${cnt}.`
+      : `Theo thói quen của bạn (dễ ra ${A}), đối thủ hay ra ${B} ${cnt}.`;
+    case 'run': { const run = +ctx; return d === 0 ? (run > 1 ? `Đối thủ đã giữ ${A} ${run} ván liên tiếp và ở mốc này họ thường giữ tiếp ${cnt}.` : `Đối thủ hay lặp lại nước vừa ra (${A}) ${cnt}.`)
+      : `Đối thủ giữ ${A} ${run} ván liên tiếp thì hay đổi, thường sang ${B} ${cnt}.`; }
+    case 'runres': { const run = parseInt(ctx, 10), rs = RES_NAME[ctx.slice(-1)].toLowerCase(); return d === 0 ? `Đối thủ đã giữ ${A} ${run} ván và ván trước họ ${rs}; lúc này họ hay giữ nguyên ${cnt}.`
+      : `Đối thủ đã giữ ${A} ${run} ván và ván trước họ ${rs}; lúc này họ hay đổi sang ${B} ${cnt}.`; }
+    case 'streak': { const rs = RES_NAME[ctx[0]].toLowerCase(), k = +ctx.slice(1); return d === 0 ? `Đối thủ đang ${rs} ${k}${k >= 4 ? '+' : ''} ván liên tiếp; những lúc này họ hay giữ nguyên ${A} ${cnt}.`
+      : `Đối thủ đang ${rs} ${k}${k >= 4 ? '+' : ''} ván liên tiếp; những lúc này họ hay đổi sang ${B} ${cnt}.`; }
+    case 'wsls': return d === 0 ? `Sau khi ${RES_NAME[ctx].toLowerCase()} một ván, đối thủ hay giữ nguyên ${A} ${cnt}.` : `Sau khi ${RES_NAME[ctx].toLowerCase()} một ván, đối thủ hay đổi sang ${B} ${cnt}.`;
+    case 'd1': case 'd2': return `Đối thủ đổi nước theo một nhịp lặp lại; ván kế nhiều khả năng là ${B} ${cnt}.`;
+    case 'cr': return `Sau ván bạn ${RES_NAME[ctx].toLowerCase()} (bạn ra ${A}), đối thủ hay ra ${B}${d === 2 ? ', tức khắc nước đó' : ''} ${cnt}.`;
+  }
+  return '';
+}
+
+/* hồ sơ tính cách đối thủ: "lì" (giữ nước rồi đổi bất ngờ), "hay đổi" (ít khi lặp), "đọc bài bạn", rút ra từ toàn bộ ván đã học */
+function profileOf(c, a) {
+  const seqs = seqsFor(c).filter(s => s.length), n = seqs.reduce((x, h) => x + h.length, 0);
+  let tr = 0, stay = 0, sw = 0, beatLast = 0;
+  const dest = [0, 0, 0], swAfter = { W: [0, 0], D: [0, 0], L: [0, 0] }, holds = [];
+  for (const h of seqs) {
+    let run = 1;
+    for (let t = 1; t < h.length; t++) {
+      const d = step(h, t), r = oppRes(h[t - 1].r);
+      tr++; dest[d]++; swAfter[r][1]++;
+      if (d === 0) { stay++; run++; }
+      else { sw++; swAfter[r][0]++; holds.push(run); run = 1; if (h[t].o === (h[t - 1].m + 2) % 3) beatLast++; }
+    }
+  }
+  const out = { n, labels: [], lines: [], stubborn: false, changer: false, reader: false };
+  if (tr < 11) return out;
+  const stayRate = stay / tr;
+  const top = a ? topItem(a) : null;
+  out.reader = !!(top && top.share && Math.max(...top.ps) >= .5 && a.edge > .6);
+  out.stubborn = stayRate >= .5; out.changer = stayRate <= .2;
+  if (out.stubborn) out.labels.push('Lì');
+  if (out.changer) out.labels.push('Hay đổi');
+  if (out.reader) out.labels.push('Đọc bài bạn');
+  if (!out.labels.length) out.labels.push(a && a.edge > .5 ? 'Có quy luật' : 'Khó đoán');
+  if (out.stubborn) {
+    const sorted = [...holds].sort((x, y) => x - y), med = sorted.length ? sorted[sorted.length >> 1] : 0;
+    out.lines.push(`${pc(stayRate)}% ván đối thủ lặp lại nước trước (ngẫu nhiên chỉ khoảng 33%).` + (holds.length >= 3 ? ` Thường giữ khoảng ${med} ván (dài nhất ${sorted[sorted.length - 1]}) rồi mới đổi.` : ''));
+  } else if (out.changer) out.lines.push(`Chỉ ${pc(stayRate)}% ván đối thủ lặp lại nước trước (ngẫu nhiên khoảng 33%), nên gần như luôn đổi nước.`);
+  // tâm lý: đổi mạnh nhất sau khi thắng / hòa / thua?
+  const rates = ['W', 'D', 'L'].filter(r => swAfter[r][1] >= 4).map(r => [r, swAfter[r][0] / swAfter[r][1], swAfter[r][1]]);
+  if (rates.length >= 2 && sw >= 4) {
+    rates.sort((x, y) => y[1] - x[1]);
+    const hi = rates[0], lo = rates[rates.length - 1];
+    if (hi[1] - lo[1] >= .25) out.lines.push(`Đối thủ hay đổi nước ngay sau khi ${RES_NAME[hi[0]].toLowerCase()} (${pc(hi[1])}% số lần), còn sau khi ${RES_NAME[lo[0]].toLowerCase()} chỉ ${pc(lo[1])}%.`);
+  }
+  if (sw >= 5) {
+    const f = dest[1] / (dest[1] + dest[2]);
+    if (beatLast / sw >= .6) out.lines.push('Khi đổi, đối thủ thường chuyển sang nước khắc nước bạn vừa ra.');
+    else if (f >= .65) out.lines.push('Khi đổi, đối thủ hay đi theo vòng Búa → Kéo → Bao.');
+    else if (f <= .35) out.lines.push('Khi đổi, đối thủ hay đi ngược vòng Bao → Kéo → Búa.');
+  }
+  if (out.reader && top) out.lines.push(reasonOf(a));
+  // ván kế: khả năng đối thủ đổi nước
+  const last = seqs[seqs.length - 1], lo = last[last.length - 1].o, run = infoOf(last).run[last.length];
+  if (a && (out.stubborn || out.changer)) {
+    const pSw = 1 - a.p[lo];
+    out.hazard = { run, pSw, last: lo };
+    out.lines.push(out.stubborn && run > 1 ? `Đang giữ ${MV_NAME[lo]} ${run} ván liên tiếp; AI ước lượng ${pc(pSw)}% đối thủ sẽ đổi nước ở ván này.` : `AI ước lượng ${pc(a.p[lo])}% đối thủ ra lại ${MV_NAME[lo]} ở ván này.`);
+  }
+  return out;
+}
+
+/* ============================== dữ liệu: chuẩn hóa & lưu ============================== */
+const DEFAULT_SETTINGS = { mode: 'independent', autoRoll: true, learnArchives: true, crossLearn: true, ai2: true };
+function normChar(id, c) {
+  if (!c || typeof c !== 'object') return null;
+  const okR = a => (Array.isArray(a) ? a : []).filter(s => typeof s === 'string' && ROUND_RE.test(s));
+  const p = c.pending;
+  return {
+    id,
+    name: String(c.name || 'Nhân vật').trim().slice(0, NAME_MAX) || 'Nhân vật',
+    createdAt: typeof c.createdAt === 'string' ? c.createdAt : new Date().toISOString(),
+    rounds: okR(c.rounds),
+    pending: p === 0 || p === 1 || p === 2 ? p : null,
+    pendingFrom: (c.pendingFrom === 0 || c.pendingFrom === 1 || c.pendingFrom === 2) && p !== null && c.pendingFrom !== p ? c.pendingFrom : null,   // nước random gốc nếu đã đồng ý đổi theo AI
+    archives: (Array.isArray(c.archives) ? c.archives : []).filter(a => a && typeof a === 'object').map(a => ({
+      id: String(a.id || newId()).slice(0, 24),
+      at: typeof a.at === 'string' ? a.at : new Date().toISOString(),
+      note: typeof a.note === 'string' ? a.note.slice(0, 120) : '',
+      rounds: okR(a.rounds),
+    })),
+  };
+}
+function normState(raw) {
+  const chars = {};
+  const src = raw && raw.chars && typeof raw.chars === 'object' ? raw.chars : {};
+  for (const id of Object.keys(src)) { if (!/^[a-z0-9]{1,16}$/.test(id)) continue; const c = normChar(id, src[id]); if (c) chars[id] = c; }
+  const order = [...new Set((Array.isArray(raw && raw.order) ? raw.order : []).filter(id => chars[id]))];
+  Object.keys(chars).forEach(id => { if (!order.includes(id)) order.push(id); });
+  const active = [...new Set((Array.isArray(raw && raw.active) ? raw.active : []).filter(id => chars[id]))].slice(0, MAX_ACTIVE);
+  const s = raw && raw.settings && typeof raw.settings === 'object' ? raw.settings : {};
+  const settings = {
+    mode: s.mode === 'distinct' ? 'distinct' : 'independent',
+    autoRoll: s.autoRoll === undefined ? DEFAULT_SETTINGS.autoRoll : !!s.autoRoll,
+    learnArchives: s.ai2 ? !!s.learnArchives : true,     // bản AI mới: học cả các phiên đã lưu (chỉ bật lại một lần, sau đó tùy bạn)
+    ai2: true,
+    crossLearn: s.crossLearn === undefined ? DEFAULT_SETTINGS.crossLearn : !!s.crossLearn,
+  };
+  return { chars, order, active, settings };
+}
+const payloadOf = c => ({ v: 1, name: c.name, createdAt: c.createdAt, rounds: c.rounds, pending: c.pending, pendingFrom: c.pendingFrom, archives: c.archives });
+const metaOf = s => ({ v: 1, order: s.order, active: s.active, settings: s.settings });
+function serialize(s = state) {
+  const chars = {}; for (const id of s.order) chars[id] = payloadOf(s.chars[id]);
+  return { v: 1, chars, order: s.order, active: s.active, settings: s.settings };
+}
+function defaultState() {
+  const chars = {};
+  for (let i = 1; i <= 3; i++) { const id = newId(); chars[id] = normChar(id, { name: 'Nhân vật ' + i }); }
+  const order = Object.keys(chars);
+  return { chars, order, active: [...order], settings: { ...DEFAULT_SETTINGS } };
+}
+function loadLocal() {
+  try { const raw = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); if (raw && raw.chars) { const s = normState(raw); if (s.order.length) return s; } } catch (e) {}
+  return null;
+}
+let lsTimer = null;
+function persistLocal(now) {
+  clearTimeout(lsTimer);
+  const go = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(serialize())); } catch (e) {} };
+  if (now) go(); else lsTimer = setTimeout(go, 120);
+}
+window.addEventListener('pagehide', () => persistLocal(true));
+
+let state = loadLocal() || defaultState();
+const ui = { tab: 'play', hc: null, hs: 'current', rows: 50 };
+
+/* ============================== đồng bộ đám mây (db) ============================== */
+const Cloud = { disabled: false, status: 'local', uid: null, col: null, loaded: false, dirty: new Set(), del: new Set(), ver: {}, timer: null, flushing: false, retry: {}, guard: null, errShown: false };
+const SYNC_TEXT = { local: 'Lưu trên thiết bị này', connecting: 'Đang kết nối…', syncing: 'Đang lưu…', synced: 'Đã lưu đám mây', error: 'Chưa lưu được lên đám mây' };
+const SYNC_TIP = {
+  local: 'Dữ liệu được lưu trong trình duyệt của thiết bị này.',
+  connecting: 'Đang kết nối bộ nhớ đám mây.',
+  syncing: 'Đang ghi thay đổi lên bộ nhớ đám mây.',
+  synced: 'Lịch sử được lưu theo tài khoản của bạn và đồng bộ giữa các thiết bị.',
+  error: 'Dữ liệu vẫn được giữ trên thiết bị này và sẽ thử lưu lại.',
+};
+function setCloud(s, code) {
+  Cloud.status = s;
+  const el = $('#sync'); if (!el) return;
+  el.dataset.s = s; el.title = SYNC_TIP[s] + (code ? ' (' + code + ')' : '');
+  el.querySelector('span').textContent = SYNC_TEXT[s];
+}
+async function initCloud() {
+  try {
+    if (!(window.claude && typeof claude.use === 'function')) { setCloud('local'); return; }
+    setCloud('connecting');
+    const timeout = new Promise(r => setTimeout(() => r('timeout'), 10000));
+    const got = await Promise.race([Promise.all([claude.use('db'), claude.use('user')]), timeout]);
+    if (got === 'timeout') { setCloud('local'); return; }
+    const [db, user] = got;
+    if (!db || !user) { setCloud('local'); return; }
+    const uid = await user.id();
+    if (!uid) { setCloud('local'); return; }
+    Cloud.uid = uid; Cloud.col = db.collection('data/users/' + uid);
+    Cloud.guard = setTimeout(() => { if (!Cloud.loaded) setCloud('local'); }, 10000);
+    Cloud.col.onSnapshot(onSnap, err => { setCloud('error', err && err.code); });
+  } catch (e) { setCloud('local'); }
+}
+function onSnap(snap) {
+  try {
+    const fromCache = !!(snap.metadata && snap.metadata.fromCache);
+    let meta = null; const rc = {};
+    for (const d of snap.docs) {
+      if (d.id === 'rps_meta') meta = d.data();
+      else if (d.id.startsWith('rps_c_')) rc[d.id.slice(6)] = d.data();
+    }
+    if (!Cloud.loaded) {
+      if (meta) {
+        state = normState({ chars: rc, order: meta.order, active: meta.active, settings: meta.settings });
+        if (!state.order.length) state = defaultState();
+        Cloud.loaded = true; clearTimeout(Cloud.guard); persistLocal(); render();
+        setCloud(fromCache ? 'connecting' : 'synced');
+      } else if (!fromCache) {
+        Cloud.loaded = true; clearTimeout(Cloud.guard);
+        Cloud.mark('rps_meta'); state.order.forEach(id => Cloud.mark('rps_c_' + id));
+        setCloud('syncing');
+      }
+      return;
+    }
+    mergeRemote(meta, rc, fromCache);
+    if (!fromCache && !Cloud.dirty.size && Cloud.status !== 'synced') setCloud('synced');
+  } catch (e) { console.error(e); }
+}
+function mergeRemote(meta, rc, fromCache) {
+  const chars = {};
+  for (const id of Object.keys(rc)) chars[id] = Cloud.dirty.has('rps_c_' + id) && state.chars[id] ? payloadOf(state.chars[id]) : rc[id];
+  for (const id of Object.keys(state.chars)) {
+    if (!(id in chars) && (fromCache || Cloud.dirty.has('rps_c_' + id))) chars[id] = payloadOf(state.chars[id]);
+  }
+  const useMeta = meta && !Cloud.dirty.has('rps_meta');
+  const next = normState({
+    chars, order: useMeta ? meta.order : state.order, active: useMeta ? meta.active : state.active,
+    settings: useMeta ? meta.settings : state.settings,
+  });
+  if (!next.order.length) return;
+  if (stable(serialize(next)) !== stable(serialize(state))) { state = next; persistLocal(); render(); }
+}
+Cloud.mark = function (docId) {
+  if (!Cloud.loaded || !Cloud.col || Cloud.disabled) return;
+  Cloud.dirty.add(docId); Cloud.ver[docId] = (Cloud.ver[docId] || 0) + 1;
+  clearTimeout(Cloud.timer); Cloud.timer = setTimeout(flush, 350);
+  if (Cloud.status === 'synced') setCloud('syncing');
+};
+Cloud.markDelete = function (docId) { Cloud.del.add(docId); Cloud.mark(docId); };
+function docPayload(id) {
+  if (id === 'rps_meta') return metaOf(state);
+  const c = state.chars[id.slice(6)]; return c ? payloadOf(c) : null;
+}
+async function flush() {
+  if (Cloud.flushing || !Cloud.col) return;
+  Cloud.flushing = true;
+  try {
+    while (Cloud.dirty.size) {
+      const id = [...Cloud.dirty][0], ver = Cloud.ver[id];
+      try {
+        const ref = Cloud.col.doc(id);
+        if (Cloud.del.has(id)) await ref.delete();
+        else {
+          const payload = docPayload(id);
+          if (payload && JSON.stringify(payload).length > 240000) { toast('Dữ liệu của một nhân vật quá lớn để lưu đám mây. Hãy xóa bớt phiên cũ.'); Cloud.dirty.delete(id); continue; }
+          if (payload) await ref.set(payload);
+        }
+        if (Cloud.ver[id] === ver) { Cloud.dirty.delete(id); Cloud.del.delete(id); }
+        Cloud.retry[id] = 0; Cloud.errShown = false;
+      } catch (e) {
+        const code = e && e.code;
+        if (['invalid_argument', 'not_granted', 'revoked', 'capability_disabled', 'capability_removed'].includes(code)) {
+          Cloud.disabled = true; Cloud.dirty.clear(); Cloud.del.clear(); setCloud('local', code); return;   // chỉ đọc: giữ dữ liệu trên thiết bị
+        }
+        if (code === 'unavailable' && (Cloud.retry[id] = (Cloud.retry[id] || 0) + 1) <= 2) { await new Promise(r => setTimeout(r, 1200 + rnd(800))); continue; }
+        setCloud('error', code);
+        if (!Cloud.errShown) { Cloud.errShown = true; toast('Chưa lưu được lên đám mây, dữ liệu vẫn nằm trên thiết bị này.'); }
+        Cloud.retry[id] = 0; clearTimeout(Cloud.timer); Cloud.timer = setTimeout(flush, 10000);
+        return;
+      }
+    }
+    setCloud('synced');
+  } finally { Cloud.flushing = false; }
+}
+
+/* ============================== thao tác dữ liệu ============================== */
+function commit(o = {}) {
+  (o.chars || []).forEach(id => Cloud.mark('rps_c_' + id));
+  if (o.meta) Cloud.mark('rps_meta');
+  (o.removed || []).forEach(id => Cloud.markDelete('rps_c_' + id));
+  persistLocal();
+  if (o.defer) setTimeout(render, 0); else render();
+}
+const activeIds = () => state.active.filter(id => state.chars[id]);
+function uniqueName(name, exceptId) {
+  const k = name.trim().toLowerCase();
+  return !Object.values(state.chars).some(c => c.id !== exceptId && c.name.toLowerCase() === k);
+}
+function rollOne(id) {
+  const c = state.chars[id];
+  if (state.settings.mode === 'distinct') {
+    const used = activeIds().filter(x => x !== id).map(x => state.chars[x].pending).filter(x => x !== null);
+    const free = [0, 1, 2].filter(x => !used.includes(x));
+    c.pending = (free.length ? free : [0, 1, 2])[rnd(free.length || 3)];
+  } else c.pending = rnd(3);
+  c.pendingFrom = null;
+}
+function rollMany(ids) {
+  const arr = rollMoves(ids.length, state.settings.mode);
+  ids.forEach((id, i) => { state.chars[id].pending = arr[i]; state.chars[id].pendingFrom = null; });
+}
+function archiveCurrent(c, note) {
+  if (!c.rounds.length) return null;
+  const a = { id: newId(), at: new Date().toISOString(), note: (note || '').trim().slice(0, 120), rounds: [...c.rounds] };
+  c.archives.push(a); return a;
+}
+function makeDemo() {
+  let name = 'Demo có quy luật', i = 2; while (!uniqueName(name)) name = 'Demo có quy luật ' + i++;
+  const id = newId(), rounds = []; let o = rnd(3);
+  for (let k = 0; k < 40; k++) {
+    o = rnd(100) < 78 ? (o + 1) % 3 : rnd(3);          // đối thủ hay ra theo vòng Búa → Kéo → Bao
+    const m = rnd(3); rounds.push(MV[m] + outcomeOf(m, o));
+  }
+  state.chars[id] = normChar(id, { name, rounds }); state.order.push(id);
+  if (state.active.length < MAX_ACTIVE) state.active.push(id);
+  commit({ chars: [id], meta: true });
+  toast('Đã thêm nhân vật demo: đối thủ ra theo vòng Búa → Kéo → Bao.');
+}
+
+/* ============================== hộp thoại & thông báo ============================== */
+const dlg = $('#dlg');
+function dialogBox({ title, text = '', field = null, buttons }) {
+  return new Promise(resolve => {
+    $('#dlgTitle').textContent = title;
+    let h = text ? `<p class="dlg-text">${text}</p>` : '';
+    if (field) {
+      h += `<label class="fld" for="dlgField">${esc(field.label)}</label>` + (field.multiline
+        ? `<textarea id="dlgField" rows="${field.rows || 7}" placeholder="${esc(field.placeholder || '')}">${esc(field.value || '')}</textarea>`
+        : `<input id="dlgField" type="text" maxlength="${field.max || 40}" placeholder="${esc(field.placeholder || '')}" value="${esc(field.value || '')}" autocomplete="off">`);
+    }
+    $('#dlgBody').innerHTML = h;
+    const act = $('#dlgActions'); act.innerHTML = '';
+    let done = false;
+    const onClose = () => finish('cancel');
+    function finish(id) {
+      if (done) return; done = true;
+      const f = $('#dlgField'), value = f ? f.value : '';
+      dlg.removeEventListener('close', onClose);
+      if (!dlg.open) { resolve({ id, value }); return; }
+      // chờ sự kiện close để hộp thoại kế tiếp (nếu có) không bị đóng nhầm
+      dlg.addEventListener('close', () => resolve({ id, value }), { once: true });
+      try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); resolve({ id, value }); }
+    }
+    buttons.forEach(b => {
+      const el = document.createElement('button');
+      el.type = 'button'; el.className = 'btn ' + (b.kind || ''); el.textContent = b.label;
+      el.addEventListener('click', () => finish(b.id)); act.appendChild(el);
+    });
+    dlg.addEventListener('close', onClose);
+    try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); }
+    const f = $('#dlgField');
+    if (f) {
+      f.focus(); if (f.select && !field.multiline) f.select();
+      f.addEventListener('keydown', ev => {
+        if (ev.key === 'Enter' && !field.multiline) { ev.preventDefault(); finish((buttons.find(b => b.primary) || buttons[buttons.length - 1]).id); }
+      });
+    }
+  });
+}
+const confirmBox = (title, text, label, danger) => dialogBox({ title, text, buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'ok', label, kind: danger ? 'danger' : 'fill', primary: true }] }).then(r => r.id === 'ok');
+let toastT = null;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 3600);
+}
+
+/* ============================== giao diện ============================== */
+const TALLY = ['M3 4H19', 'M11 4V19', 'M11 11.5H17', 'M6 11.5V19', 'M3 19H19'];   // 5 nét của chữ 正
+function tallyHTML(n, cap) {
+  if (!n) return '<span class="tg-none">–</span>';
+  const groups = Math.ceil(n / 5), show = Math.min(groups, cap);
+  let h = '';
+  for (let g = 0; g < show; g++) {
+    const k = (g < groups - 1 || n % 5 === 0) ? 5 : n % 5;
+    h += `<svg class="tg" viewBox="0 0 22 23" aria-hidden="true"><path d="${TALLY.slice(0, k).join('')}"/></svg>`;
+  }
+  if (groups > cap) h += `<span class="tg-more">+${n - cap * 5}</span>`;
+  return h;
+}
+function scoreRows(t, cap) {
+  return ['W', 'D', 'L'].map(r => `<div class="srow ${RES_CLS[r]}"><span class="lb">${RES_NAME[r]}</span><span class="tl">${tallyHTML(t[r], cap)}</span><span class="nm">${t[r]}</span></div>`).join('');
+}
+function profHTML(p) {
+  if (!p || !p.labels.length || p.n < 12) return '';
+  const lines = p.lines.slice(0, 3).map(l => `<span class="pl">${esc(l)}</span>`).join('');
+  return `<div class="prof"><span class="ai-t">Kiểu đối thủ</span> ${p.labels.map(l => `<b class="kind">${esc(l)}</b>`).join('')}${lines}</div>`;
+}
+function aiHTML(c, a, m, prof) {
+  if (a.n < MIN_AI) {
+    const dots = Array.from({ length: MIN_AI }, (_, i) => `<i class="${i < a.n ? 'on' : ''}"></i>`).join('');
+    return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span><span class="dots5" aria-hidden="true">${dots}</span></div>
+      <p class="ai-line">Cần thêm <b>${MIN_AI - a.n}</b> ván để AI bắt đầu nhận định (${a.n}/${MIN_AI}).</p></div>`;
+  }
+  const opp = [0, 1, 2].map(j => [j, a.p[j]]).sort((x, y) => y[1] - x[1]).map(([j, p]) => `${MV_NAME[j]} ${pc(p)}%`).join(' · ');
+  const oppLine = `<p class="ai-line dim">Đối thủ có thể ra: ${opp}</p>`;
+  if (m === null) {
+    return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span><span class="conf">Đã học từ ${a.n} ván</span></div>${oppLine}
+      ${profHTML(prof)}<p class="ai-line dim">${esc(reasonOf(a))}</p></div>`;
+  }
+  const v = advise(a, m), ev = v.ev, CONF = ['Thấp', 'Vừa', 'Cao'];
+  const chip = v.conf > 0 ? `<span class="verdict ${RES_CLS[v.verdict]}">${RES_NAME[v.verdict]} ${pc(ev[v.verdict])}%</span>` : `<span class="verdict">Chưa rõ</span>`;
+  let advice;
+  if (v.conf === 0) advice = `<span>Chưa thấy quy luật nên cứ đánh <b>${MV_NAME[m]}</b> theo random.</span>`;
+  else if (v.change) advice = `<span>Nên đổi sang <b>${MV_NAME[v.bm]}</b> (thắng ${pc(v.be.W)}%, thua ${pc(v.be.L)}%). Bấm “Đồng ý đổi” cạnh nước random.</span>`;
+  else if (c.pendingFrom !== null) advice = `<span>Giữ nước <b>${MV_NAME[m]}</b> (đã đổi từ ${MV_NAME[c.pendingFrom]} theo AI).</span>`;
+  else advice = `<span>Giữ nước <b>${MV_NAME[m]}</b>.</span>`;
+  return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span>${chip}</div>
+    <div class="pbar" role="img" aria-label="Thắng ${pc(ev.W)}%, hòa ${pc(ev.D)}%, thua ${pc(ev.L)}%"><i class="w" style="width:${ev.W * 100}%"></i><i class="d" style="width:${ev.D * 100}%"></i><i class="l" style="width:${ev.L * 100}%"></i></div>
+    <div class="plabels"><span class="w">Thắng ${pc(ev.W)}%</span><span class="d">Hòa ${pc(ev.D)}%</span><span class="l">Thua ${pc(ev.L)}%</span></div>
+    <div class="advice"><span class="ai-t" style="letter-spacing:.1em">Khuyến nghị</span>${advice}</div>
+    ${profHTML(prof)}<p class="ai-line dim">${esc(reasonOf(a))} Độ tin cậy: ${CONF[v.conf]}.</p>${oppLine}</div>`;
+}
+function cardHTML(id, slot) {
+  const c = state.chars[id], st = statsOf(c.rounds), a = analysisOf(c), m = c.pending, n1 = c.rounds.length + 1;
+  const adv = m !== null && a.n >= MIN_AI ? advise(a, m) : null, prof = profileOf(c, a), from = c.pendingFrom;
+  const chBtn = adv && adv.change ? `<button class="btn small fill agree" data-act="useBest" data-id="${id}" data-x="${adv.bm}" title="AI khuyên đổi sang ${MV_NAME[adv.bm]}. Lịch sử sẽ lưu nước đã đổi.">✓ Đồng ý đổi → ${MV_GLYPH[adv.bm]} ${MV_NAME[adv.bm]}</button>` : '';
+  const backBtn = from !== null ? `<button class="btn small ghost" data-act="revertBest" data-id="${id}">Hoàn lại ${MV_GLYPH[from]} ${MV_NAME[from]}</button>` : '';
+  const rbtn = `<div class="stage-btns"><button class="btn small" data-act="rollOne" data-id="${id}">${m === null ? 'Random' : 'Random lại'}</button>${chBtn}${backBtn}</div>`;
+  const subTxt = from !== null ? `Nước đi ván ${n1} · đã đổi từ ${MV_GLYPH[from]} ${MV_NAME[from]} theo AI` : `Nước đi ván ${n1}`;
+  const stage = m === null
+    ? `<div class="ring empty" data-glyph="${id}">?</div><div class="tx"><div class="mv">Chưa random</div><div class="mv-sub">Bấm Random để có nước đi ván ${n1}</div>${rbtn}</div>`
+    : `<div class="ring" data-glyph="${id}">${MV_GLYPH[m]}</div><div class="tx"><div class="mv">${MV_NAME[m]}</div><div class="mv-sub">${subTxt}</div>${rbtn}</div>`;
+  const recent = c.rounds.slice(-24).map(s => `<i class="sq ${RES_CLS[s[1]]}" title="${esc(MV_NAME[MV.indexOf(s[0])])}${s.length > 2 ? ' (đổi từ ' + esc(MV_NAME[MV.indexOf(s[2])]) + ' theo AI)' : ''} · ${RES_NAME[s[1]]}"></i>`).join('');
+  const last = c.rounds.length ? `${Math.min(24, c.rounds.length)} ván gần nhất` : 'Chưa có ván nào';
+  return `<article class="col" data-slot="${slot}" aria-label="${esc(c.name)}">
+    <div class="c-head"><span class="badge" aria-hidden="true">${slot}</span><h3 class="c-name"><input class="name-in" type="text" maxlength="${NAME_MAX}" value="${esc(c.name)}" data-id="${id}" placeholder="Nhập tên nhân vật" aria-label="Tên nhân vật ${slot}" title="Bấm để đổi tên" autocomplete="off" spellcheck="false"></h3>
+      <div class="c-rate"><b>${st.n ? pc(st.winRate) + '%' : '–'}</b>tỉ lệ thắng</div></div>
+    <div class="score" aria-label="Thắng ${st.W}, hòa ${st.D}, thua ${st.L}">${scoreRows(st, 7)}</div>
+    <div class="sect"><div class="stage">${stage}</div></div>
+    ${aiHTML(c, a, m, prof)}
+    <div><div class="res-row" role="group" aria-label="Ghi kết quả ván ${n1}">
+      ${['W', 'D', 'L'].map(r => `<button class="res ${RES_CLS[r]}" data-act="rec" data-id="${id}" data-x="${r}" ${m === null ? 'disabled' : ''}>${RES_NAME[r]}</button>`).join('')}</div>
+      ${m === null ? '<p class="res-hint">Random nước đi trước, rồi ghi kết quả sau khi chơi xong.</p>' : ''}</div>
+    <div class="strip-wrap"><div class="cap">${last}</div><div class="strip">${recent}</div></div>
+    <div class="foot"><button class="btn ghost small" data-act="undo" data-id="${id}" ${c.rounds.length ? '' : 'disabled'}>Hoàn tác</button>
+      <button class="btn ghost small" data-act="reset" data-id="${id}" ${c.rounds.length ? '' : 'disabled'}>Reset…</button>
+      <button class="btn ghost small" data-act="swap" data-id="${id}" ${c.rounds.length ? '' : 'disabled'} title="Lưu phiên hiện tại và bắt đầu phiên mới. AI vẫn nhớ phiên cũ nhưng ưu tiên các ván mới của đối thủ.">Đối thủ đổi</button>
+      <span class="sp"></span><button class="btn ghost small" data-act="goHist" data-id="${id}">Xem lịch sử</button></div>
+  </article>`;
+}
+function viewPlay() {
+  const act = activeIds();
+  const chips = state.order.map(id => {
+    const i = act.indexOf(id), on = i >= 0;
+    return `<button class="chip-btn" data-act="toggle" data-id="${id}" aria-pressed="${on}" ${!on && act.length >= MAX_ACTIVE ? 'disabled title="Tối đa 3 nhân vật"' : ''}>
+      ${on ? `<span class="sl" style="--c:${SLOT_COLORS[i]}">${i + 1}</span>` : ''}<span class="nm">${esc(state.chars[id].name)}</span></button>`;
+  }).join('');
+  const mode = state.settings.mode;
+  const rollbar = `<div class="panel rollbar">
+    <button class="btn fill big" data-act="rollAll" ${act.length ? '' : 'disabled'}>${act.length > 1 ? 'Random tất cả' : 'Random'}</button>
+    <div><div class="cap" id="modeLbl" style="margin-bottom:4px">Cách random</div>
+      <div class="seg" role="radiogroup" aria-labelledby="modeLbl">
+        <button role="radio" aria-checked="${mode === 'independent'}" data-act="setMode" data-x="independent">Độc lập</button>
+        <button role="radio" aria-checked="${mode === 'distinct'}" data-act="setMode" data-x="distinct">Khác nhau</button></div></div>
+    <p class="rollnote">${mode === 'independent' ? 'Mỗi nhân vật random riêng, có thể trùng nước với nhau.' : 'Các nhân vật không trùng nước với nhau (tối đa 3 nhân vật vì chỉ có 3 nước).'}</p></div>`;
+  const cards = act.length
+    ? `<div class="cards" data-n="${act.length}">${act.map((id, i) => cardHTML(id, i + 1)).join('')}</div>`
+    : `<div class="empty-box" style="margin-top:16px"><b>Chưa có nhân vật nào trên bàn</b>Chọn tên ở phần Đội hình để bắt đầu chơi.</div>`;
+  return `<section class="panel"><h2>Đội hình</h2><p class="hint">${act.length >= MAX_ACTIVE ? 'Bàn đã đủ 3 nhân vật. Bấm một tên đang chọn để rời bàn, rồi chọn người khác.' : 'Chọn tối đa ' + MAX_ACTIVE + ' nhân vật chơi cùng lúc.'} Bấm vào tên trên mỗi thẻ để điền tên.</p>
+    <div class="chips">${chips}<button class="chip-btn add" data-act="add">+ Nhân vật mới</button></div></section>
+    ${rollbar}${cards}
+    <p class="note">AI chạy ngay trên trang này: từ lịch sử của từng nhân vật, nó suy ra đối thủ hay ra nước nào rồi tính khả năng thắng, hòa, thua cho nước bạn vừa random. Đây là xác suất thống kê, không phải lời hứa. Nếu đối thủ ra thật sự ngẫu nhiên thì AI sẽ báo là chưa thấy quy luật. AI phân biệt đối thủ “lì” (giữ một nước rồi đổi bất ngờ, hay đổi sau khi thắng/thua liên tiếp), đối thủ “hay đổi” (ít khi lặp lại) và đối thủ biết bạn đã ra gì để khắc lại. Khi AI khuyên nước khác với nước random, bấm “Đồng ý đổi” cạnh nước đó; lịch sử sẽ lưu nước bạn đã đổi sang. Khi đối thủ đổi nhân vật, bấm “Đối thủ đổi” trên thẻ để lưu phiên và bắt đầu phiên mới.</p>`;
+}
+
+/* ---------- lịch sử ---------- */
+const allRounds = c => [...[...c.archives].sort((x, y) => x.at < y.at ? -1 : 1).flatMap(a => a.rounds), ...c.rounds];
+function barsHTML(st) {
+  const tot = st.n || 1;
+  const opp = [0, 1, 2].map(j => `<div class="bar"><span>${MV_NAME[j]}</span><span class="tr"><i style="width:${st.opp[j] / tot * 100}%"></i></span><span class="v">${st.n ? pc(st.opp[j] / tot) + '%' : '–'}</span></div>`).join('');
+  const mine = [0, 1, 2].map(j => {
+    const b = st.byMove[j], t = b.W + b.D + b.L;
+    return `<div class="bar"><span>${MV_NAME[j]}</span><span class="tr">${t ? `<i class="w" style="width:${b.W / t * 100}%"></i><i class="d" style="width:${b.D / t * 100}%"></i><i class="l" style="width:${b.L / t * 100}%"></i>` : ''}</span><span class="v">${t} ván</span></div>`;
+  }).join('');
+  return `<div class="blk"><h3>Đối thủ hay ra</h3><div class="bars">${opp}</div></div>
+    <div class="blk"><h3>Bạn ra → kết quả</h3><div class="bars">${mine}</div></div>`;
+}
+function tableHTML(rounds) {
+  const total = rounds.length, shown = Math.min(total, ui.rows);
+  const rows = [];
+  for (let i = total - 1; i >= total - shown; i--) {
+    const d = dec(rounds[i]);
+    rows.push(`<tr><td>${i + 1}</td><td>${MV_GLYPH[d.m]} ${MV_NAME[d.m]}</td><td>${MV_GLYPH[d.o]} ${MV_NAME[d.o]}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td><td class="swc">${d.sw !== null ? `Đã đổi từ ${MV_GLYPH[d.sw]} ${MV_NAME[d.sw]} theo AI` : ''}</td></tr>`);
+  }
+  return `<div class="tbl-wrap"><table><thead><tr><th>Ván</th><th>Bạn ra</th><th>Đối thủ ra</th><th>Kết quả</th><th>Ghi chú</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
+    ${total > shown ? `<div class="actions"><button class="btn small" data-act="rowsMore">Xem thêm 50 ván (còn ${total - shown})</button></div>` : ''}`;
+}
+function viewHist() {
+  if (!state.order.length) return `<div class="empty-box"><b>Chưa có nhân vật nào</b>Thêm nhân vật ở tab Nhân vật.</div>`;
+  if (!state.chars[ui.hc]) ui.hc = state.order[0];
+  const c = state.chars[ui.hc];
+  const chips = state.order.map(id => `<button class="chip-btn" data-act="hChar" data-id="${id}" aria-pressed="${id === ui.hc}"><span class="nm">${esc(state.chars[id].name)}</span></button>`).join('');
+  const arcs = [...c.archives].sort((x, y) => x.at < y.at ? 1 : -1);
+  const sessions = [
+    { id: 'current', title: 'Đang chơi', sub: 'Lịch sử hiện tại', rounds: c.rounds },
+    ...arcs.map(a => ({ id: a.id, title: fmtDate(a.at), sub: a.note || 'Không ghi chú', rounds: a.rounds, arc: a })),
+    { id: 'all', title: 'Tất cả phiên', sub: 'Gộp mọi phiên đã lưu và phiên hiện tại', rounds: allRounds(c) },
+  ];
+  if (!sessions.some(s => s.id === ui.hs)) ui.hs = 'current';
+  const list = sessions.map(s => {
+    const t = tally(s.rounds);
+    return `<button class="sess" data-act="hSess" data-x="${s.id}" aria-pressed="${s.id === ui.hs}"><span class="t">${esc(s.title)}</span><span class="s">${esc(s.sub)}</span>
+      <span class="m"><span>${t.n} ván</span><span class="w">T ${t.W}</span><span class="d">H ${t.D}</span><span class="l">B ${t.L}</span></span></button>`;
+  }).join('');
+  const s = sessions.find(x => x.id === ui.hs), st = statsOf(s.rounds);
+  let head, acts = '';
+  if (s.id === 'current') {
+    head = `<h2>Đang chơi · ${esc(c.name)}</h2><p class="sub">Phiên hiện tại, chưa lưu vào kho.</p>`;
+    acts = `<button class="btn small" data-act="reset" data-id="${c.id}" ${c.rounds.length ? '' : 'disabled'}>Reset và lưu phiên…</button>`;
+  } else if (s.id === 'all') {
+    head = `<h2>Tất cả phiên · ${esc(c.name)}</h2><p class="sub">${c.archives.length} phiên đã lưu và phiên hiện tại.</p>`;
+  } else {
+    head = `<h2>Phiên lưu ${fmtDate(s.arc.at)}</h2><p class="sub">${esc(c.name)} · ${s.arc.note ? esc(s.arc.note) : 'Không ghi chú'}</p>`;
+    acts = `<button class="btn small" data-act="arcRestore" data-id="${c.id}" data-x="${s.arc.id}">Khôi phục làm phiên hiện tại</button>
+      <button class="btn small ghost" data-act="arcNote" data-id="${c.id}" data-x="${s.arc.id}">Sửa ghi chú</button>
+      <button class="btn small danger" data-act="arcDel" data-id="${c.id}" data-x="${s.arc.id}">Xóa phiên</button>`;
+  }
+  let aiSee = '';
+  if (s.id === 'current') {
+    const a = analysisOf(c);
+    const pf = profileOf(c, a);
+    aiSee = a.n >= MIN_AI ? `<div class="ai-see"><b>AI đang thấy:</b> ${esc(reasonOf(a))}${pf.labels.length ? `<div style="margin-top:8px"><span class="ai-t">Kiểu đối thủ</span> ${pf.labels.map(l => `<b class="kind-t">${esc(l)}</b>`).join(' ')}</div><ul class="pf-list">${pf.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}<div class="cap" style="margin-top:6px">Phân tích dựa trên ${pf.n} ván${state.settings.learnArchives ? ' (gồm cả các phiên đã lưu)' : ' của phiên hiện tại'}.</div></div>` : `<p class="ai-see">AI cần thêm ${MIN_AI - a.n} ván để bắt đầu nhận định.</p>`;
+  }
+  const cur = st.cur ? `${RES_NAME[st.cur.r]} ×${st.cur.k}` : '–';
+  const tl = s.rounds.slice(-300).map((r, i, arr) => { const d = dec(r); return `<i class="sq ${RES_CLS[d.r]}" title="Ván ${s.rounds.length - arr.length + i + 1}: ${MV_NAME[d.m]}${d.sw !== null ? ' (đổi từ ' + MV_NAME[d.sw] + ' theo AI)' : ''} · đối thủ ${MV_NAME[d.o]} · ${RES_NAME[d.r]}"></i>`; }).join('');
+  const detail = s.rounds.length ? `
+    <div class="sum-grid"><div class="blk"><h3>Tỉ số</h3><div class="score">${scoreRows(st, 20)}</div>
+        <div class="facts"><span>Tỉ lệ thắng <b>${pc(st.winRate)}%</b></span><span>Chuỗi hiện tại <b>${cur}</b></span><span>Thắng liên tiếp dài nhất <b>${st.bestW}</b></span><span>Thua liên tiếp dài nhất <b>${st.bestL}</b></span></div>
+        ${st.chg.n ? `<div class="facts"><span>Đồng ý đổi theo AI <b>${st.chg.n} ván</b>, thắng <b>${pc(st.chg.W / st.chg.n)}%</b>, thua <b>${pc(st.chg.L / st.chg.n)}%</b></span>${st.kept.n ? `<span>Giữ nước random <b>${st.kept.n} ván</b>, thắng <b>${pc(st.kept.W / st.kept.n)}%</b>, thua <b>${pc(st.kept.L / st.kept.n)}%</b></span>` : ''}</div>` : ''}</div>
+      <div style="display:grid;gap:18px">${barsHTML(st)}</div></div>
+    <div class="blk" style="margin-top:14px"><h3>Diễn biến${s.rounds.length > 300 ? ' (300 ván gần nhất)' : ''}</h3><div class="timeline">${tl}</div></div>
+    <div class="blk" style="margin-top:18px"><h3>Từng ván, mới nhất trước</h3>${tableHTML(s.rounds)}</div>`
+    : `<div class="empty-box"><b>Chưa có ván nào</b>Ghi kết quả ở tab Chơi, lịch sử sẽ hiện ở đây.</div>`;
+  return `<section class="panel"><h2>Nhân vật</h2><p class="hint">Chọn nhân vật để xem lịch sử và các phiên đã lưu.</p><div class="chips">${chips}</div></section>
+    <div class="hist-grid"><div><div class="cap" style="margin-bottom:8px">Phiên của ${esc(c.name)}</div><div class="sess-list">${list}</div></div>
+      <div class="detail">${head}${detail}${aiSee}${acts ? `<div class="actions">${acts}</div>` : ''}</div></div>`;
+}
+const tally = r => statsOf(r);
+
+/* ---------- nhân vật & cài đặt ---------- */
+function viewChars() {
+  const rows = state.order.map(id => {
+    const c = state.chars[id], all = tally(allRounds(c)), i = state.active.indexOf(id);
+    return `<div class="row"><div class="who"><b>${esc(c.name)}</b><span>${i >= 0 ? 'Đang trên bàn, vị trí ' + (i + 1) + ' · ' : ''}${c.rounds.length} ván hiện tại · ${c.archives.length} phiên đã lưu · tổng ${all.W} thắng, ${all.D} hòa, ${all.L} thua</span></div>
+      <div class="btns"><button class="btn small" data-act="toggle" data-id="${id}" ${i < 0 && state.active.length >= MAX_ACTIVE ? 'disabled' : ''}>${i >= 0 ? 'Rời bàn' : 'Vào bàn'}</button>
+      <button class="btn small ghost" data-act="rename" data-id="${id}">Đổi tên</button>
+      <button class="btn small danger" data-act="delChar" data-id="${id}">Xóa</button></div></div>`;
+  }).join('');
+  const cloudTxt = { synced: 'Lịch sử đang được lưu theo tài khoản của bạn và đồng bộ giữa các thiết bị.', syncing: 'Đang ghi lên bộ nhớ đám mây.', connecting: 'Đang kết nối bộ nhớ đám mây.', error: 'Chưa ghi được lên đám mây. Dữ liệu vẫn nằm trên thiết bị này và sẽ được thử lại.', local: 'Lịch sử đang được lưu trong trình duyệt của thiết bị này và không tự đồng bộ sang thiết bị khác. Để chuyển sang máy khác, hãy dùng sao lưu bên dưới.' }[Cloud.status];
+  const sw = (key, title, desc) => `<label class="sw"><input type="checkbox" data-act="setOpt" data-x="${key}" ${state.settings[key] ? 'checked' : ''}><span class="ui"></span><span class="tx"><b>${title}</b><span>${desc}</span></span></label>`;
+  return `<section class="panel"><h2>Danh sách nhân vật</h2><p class="hint">Mỗi tên có lịch sử riêng. Tối đa ${MAX_ACTIVE} nhân vật trên bàn cùng lúc.</p>
+      <div class="rows">${rows}</div><div class="actions"><button class="btn fill small" data-act="add">+ Nhân vật mới</button></div></section>
+    <section class="panel"><h2>Cài đặt</h2>
+      ${sw('autoRoll', 'Tự random ván kế tiếp', 'Vừa ghi kết quả xong là nhân vật đó có ngay nước đi mới kèm nhận định của AI.')}
+      ${sw('learnArchives', 'AI học cả các phiên đã lưu', 'Bật (khuyên dùng): AI phân tích mọi ván trước đó để nhận ra đối thủ lì hay hay đổi; phiên cũ có trọng số thấp hơn phiên mới. Tắt: AI chỉ học phiên hiện tại.')}
+      ${sw('crossLearn', 'Đối thủ đọc bài bạn: học chung giữa các nhân vật và phiên', 'Bật: khi đối thủ đổi nhân vật, AI vẫn giữ quy luật “họ biết bạn ra gì nên khắc lại” (khắc nước vừa ra, khắc nước hay ra, đoán thói quen). Thói quen riêng của từng đối thủ vẫn chỉ học từ phiên hiện tại.')}</section>
+    <section class="panel"><h2>Lưu trữ & sao lưu</h2><p class="hint">${cloudTxt}</p>
+      <div class="actions" style="margin-top:0"><button class="btn small" data-act="copyBackup">Sao chép bản sao lưu</button><button class="btn small" data-act="restoreBackup">Dán để khôi phục…</button><button class="btn small ghost" data-act="demo">Thêm nhân vật demo</button></div></section>`;
+}
+
+let scrollKeep = 0;
+function render() {
+  const fo0 = document.activeElement;
+  if (fo0 && fo0.classList && fo0.classList.contains('name-in') && fo0.value !== (state.chars[fo0.dataset.id] || {}).name) return;   // đang gõ dở tên
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.x === ui.tab));
+  const fo = document.activeElement, key = fo && fo.dataset && fo.dataset.act ? [fo.dataset.act, fo.dataset.id, fo.dataset.x].join('|') : null;
+  const nameKey = fo && fo.classList && fo.classList.contains('name-in') ? fo.dataset.id : null;
+  const y = window.scrollY;
+  $('#view').innerHTML = ui.tab === 'play' ? viewPlay() : ui.tab === 'hist' ? viewHist() : viewChars();
+  window.scrollTo(0, y);
+  if (key) for (const el of document.querySelectorAll('[data-act]')) if (!el.disabled && [el.dataset.act, el.dataset.id, el.dataset.x].join('|') === key) { el.focus({ preventScroll: true }); break; }
+  if (nameKey) { const el = document.querySelector(`.name-in[data-id="${nameKey}"]`); if (el) el.focus({ preventScroll: true }); }
+  setCloud(Cloud.status);
+}
+function animateRoll(ids) {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  ids.forEach(id => {
+    const el = () => document.querySelector(`[data-glyph="${id}"]`);
+    const e0 = el(); if (!e0 || reduce) return;
+    e0.classList.add('rolling'); let k = 0;
+    const iv = setInterval(() => {
+      const e = el(); if (!e) { clearInterval(iv); return; }
+      if (++k < 6) e.textContent = MV_GLYPH[rnd(3)];
+      else { clearInterval(iv); e.classList.remove('rolling'); const c = state.chars[id]; e.textContent = c && c.pending !== null ? MV_GLYPH[c.pending] : '?'; }
+    }, 75);
+  });
+}
+
+/* ============================== hành động ============================== */
+async function resetFlow(id) {
+  const c = state.chars[id]; if (!c || !c.rounds.length) return;
+  const t = tally(c.rounds);
+  const r = await dialogBox({
+    title: `Reset lịch sử của “${c.name}”`,
+    text: `Hiện có <b>${t.n} ván</b>: ${t.W} thắng, ${t.D} hòa, ${t.L} thua. Bạn có thể lưu phiên này vào kho của <b>${esc(c.name)}</b> rồi bắt đầu lại từ 0.`,
+    field: { label: 'Ghi chú cho phiên này (không bắt buộc)', placeholder: 'VD: đấu với Boss A', max: 120 },
+    buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'drop', label: 'Reset không lưu', kind: 'danger' }, { id: 'save', label: 'Lưu và reset', kind: 'fill', primary: true }],
+  });
+  if (r.id === 'cancel') return;
+  if (r.id === 'save') archiveCurrent(c, r.value);
+  c.rounds = []; c.pending = null; c.pendingFrom = null;
+  commit({ chars: [id] });
+  toast(r.id === 'save' ? `Đã lưu phiên của ${c.name} vào kho và reset.` : `Đã reset ${c.name} (không lưu).`);
+}
+async function nameFlow(title, value, exceptId) {
+  for (;;) {
+    const r = await dialogBox({ title, field: { label: 'Tên nhân vật', value, max: NAME_MAX, placeholder: 'VD: Hùng' }, buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'ok', label: 'Lưu tên', kind: 'fill', primary: true }] });
+    if (r.id !== 'ok') return null;
+    const name = r.value.trim().replace(/\s+/g, ' ');
+    if (!name) { toast('Hãy nhập tên nhân vật.'); value = ''; continue; }
+    if (!uniqueName(name, exceptId)) { toast('Tên này đã có. Mỗi nhân vật cần một tên riêng.'); value = name; continue; }
+    return name;
+  }
+}
+
+const ACT = {
+  tab(id, x) { ui.tab = x; render(); window.scrollTo(0, 0); },
+  toggle(id) {
+    const i = state.active.indexOf(id);
+    if (i >= 0) state.active.splice(i, 1);
+    else if (state.active.length >= MAX_ACTIVE) { toast('Tối đa 3 nhân vật chơi cùng lúc. Hãy bỏ một nhân vật trước.'); return; }
+    else state.active.push(id);
+    commit({ meta: true });
+  },
+  async add() {
+    if (state.order.length >= MAX_CHARS) { toast('Đã đạt giới hạn ' + MAX_CHARS + ' nhân vật.'); return; }
+    const name = await nameFlow('Thêm nhân vật', '', null); if (!name) return;
+    const id = newId(); state.chars[id] = normChar(id, { name }); state.order.push(id);
+    const onTable = state.active.length < MAX_ACTIVE; if (onTable) state.active.push(id);
+    commit({ chars: [id], meta: true });
+    toast(onTable ? `Đã thêm ${name} vào bàn chơi.` : `Đã thêm ${name}. Bàn đã đủ 3 nhân vật, hãy rời bàn một người để đưa ${name} vào.`);
+  },
+  async rename(id) {
+    const c = state.chars[id]; const name = await nameFlow('Đổi tên nhân vật', c.name, id); if (!name) return;
+    c.name = name; commit({ chars: [id] });
+  },
+  async delChar(id) {
+    const c = state.chars[id];
+    if (!await confirmBox(`Xóa “${c.name}”?`, `Toàn bộ lịch sử và <b>${c.archives.length}</b> phiên đã lưu của nhân vật này sẽ bị xóa vĩnh viễn.`, 'Xóa nhân vật', true)) return;
+    delete state.chars[id]; state.order = state.order.filter(x => x !== id); state.active = state.active.filter(x => x !== id);
+    if (!state.order.length) { const nid = newId(); state.chars[nid] = normChar(nid, { name: 'Nhân vật 1' }); state.order.push(nid); state.active.push(nid); commit({ chars: [nid], meta: true, removed: [id] }); }
+    else commit({ meta: true, removed: [id] });
+    toast(`Đã xóa ${c.name}.`);
+  },
+  rollAll() { const ids = activeIds(); if (!ids.length) return; rollMany(ids); commit({ chars: ids }); animateRoll(ids); },
+  rollOne(id) { rollOne(id); commit({ chars: [id] }); animateRoll([id]); },
+  useBest(id, x) {                                  // đồng ý đổi theo AI: nhớ nước random gốc để lịch sử ghi lại
+    const c = state.chars[id]; if (!c || c.pending === null || c.pending === +x) return;
+    const from = c.pending; if (c.pendingFrom === null) c.pendingFrom = from;
+    c.pending = +x; if (c.pendingFrom === c.pending) c.pendingFrom = null;
+    commit({ chars: [id] }); toast(`${c.name}: đã đổi ${MV_NAME[from]} → ${MV_NAME[c.pending]} theo AI.`);
+  },
+  revertBest(id) {                                  // hoàn lại nước random gốc
+    const c = state.chars[id]; if (!c || c.pendingFrom === null) return;
+    c.pending = c.pendingFrom; c.pendingFrom = null; commit({ chars: [id] });
+  },
+  rec(id, r) {
+    const c = state.chars[id]; if (!c || c.pending === null) return;
+    c.rounds.push(MV[c.pending] + r + (c.pendingFrom !== null ? MV[c.pendingFrom] : '')); c.pending = null; c.pendingFrom = null;
+    if (state.settings.autoRoll) rollOne(id);
+    commit({ chars: [id] }); if (state.settings.autoRoll) animateRoll([id]);
+  },
+  undo(id) {
+    const c = state.chars[id]; if (!c || !c.rounds.length) return;
+    const last = c.rounds.pop(); c.pending = MV.indexOf(last[0]); c.pendingFrom = last.length > 2 ? MV.indexOf(last[2]) : null;
+    commit({ chars: [id] }); toast(`Đã hoàn tác ván cuối của ${c.name}.`);
+  },
+  reset(id) { resetFlow(id); },
+  swap(id) {                                        // đối thủ đổi nhân vật: lưu phiên, giữ nguyên nước đang random cho ván này
+    const c = state.chars[id]; if (!c || !c.rounds.length) return;
+    archiveCurrent(c, 'Đối thủ đổi nhân vật'); c.rounds = [];
+    commit({ chars: [id] });
+    toast(`Đã lưu phiên của ${c.name} và bắt đầu phiên mới. AI vẫn nhớ phiên cũ nhưng ưu tiên các ván mới.`);
+  },
+  setMode(id, x) { state.settings.mode = x; commit({ meta: true }); },
+  setOpt(id, x, el) { state.settings[x] = el.checked; commit({ meta: true }); },
+  goHist(id) { ui.hc = id; ui.hs = 'current'; ui.rows = 50; ui.tab = 'hist'; render(); window.scrollTo(0, 0); },
+  hChar(id) { ui.hc = id; ui.hs = 'current'; ui.rows = 50; render(); },
+  hSess(id, x) { ui.hs = x; ui.rows = 50; render(); },
+  rowsMore() { ui.rows += 50; render(); },
+  async arcRestore(id, x) {
+    const c = state.chars[id], a = c.archives.find(z => z.id === x); if (!a) return;
+    const msg = c.rounds.length ? `Phiên hiện tại (${c.rounds.length} ván) sẽ được lưu vào kho trước, rồi phiên này trở thành phiên đang chơi.` : 'Phiên này sẽ trở thành phiên đang chơi.';
+    if (!await confirmBox('Khôi phục phiên này?', msg, 'Khôi phục', false)) return;
+    archiveCurrent(c, 'Tự lưu trước khi khôi phục');
+    c.archives = c.archives.filter(z => z.id !== x); c.rounds = [...a.rounds]; c.pending = null; c.pendingFrom = null;
+    ui.hs = 'current'; commit({ chars: [id] }); toast('Đã khôi phục phiên.');
+  },
+  async arcNote(id, x) {
+    const c = state.chars[id], a = c.archives.find(z => z.id === x); if (!a) return;
+    const r = await dialogBox({ title: 'Ghi chú phiên', field: { label: 'Ghi chú', value: a.note, max: 120, placeholder: 'VD: đấu với Boss A' }, buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'ok', label: 'Lưu', kind: 'fill', primary: true }] });
+    if (r.id !== 'ok') return; a.note = r.value.trim().slice(0, 120); commit({ chars: [id] });
+  },
+  async arcDel(id, x) {
+    const c = state.chars[id], a = c.archives.find(z => z.id === x); if (!a) return;
+    if (!await confirmBox('Xóa phiên đã lưu?', `Phiên ${fmtDate(a.at)} (${a.rounds.length} ván) sẽ bị xóa vĩnh viễn.`, 'Xóa phiên', true)) return;
+    c.archives = c.archives.filter(z => z.id !== x); ui.hs = 'current'; commit({ chars: [id] });
+  },
+  demo() { makeDemo(); },
+  async copyBackup() {
+    const text = JSON.stringify({ app: 'bang-oan-tu-ti', ...serialize() });
+    try { await navigator.clipboard.writeText(text); toast('Đã sao chép bản sao lưu. Hãy dán vào nơi bạn muốn giữ.'); }
+    catch (e) { await dialogBox({ title: 'Bản sao lưu', text: 'Không tự sao chép được. Hãy chọn toàn bộ đoạn dưới đây rồi sao chép.', field: { label: 'Dữ liệu', value: text, multiline: true, rows: 8 }, buttons: [{ id: 'ok', label: 'Đóng', kind: 'fill', primary: true }] }); }
+  },
+  async restoreBackup() {
+    const r = await dialogBox({ title: 'Khôi phục từ bản sao lưu', text: 'Dán đoạn dữ liệu đã sao chép trước đó. Dữ liệu hiện tại sẽ được thay thế.', field: { label: 'Bản sao lưu', multiline: true, rows: 8, placeholder: '{"app":"bang-oan-tu-ti", …}' }, buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'ok', label: 'Khôi phục', kind: 'danger', primary: true }] });
+    if (r.id !== 'ok') return;
+    let next; try { const raw = JSON.parse(r.value); if (!raw || raw.app !== 'bang-oan-tu-ti') throw 0; next = normState(raw); if (!next.order.length) throw 0; } catch (e) { toast('Bản sao lưu không hợp lệ.'); return; }
+    const gone = state.order.filter(id => !next.chars[id]);
+    state = next; ui.hc = null; ui.hs = 'current';
+    commit({ chars: state.order, meta: true, removed: gone }); toast('Đã khôi phục dữ liệu.');
+  },
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled || el.tagName === 'INPUT') return;
+  const f = ACT[el.dataset.act]; if (f) f(el.dataset.id, el.dataset.x, el);
+});
+function renameInline(el) {
+  const id = el.dataset.id, c = state.chars[id]; if (!c) return;
+  const name = el.value.trim().replace(/\s+/g, ' ').slice(0, NAME_MAX);
+  if (name === c.name) { el.value = c.name; return; }
+  if (!name) { toast('Tên không được để trống.'); el.value = c.name; return; }
+  if (!uniqueName(name, id)) { toast('Tên này đã có. Mỗi nhân vật cần một tên riêng.'); el.value = c.name; return; }
+  c.name = name; el.value = name;
+  commit({ chars: [id], defer: true });
+}
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.tagName !== 'INPUT') return;
+  if (el.classList.contains('name-in')) renameInline(el);
+  else if (el.dataset.act === 'setOpt') ACT.setOpt(null, el.dataset.x, el);
+});
+document.addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('name-in')) e.target.select(); });
+document.addEventListener('keydown', e => {
+  const el = e.target; if (!(el.classList && el.classList.contains('name-in'))) return;
+  if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+  else if (e.key === 'Escape') { el.value = (state.chars[el.dataset.id] || {}).name || ''; el.blur(); }
+});
+
+render();
+initCloud();
+</script>
+</body>
+</html>
