@@ -63,7 +63,7 @@ h1{display:inline-block;margin:0;padding-bottom:9px;font:400 clamp(40px,8vw,62px
 .btn.small{min-height:32px;padding:4px 13px;font-size:13px}
 .btn.ghost{border-color:transparent;color:var(--dim)}
 .btn.ghost:hover{color:var(--chalk);background:var(--faint2)}
-.btn.roll{min-height:44px;padding:8px 22px;border:0;border-radius:14px;font:400 22px/1 var(--display);letter-spacing:.03em;color:var(--ink);background:linear-gradient(180deg,#fbfdf0 0%,#dfe6c6 100%);box-shadow:0 4px 0 #8d9a74,0 8px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s,filter .15s}
+.btn.roll{min-height:38px;padding:6px 18px;border:0;border-radius:12px;font:400 20px/1 var(--display);letter-spacing:.03em;color:var(--ink);background:linear-gradient(180deg,#fbfdf0 0%,#dfe6c6 100%);box-shadow:0 4px 0 #8d9a74,0 8px 18px rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s,filter .15s}
 .btn.roll:hover{filter:brightness(1.05);transform:translateY(-1px);box-shadow:0 5px 0 #8d9a74,0 10px 20px rgba(0,0,0,.4)}
 .btn.roll:active{transform:translateY(3px);box-shadow:0 1px 0 #8d9a74,0 3px 8px rgba(0,0,0,.35)}
 .res-hint.wait{color:var(--draw);animation:waitp 1.8s ease-in-out infinite}
@@ -122,13 +122,13 @@ h1{display:inline-block;margin:0;padding-bottom:9px;font:400 clamp(40px,8vw,62px
 
 .col{--slot:var(--sky);border:1.5px solid var(--faint);border-top:4px solid var(--slot);border-radius:var(--r);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .c-head{display:flex;align-items:center;gap:10px}
-.c-name{flex:1;min-width:0;margin:0;font:400 28px/1.1 var(--display)}
+.c-name{flex:1;min-width:0;margin:0;font:400 24px/1.1 var(--display)}
 .name-in{display:block;width:100%;min-width:0;margin:0;padding:2px 0;border:0;border-bottom:1.5px dashed var(--faint);border-radius:0;background:transparent;color:var(--chalk);font:inherit;text-overflow:ellipsis}
 .name-in:hover{border-bottom-color:var(--dim)}
 .name-in:focus,.name-in:focus-visible{outline:none;border-bottom:2px solid var(--slot)}
 .name-in::placeholder{color:var(--dim)}
 .c-rate{text-align:right;font-size:12px;line-height:1.2;color:var(--dim)}
-.c-rate b{display:block;font:400 28px/1 var(--display);color:var(--chalk)}
+.c-rate b{display:block;font:400 24px/1 var(--display);color:var(--chalk)}
 
 .score{display:grid;gap:2px}
 .srow{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:24px}
@@ -139,16 +139,16 @@ h1{display:inline-block;margin:0;padding-bottom:9px;font:400 clamp(40px,8vw,62px
 .tg{width:20px;height:21px;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;fill:none;overflow:visible;flex:none}
 .tg-more,.tg-none{font-size:12.5px;font-weight:600;opacity:.85;padding-left:4px}
 
-.sect{border-top:1.5px dashed var(--faint);padding-top:14px}
+.sect{border-top:1.5px dashed var(--faint);padding-top:8px}
 .stage{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.ring{flex:none;display:grid;place-items:center;width:68px;height:68px;border-radius:50%;border:2.5px solid var(--slot);background:rgba(255,255,255,.04);font-size:38px;line-height:1}
+.ring{flex:none;display:grid;place-items:center;width:54px;height:54px;border-radius:50%;border:2.5px solid var(--slot);background:rgba(255,255,255,.04);font-size:30px;line-height:1}
 .ring.empty{font:400 46px/1 var(--display);color:var(--dim);border-style:dashed}
 .ring.rolling{animation:wob .14s linear infinite}
 @keyframes wob{0%{transform:rotate(-7deg) scale(1.04)}50%{transform:rotate(7deg) scale(.98)}100%{transform:rotate(-7deg) scale(1.04)}}
 .stage .tx{flex:1;min-width:120px}
-.mv{font:400 36px/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
-.mv-sub{margin-top:4px;font-size:13px;color:var(--dim)}
-.stage-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mv{font:400 28px/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.mv-sub{margin-top:2px;font-size:12px;color:var(--dim)}
+.stage-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .btn.agree{background:var(--draw);border-color:var(--draw);color:var(--ink)}
 .btn.agree:hover{background:#ffe48f}
 .prof{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding-top:2px}
@@ -175,7 +175,7 @@ h1{display:inline-block;margin:0;padding-bottom:9px;font:400 clamp(40px,8vw,62px
 .dots5 i.on{background:var(--chalk);border-color:var(--chalk)}
 
 .res-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.res{min-height:46px;border:0;border-radius:12px;font:400 22px/1 var(--display);color:var(--ink);letter-spacing:.02em;transition:transform .08s,filter .15s}
+.res{min-height:40px;border:0;border-radius:12px;font:400 22px/1 var(--display);color:var(--ink);letter-spacing:.02em;transition:transform .08s,filter .15s}
 .res:hover{filter:brightness(1.08)}
 .res:active{transform:translateY(2px)}
 .res:disabled{opacity:.3;cursor:not-allowed;filter:none;transform:none}
@@ -263,6 +263,38 @@ dialog input:focus,dialog textarea:focus{outline:none;border-color:var(--chalk)}
 .toast{position:fixed;left:50%;bottom:20px;z-index:50;transform:translate(-50%,20px);max-width:min(520px,calc(100% - 32px));padding:10px 18px;border-radius:12px;background:var(--chalk);color:var(--ink);font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* chữ phần gợi ý AI nhỏ gọn */
+.ai{font-size:12px}
+.ai .ai-line{font-size:12.5px} .ai .ai-line.dim{font-size:11.5px}
+.ai .advice{font-size:12.5px;gap:6px} .ai .advice .ai-t{font-size:10.5px}
+.ai .ai-t{font-size:10.5px} .ai .plabels{font-size:11.5px}
+.ai .verdict{font-size:18px;padding:2px 12px}
+.ai .evid,.ai .rates{font-size:11.5px} .ai .rates .pl,.ai .prof .pl{font-size:11px}
+.ai .prof .kind{font-size:15px;padding:0 9px} .ai .xp-warn{font-size:11.5px;padding:6px 9px}
+.ai .pbar{height:8px}
+
+/* tổng hợp thắng/hòa/thua trên 1 hàng */
+.score1{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600}
+.score1 b{font:400 22px/1 var(--display);margin-left:4px}
+.score1 .win{color:var(--win)} .score1 .draw{color:var(--draw)} .score1 .lose{color:var(--lose)}
+.res-hint{margin-top:5px;font-size:11px}
+/* chữ gợi ý AI nhỏ thêm một cỡ */
+.ai{font-size:11px;gap:5px;padding:8px 10px}
+.ai .ai-line{font-size:11.5px} .ai .ai-line.dim{font-size:10.5px}
+.ai .advice{font-size:11.5px} .ai .advice .ai-t,.ai .ai-t{font-size:9.5px}
+.ai .plabels{font-size:10.5px} .ai .verdict{font-size:16px}
+.ai .evid,.ai .rates{font-size:10.5px} .ai .rates .pl,.ai .prof .pl{font-size:10px}
+.ai .prof .kind{font-size:13px} .ai .xp-warn{font-size:10.5px;padding:5px 8px}
+.ai .pbar{height:7px}
+
+/* màu theo nước đi: Búa xanh dương, Kéo hồng, Bao xanh ngọc */
+:root{--mv0:#6fb4ff;--mv1:#ff8fd6;--mv2:#3fd6c4}
+.mc0{color:var(--mv0)} .mc1{color:var(--mv1)} .mc2{color:var(--mv2)}
+.ring.mr0{border-color:var(--mv0);box-shadow:0 0 0 3px rgba(111,180,255,.18)}
+.ring.mr1{border-color:var(--mv1);box-shadow:0 0 0 3px rgba(255,143,214,.18)}
+.ring.mr2{border-color:var(--mv2);box-shadow:0 0 0 3px rgba(63,214,196,.18)}
+.hft td .mc0,.hft td .mc1,.hft td .mc2,.tbl-wrap td .mc0,.tbl-wrap td .mc1,.tbl-wrap td .mc2{font-weight:600}
 </style>
 </head>
 <body>
@@ -325,6 +357,7 @@ function fmtDate(iso) {
 
 /* ============================== luật chơi & random ============================== */
 const dec = s => { const m = MV.indexOf(s[0]), r = s[1]; return { m, r, o: r === 'W' ? (m + 1) % 3 : r === 'D' ? m : (m + 2) % 3, sw: s.length > 2 ? MV.indexOf(s[2]) : null }; };
+const mvh = j => `<span class="mc${j}">${MV_GLYPH[j]} ${MV_NAME[j]}</span>`;   // tên nước đi có màu riêng
 const outcomeOf = (m, o) => m === o ? 'D' : (m + 1) % 3 === o ? 'W' : 'L';   // Búa(0) thắng Kéo(1), Kéo thắng Bao(2), Bao thắng Búa
 
 /* ============================== thống kê ============================== */
@@ -937,7 +970,7 @@ function aiHTML(c, a, m, prof, goal) {
     return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span><span class="dots5" aria-hidden="true">${dots}</span></div>
       <p class="ai-line">Cần thêm <b>${MIN_AI - a.n}</b> ván để AI bắt đầu nhận định (${a.n}/${MIN_AI}).</p></div>`;
   }
-  const opp = [0, 1, 2].map(j => [j, a.p[j]]).sort((x, y) => y[1] - x[1]).map(([j, p]) => `${MV_NAME[j]} ${pc(p)}%`).join(' · ');
+  const opp = [0, 1, 2].map(j => [j, a.p[j]]).sort((x, y) => y[1] - x[1]).map(([j, p]) => `<span class="mc${j}">${MV_NAME[j]}</span> ${pc(p)}%`).join(' · ');
   const oppLine = `<p class="ai-line dim">Đối thủ có thể ra: ${opp}</p>`;
   if (m === null) {
     return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span><span class="conf">Đã học từ ${a.n} ván</span></div>${oppLine}
@@ -946,10 +979,10 @@ function aiHTML(c, a, m, prof, goal) {
   const v = advise(a, m, goal), ev = v.ev, CONF = ['Thấp', 'Vừa', 'Cao'];
   const chip = v.conf > 0 ? `<span class="verdict ${RES_CLS[v.verdict]}">${RES_NAME[v.verdict]} ${pc(ev[v.verdict])}%</span>` : `<span class="verdict">Chưa rõ</span>`;
   let advice;
-  if (v.conf === 0) advice = `<span>Chưa thấy quy luật nên cứ đánh <b>${MV_NAME[m]}</b> theo random.</span>`;
-  else if (v.change) advice = `<span>Nên đổi sang <b>${MV_NAME[v.bm]}</b> (thắng ${pc(v.be.W)}%, thua ${pc(v.be.L)}%). Bấm “Đồng ý đổi” cạnh nước random.</span>`;
-  else if (c.pendingFrom !== null) advice = `<span>Giữ nước <b>${MV_NAME[m]}</b> (đã đổi từ ${MV_NAME[c.pendingFrom]} theo AI).</span>`;
-  else advice = `<span>Giữ nước <b>${MV_NAME[m]}</b>.</span>`;
+  if (v.conf === 0) advice = `<span>Chưa thấy quy luật nên cứ đánh <b class="mc${m}">${MV_NAME[m]}</b> theo random.</span>`;
+  else if (v.change) advice = `<span>Nên đổi sang <b class="mc${v.bm}">${MV_NAME[v.bm]}</b> (thắng ${pc(v.be.W)}%, thua ${pc(v.be.L)}%). Bấm “Đồng ý đổi” cạnh nước random.</span>`;
+  else if (c.pendingFrom !== null) advice = `<span>Giữ nước <b class="mc${m}">${MV_NAME[m]}</b> (đã đổi từ ${MV_NAME[c.pendingFrom]} theo AI).</span>`;
+  else advice = `<span>Giữ nước <b class="mc${m}">${MV_NAME[m]}</b>.</span>`;
   return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span>${chip}</div>
     <div class="pbar" role="img" aria-label="Thắng ${pc(ev.W)}%, hòa ${pc(ev.D)}%, thua ${pc(ev.L)}%"><i class="w" style="width:${ev.W * 100}%"></i><i class="d" style="width:${ev.D * 100}%"></i><i class="l" style="width:${ev.L * 100}%"></i></div>
     <div class="plabels"><span class="w">Thắng ${pc(ev.W)}%</span><span class="d">Hòa ${pc(ev.D)}%</span><span class="l">Thua ${pc(ev.L)}%</span></div>
@@ -983,19 +1016,19 @@ function cardHTML(id) {
   const chBtn = adv && adv.change ? `<button class="btn small fill agree" data-act="useBest" data-id="${id}" data-x="${adv.bm}" title="AI khuyên đổi sang ${MV_NAME[adv.bm]}. Lịch sử sẽ lưu nước đã đổi.">✓ Đồng ý đổi → ${MV_GLYPH[adv.bm]} ${MV_NAME[adv.bm]}</button>` : '';
   const backBtn = from !== null ? `<button class="btn small ghost" data-act="revertBest" data-id="${id}">Hoàn lại ${MV_GLYPH[from]} ${MV_NAME[from]}</button>` : '';
   const rbtn = `<div class="stage-btns"><button class="btn roll" data-act="rollOne" data-id="${id}">${m === null ? 'Random' : 'Random lại'}</button>${chBtn}${backBtn}</div>`;
-  const subTxt = from !== null ? `Nước đi ván ${n1} · đã đổi từ ${MV_GLYPH[from]} ${MV_NAME[from]} theo AI` : `Nước đi ván ${n1}`;
+  const subTxt = from !== null ? `Nước đi ván ${n1} · đã đổi từ ${mvh(from)} theo AI` : `Nước đi ván ${n1}`;
   const stage = m === null
     ? `<div class="ring empty" data-glyph="${id}">?</div><div class="tx"><div class="mv">Chưa random</div><div class="mv-sub">Bấm Random để có nước đi ván ${n1}</div>${rbtn}</div>`
-    : `<div class="ring" data-glyph="${id}">${MV_GLYPH[m]}</div><div class="tx"><div class="mv">${MV_NAME[m]}</div><div class="mv-sub">${subTxt}</div>${rbtn}</div>`;
+    : `<div class="ring mr${m}" data-glyph="${id}">${MV_GLYPH[m]}</div><div class="tx"><div class="mv mc${m}">${MV_NAME[m]}</div><div class="mv-sub">${subTxt}</div>${rbtn}</div>`;
   return `<article class="col" data-slot="1" aria-label="${esc(c.name)}">
     <div class="c-head"><h3 class="c-name"><input class="name-in" type="text" maxlength="${NAME_MAX}" value="${esc(c.name)}" data-id="${id}" placeholder="Nhập tên nhân vật" aria-label="Tên nhân vật" title="Bấm để đổi tên" autocomplete="off" spellcheck="false"></h3>
       <div class="c-rate"><b>${st.n ? pc(st.winRate) + '%' : '–'}</b>tỉ lệ thắng</div></div>
-    <div class="score" aria-label="Thắng ${st.W}, hòa ${st.D}, thua ${st.L}">${scoreRows(st, 7)}</div>
+    <div class="score1" aria-label="Thắng ${st.W}, hòa ${st.D}, thua ${st.L}"><span class="win">Thắng <b>${st.W}</b></span><span class="draw">Hòa <b>${st.D}</b></span><span class="lose">Thua <b>${st.L}</b></span></div>
     <div class="sect"><div class="stage">${stage}</div></div>
-    ${aiHTML(c, a, m, prof, goal)}
     <div><div class="res-row" role="group" aria-label="Ghi kết quả ván ${n1}">
       ${['W', 'D', 'L'].map(r => `<button class="res ${RES_CLS[r]}" data-act="rec" data-id="${id}" data-x="${r}" ${m === null ? 'disabled' : ''}>${RES_NAME[r]}</button>`).join('')}</div>
       ${m === null ? '<p class="res-hint">Bấm Random để lấy nước đi, rồi ghi kết quả sau khi chơi xong.</p>' : `<p class="res-hint wait">Đang chờ kết quả ván ${n1}: chơi xong nhớ bấm Thắng, Hòa hoặc Thua.</p>`}</div>
+    ${aiHTML(c, a, m, prof, goal)}
     <div class="foot"><button class="btn ghost small" data-act="undo" data-id="${id}" ${c.rounds.length ? '' : 'disabled'}>Hoàn tác</button>
       <button class="btn ghost small" data-act="reset" data-id="${id}" ${c.rounds.length ? '' : 'disabled'}>Reset…</button>
       <button class="btn ghost small" data-act="swap" data-id="${id}" ${c.rounds.length ? '' : 'disabled'} title="Lưu phiên hiện tại và bắt đầu phiên mới. AI vẫn nhớ phiên cũ nhưng ưu tiên các ván mới.">Đối thủ đổi</button></div>
@@ -1013,12 +1046,12 @@ function histFrameHTML(id) {
     hfItems.push({ head: true, h: `<tr class="sh"><td colspan="4" title="${esc(head)}"><b>${esc(sg.label)}</b>${sg.note ? ' · ' + esc(sg.note) : ''}<span> · ${t.n} ván: ${t.W}T ${t.D}H ${t.L}B</span></td></tr>` });
     for (let i = sg.rounds.length - 1; i >= 0; i--) {
       const d = dec(sg.rounds[i]);
-      hfItems.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${MV_GLYPH[d.m]} ${MV_NAME[d.m]}${d.sw !== null ? '*' : ''}</td><td>${MV_GLYPH[d.o]} ${MV_NAME[d.o]}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td></tr>` });
+      hfItems.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td></tr>` });
     }
   });
   const body = st.n
     ? `<div class="hf-sum"><span>Tổng <b>${st.n} ván</b></span><span class="w">Thắng <b>${st.W}</b></span><span class="d">Hòa <b>${st.D}</b></span><span class="l">Thua <b>${st.L}</b></span><span>Tỉ lệ thắng <b>${pc(st.winRate)}%</b></span></div>
-       <div class="hf-sum"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span>${MV_GLYPH[j]} ${MV_NAME[j]} <b>${st.opp[j]}</b> (${pc(st.opp[j] / st.n)}%)</span>`).join('')}</div>
+       <div class="hf-sum"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span>${mvh(j)} <b>${st.opp[j]}</b> (${pc(st.opp[j] / st.n)}%)</span>`).join('')}</div>
        <div class="hf-list" id="hfList"></div>`
     : `<div class="empty-box" style="margin:auto 0"><b>Chưa có ván nào</b>Ghi kết quả ở thẻ bên cạnh, lịch sử sẽ hiện ở đây.</div>`;
   const has = c.archives.length || c.rounds.length;
@@ -1058,18 +1091,17 @@ function viewPlay() {
     : `<div class="empty-box" style="margin-top:16px"><b>Chưa có nhân vật nào</b>Bấm “+ Nhân vật mới” để bắt đầu chơi.</div>`;
   return `<section class="panel pbar-row" title="Chọn một nhân vật để chơi, mỗi lần hiện một người. Bấm vào tên trên thẻ để đổi tên."><h2>Nhân vật</h2>
     <div class="chips">${chips}<button class="chip-btn add" data-act="add">+ Nhân vật mới</button></div></section>
-    ${body}
-    <p class="note">AI chạy ngay trên trang này: từ lịch sử của nhân vật, nó suy ra đối thủ hay ra nước nào rồi tính khả năng thắng, hòa, thua cho nước bạn vừa random. AI phân biệt đối thủ “lì” (giữ một nước rồi đổi bất ngờ), “hay đổi” (ít khi lặp lại), đối thủ đổi nước sau khi thắng, hòa hay thua, và đối thủ biết bạn đã ra gì để khắc lại. Đây là xác suất thống kê, không phải lời hứa: nếu đối thủ ra hoàn toàn ngẫu nhiên thì không cách nào hơn được. Khi AI khuyên nước khác với nước random, bấm “Đồng ý đổi”; lịch sử sẽ lưu nước bạn đã đổi sang. Khi đối thủ đổi, bấm “Đối thủ đổi” để ghi chú và lưu phiên rồi bắt đầu phiên mới.</p>`;
+    ${body}`;
 }
 
 /* ---------- lịch sử ---------- */
 const allRounds = c => [...[...c.archives].sort((x, y) => x.at < y.at ? -1 : 1).flatMap(a => a.rounds), ...c.rounds];
 function barsHTML(st) {
   const tot = st.n || 1;
-  const opp = [0, 1, 2].map(j => `<div class="bar"><span>${MV_NAME[j]}</span><span class="tr"><i style="width:${st.opp[j] / tot * 100}%"></i></span><span class="v">${st.n ? pc(st.opp[j] / tot) + '%' : '–'}</span></div>`).join('');
+  const opp = [0, 1, 2].map(j => `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr"><i style="width:${st.opp[j] / tot * 100}%;background:var(--mv${j})"></i></span><span class="v">${st.n ? pc(st.opp[j] / tot) + '%' : '–'}</span></div>`).join('');
   const mine = [0, 1, 2].map(j => {
     const b = st.byMove[j], t = b.W + b.D + b.L;
-    return `<div class="bar"><span>${MV_NAME[j]}</span><span class="tr">${t ? `<i class="w" style="width:${b.W / t * 100}%"></i><i class="d" style="width:${b.D / t * 100}%"></i><i class="l" style="width:${b.L / t * 100}%"></i>` : ''}</span><span class="v">${t} ván</span></div>`;
+    return `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr">${t ? `<i class="w" style="width:${b.W / t * 100}%"></i><i class="d" style="width:${b.D / t * 100}%"></i><i class="l" style="width:${b.L / t * 100}%"></i>` : ''}</span><span class="v">${t} ván</span></div>`;
   }).join('');
   return `<div class="blk"><h3>Đối thủ hay ra</h3><div class="bars">${opp}</div></div>
     <div class="blk"><h3>Bạn ra → kết quả</h3><div class="bars">${mine}</div></div>`;
@@ -1079,7 +1111,7 @@ function tableHTML(rounds) {
   const rows = [];
   for (let i = total - 1; i >= total - shown; i--) {
     const d = dec(rounds[i]);
-    rows.push(`<tr><td>${i + 1}</td><td>${MV_GLYPH[d.m]} ${MV_NAME[d.m]}</td><td>${MV_GLYPH[d.o]} ${MV_NAME[d.o]}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td><td class="swc">${d.sw !== null ? `Đã đổi từ ${MV_GLYPH[d.sw]} ${MV_NAME[d.sw]} theo AI` : ''}</td></tr>`);
+    rows.push(`<tr><td>${i + 1}</td><td>${mvh(d.m)}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td><td class="swc">${d.sw !== null ? `Đã đổi từ ${mvh(d.sw)} theo AI` : ''}</td></tr>`);
   }
   return `<div class="tbl-wrap"><table><thead><tr><th>Ván</th><th>Bạn ra</th><th>Đối thủ ra</th><th>Kết quả</th><th>Ghi chú</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
     ${total > shown ? `<div class="actions"><button class="btn small" data-act="rowsMore">Xem thêm 50 ván (còn ${total - shown})</button></div>` : ''}`;
@@ -1250,7 +1282,7 @@ const ACT = {
     if (c.pending !== null) {                       // đã random nhưng chưa ghi kết quả: hỏi bỏ quay hay quên bấm
       const r = await dialogBox({
         title: 'Ván này chưa ghi kết quả',
-        text: `Bạn đã random <b>${MV_GLYPH[c.pending]} ${MV_NAME[c.pending]}</b> cho ván ${c.rounds.length + 1} nhưng chưa bấm Thắng / Hòa / Thua. Bạn bỏ ván này hay chỉ quên bấm?`,
+        text: `Bạn đã random <b>${mvh(c.pending)}</b> cho ván ${c.rounds.length + 1} nhưng chưa bấm Thắng / Hòa / Thua. Bạn bỏ ván này hay chỉ quên bấm?`,
         buttons: [{ id: 'drop', label: 'Bỏ ván này, random lại', kind: 'danger' }, { id: 'keep', label: 'Quên bấm, để tôi ghi kết quả', kind: 'fill', primary: true }],
       });
       if (r.id !== 'drop' || c.pending === null) return;
