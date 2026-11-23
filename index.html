@@ -310,6 +310,8 @@ dialog input:focus,dialog textarea:focus{outline:none;border-color:var(--accent)
 .ring.mr0{border-color:var(--mv0);background:rgba(111,180,255,.10)}
 .ring.mr1{border-color:var(--mv1);background:rgba(255,143,214,.10)}
 .ring.mr2{border-color:var(--mv2);background:rgba(63,214,196,.10)}
+.rbtn{appearance:none;background:none;border:0;border-bottom:1px dashed currentColor;padding:0;margin:0;font:inherit;font-weight:600;color:inherit;cursor:pointer;line-height:1.2}
+.rbtn:hover{background:var(--faint);border-radius:4px}
 .hft td .mc0,.hft td .mc1,.hft td .mc2,.tbl-wrap td .mc0,.tbl-wrap td .mc1,.tbl-wrap td .mc2{font-weight:600}
 </style>
 </head>
@@ -745,7 +747,7 @@ function serialize(s = state) {
 }
 function defaultState() {
   const chars = {};
-  for (let i = 1; i <= MAX_CHARS; i++) { const id = newId(); chars[id] = normChar(id, { name: 'Nhân vật ' + i }); }
+  { const id = newId(); chars[id] = normChar(id, { name: 'Nhân vật 1' }); }   // mặc định chỉ 1 nhân vật; bấm "+ Nhân vật mới" để có thêm người thứ hai
   const order = Object.keys(chars);
   return { chars, order, active: order.slice(0, MAX_ACTIVE), settings: { ...DEFAULT_SETTINGS } };
 }
@@ -1062,14 +1064,14 @@ const hfItems = {};   // danh sách dòng lịch sử theo từng nhân vật
 let fitting = false;
 function histFrameHTML(id) {
   const c = state.chars[id], st = statsOf(allRounds(c));
-  const segs = [{ label: 'Đang chơi', note: '', rounds: c.rounds }, ...[...c.archives].sort((x, y) => x.at < y.at ? 1 : -1).map(a => ({ label: fmtDate(a.at).replace(/\/\d{4}/, ''), note: a.note, rounds: a.rounds }))].filter(z => z.rounds.length);
+  const segs = [{ label: 'Đang chơi', note: '', rounds: c.rounds, seg: 'cur' }, ...[...c.archives].sort((x, y) => x.at < y.at ? 1 : -1).map(a => ({ label: fmtDate(a.at).replace(/\/\d{4}/, ''), note: a.note, rounds: a.rounds, seg: a.id }))].filter(z => z.rounds.length);
   const items = hfItems[id] = [];
   segs.forEach(sg => {
     const t = statsOf(sg.rounds), head = `${sg.label}${sg.note ? ' · ' + sg.note : ''} · ${t.n} ván: ${t.W} thắng, ${t.D} hòa, ${t.L} thua`;
     items.push({ head: true, h: `<tr class="sh"><td colspan="4" title="${esc(head)}"><b>${esc(sg.label)}</b>${sg.note ? ' · ' + esc(sg.note) : ''}<span> · ${t.n} ván: ${t.W}T ${t.D}H ${t.L}B</span></td></tr>` });
     for (let i = sg.rounds.length - 1; i >= 0; i--) {
       const d = dec(sg.rounds[i]);
-      items.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td></tr>` });
+      items.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${id}" data-x="${esc(sg.seg)}:${i}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td></tr>` });
     }
   });
   const body = st.n
@@ -1132,12 +1134,12 @@ function barsHTML(st) {
   return `<div class="blk"><h3>Đối thủ hay ra</h3><div class="bars">${opp}</div></div>
     <div class="blk"><h3>Bạn ra → kết quả</h3><div class="bars">${mine}</div></div>`;
 }
-function tableHTML(rounds) {
+function tableHTML(rounds, loc, cid) {
   const total = rounds.length, shown = Math.min(total, ui.rows);
   const rows = [];
   for (let i = total - 1; i >= total - shown; i--) {
     const d = dec(rounds[i]);
-    rows.push(`<tr><td>${i + 1}</td><td>${mvh(d.m)}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}">${RES_NAME[d.r]}</td><td class="swc">${d.sw !== null ? `Đã đổi từ ${mvh(d.sw)} theo AI` : ''}</td></tr>`);
+    rows.push(`<tr><td>${i + 1}</td><td>${mvh(d.m)}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${cid}" data-x="${esc(loc(i))}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td><td class="swc">${d.sw !== null ? `Đã đổi từ ${mvh(d.sw)} theo AI` : ''}</td></tr>`);
   }
   return `<div class="tbl-wrap"><table><thead><tr><th>Ván</th><th>Bạn ra</th><th>Đối thủ ra</th><th>Kết quả</th><th>Ghi chú</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
     ${total > shown ? `<div class="actions"><button class="btn small" data-act="rowsMore">Xem thêm 50 ván (còn ${total - shown})</button></div>` : ''}`;
@@ -1160,6 +1162,8 @@ function viewHist() {
       <span class="m"><span>${t.n} ván</span><span class="w">T ${t.W}</span><span class="d">H ${t.D}</span><span class="l">B ${t.L}</span></span></button>`;
   }).join('');
   const s = sessions.find(x => x.id === ui.hs), st = statsOf(s.rounds);
+  const locAll = i => { for (const a of [...c.archives].sort((x, y) => x.at < y.at ? -1 : 1)) { if (i < a.rounds.length) return a.id + ':' + i; i -= a.rounds.length; } return 'cur:' + i; };
+  const loc = s.id === 'current' ? (i => 'cur:' + i) : s.id === 'all' ? locAll : (i => s.arc.id + ':' + i);
   let head, acts = '';
   if (s.id === 'current') {
     head = `<h2>Đang chơi · ${esc(c.name)}</h2><p class="sub">Phiên hiện tại, chưa lưu vào kho.</p>`;
@@ -1186,7 +1190,7 @@ function viewHist() {
         ${st.chg.n ? `<div class="facts"><span>Đồng ý đổi theo AI <b>${st.chg.n} ván</b>, thắng <b>${pc(st.chg.W / st.chg.n)}%</b>, thua <b>${pc(st.chg.L / st.chg.n)}%</b></span>${st.kept.n ? `<span>Giữ nước random <b>${st.kept.n} ván</b>, thắng <b>${pc(st.kept.W / st.kept.n)}%</b>, thua <b>${pc(st.kept.L / st.kept.n)}%</b></span>` : ''}</div>` : ''}</div>
       <div style="display:grid;gap:18px">${barsHTML(st)}</div></div>
     <div class="blk" style="margin-top:14px"><h3>Diễn biến${s.rounds.length > 300 ? ' (300 ván gần nhất)' : ''}</h3><div class="timeline">${tl}</div></div>
-    <div class="blk" style="margin-top:18px"><h3>Từng ván, mới nhất trước</h3>${tableHTML(s.rounds)}</div>`
+    <div class="blk" style="margin-top:18px"><h3>Từng ván, mới nhất trước · bấm vào kết quả để sửa</h3>${tableHTML(s.rounds, loc, c.id)}</div>`
     : `<div class="empty-box"><b>Chưa có ván nào</b>Ghi kết quả ở tab Chơi, lịch sử sẽ hiện ở đây.</div>`;
   return `<section class="panel"><h2>Nhân vật</h2><p class="hint">Chọn nhân vật để xem lịch sử và các phiên đã lưu.</p><div class="chips">${chips}</div></section>
     <div class="hist-grid"><div><div class="cap" style="margin-bottom:8px">Phiên của ${esc(c.name)}</div><div class="sess-list">${list}</div>
@@ -1329,6 +1333,23 @@ const ACT = {
     const c = state.chars[id]; if (!c || c.pending === null) return;
     c.rounds.push(MV[c.pending] + r + (c.pendingFrom !== null ? MV[c.pendingFrom] : '')); c.pending = null; c.pendingFrom = null;
     commit({ chars: [id] });
+  },
+  async editRes(id, x) {                            // sửa kết quả của một ván đã ghi (bấm nhầm Thắng/Hòa/Thua)
+    const k = String(x).lastIndexOf(':'), seg = String(x).slice(0, k), i = +String(x).slice(k + 1);
+    const getArr = () => { const c = state.chars[id]; if (!c) return null; return seg === 'cur' ? c.rounds : ((c.archives.find(a => a.id === seg) || {}).rounds || null); };
+    const arr = getArr(); if (!arr || !arr[i]) return;
+    const s0 = arr[i], d = dec(s0);
+    const r = await dialogBox({
+      title: `Sửa kết quả ván ${i + 1}`,
+      text: `Bạn ra <b>${mvh(d.m)}</b>. Kết quả đang ghi: <b>${RES_NAME[d.r]}</b>. Chọn kết quả đúng:`,
+      buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, ...['W', 'D', 'L'].map(z => ({ id: z, label: RES_NAME[z] + (z === d.r ? ' (hiện tại)' : ''), kind: z === d.r ? 'fill' : '', primary: z === d.r }))],
+    });
+    if (!['W', 'D', 'L'].includes(r.id) || r.id === d.r) return;
+    const cur = getArr(); if (!cur || cur[i] !== s0) { toast('Dữ liệu đã thay đổi, hãy thử lại.'); return; }
+    cur[i] = s0[0] + r.id + s0.slice(2);
+    delete state.chars[id]._bt;                     // xóa bộ nhớ đệm kiểm chứng của AI vì lịch sử đã đổi
+    commit({ chars: [id] });
+    toast(`Đã sửa ván ${i + 1}: ${RES_NAME[d.r]} → ${RES_NAME[r.id]}.`);
   },
   undo(id) {
     const c = state.chars[id]; if (!c || !c.rounds.length) return;
