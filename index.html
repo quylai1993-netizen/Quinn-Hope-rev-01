@@ -141,6 +141,10 @@ h1{margin:0;font:700 24px/1 var(--display);letter-spacing:-.01em}
 .name-in{display:block;width:100%;min-width:0;margin:0;padding:3px 6px;margin-left:-6px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--chalk);font:inherit;text-overflow:ellipsis;transition:background .15s,border-color .15s}
 .name-in:hover{background:var(--faint2)}
 .name-in:focus,.name-in:focus-visible{outline:none;background:var(--faint2);border-color:var(--accent)}
+.name-sel{display:block;width:100%;min-width:0;margin-left:-6px;padding:3px 26px 3px 6px;border:1px solid transparent;border-radius:8px;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%238b96a8' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 8px center;color:var(--chalk);font:inherit;appearance:none;-webkit-appearance:none;cursor:pointer;text-overflow:ellipsis}
+.name-sel:hover{background-color:var(--faint2)}.name-sel:focus{outline:none;border-color:var(--accent);background-color:var(--faint2)}.name-sel option{background:var(--surface);color:var(--chalk);font-size:14px}
+.pop-h{margin:0 0 2px;font:700 13.5px var(--display)}.nm-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;margin-top:6px}
+.nm-row .nm-in{margin:0;font-size:13px;background:var(--surface2);border:1px solid var(--faint);padding:5px 8px}.cap-base .vg{margin-left:8px;min-height:26px;padding:2px 10px}
 .name-in::placeholder{color:var(--dim)}
 .c-rate{text-align:right;font-size:11.5px;line-height:1.2;color:var(--dim)}
 .c-rate b{display:block;font:700 20px/1.1 var(--display);color:var(--chalk)}
@@ -310,23 +314,288 @@ dialog input:focus,dialog textarea:focus{outline:none;border-color:var(--accent)
 .ring.mr0{border-color:var(--mv0);background:rgba(111,180,255,.10)}
 .ring.mr1{border-color:var(--mv1);background:rgba(255,143,214,.10)}
 .ring.mr2{border-color:var(--mv2);background:rgba(63,214,196,.10)}
-.rbtn{appearance:none;background:none;border:0;border-bottom:1px dashed currentColor;padding:0;margin:0;font:inherit;font-weight:600;color:inherit;cursor:pointer;line-height:1.2}
+.rbtn{appearance:none;background:none;border:0;padding:0 3px;margin:0 -3px;font:inherit;font-weight:600;color:inherit;cursor:pointer;line-height:1.2;border-radius:4px}   /* bỏ gạch chân chấm, vẫn bấm để sửa (user 2026-11-25) */
+/* cược, vốn & lợi nhuận */
+.cap-bar{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;margin-left:auto;font-size:13px;color:var(--dim);position:relative}
+.cap-bar b{color:var(--chalk);font-weight:700}.pos{color:var(--win)!important}.neg{color:var(--lose)!important}.zero{color:var(--dim)}
+.cap-in{display:inline-flex;align-items:center;gap:6px}.cap-in input,.stake input,.stake select,.it-row input{background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--chalk);font:inherit;font-size:13px;padding:5px 8px}
+.cap-in input{width:120px}.cap-in input:focus,.stake input:focus,.stake select:focus,.it-row input:focus{outline:0;border-color:var(--accent)}
+.it-cfg summary{cursor:pointer;list-style:none;padding:4px 10px;border:1px solid var(--faint);border-radius:999px;color:var(--chalk);font-weight:600}.it-cfg summary::-webkit-details-marker{display:none}
+.it-pop{position:absolute;right:0;top:calc(100% + 8px);z-index:30;width:min(560px,94vw);max-height:calc(100vh - 140px);overflow:auto;background:var(--surface);border:1px solid var(--faint);border-radius:14px;padding:14px;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.it-pop .hint{margin:0 0 10px;font-size:12px;color:var(--dim)}
+.it-row{display:grid;grid-template-columns:minmax(0,1fr) 96px 140px auto;gap:8px;align-items:center;margin-top:6px}.it-net{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stake{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px}.stake .lb{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.stake .sq{width:78px}.stake select{max-width:120px}.stake .sv{color:var(--dim);font-size:12.5px}.stake .sv em{font-style:normal;color:var(--draw)}
+.pnl-line{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--dim)}.pnl-line b{font-weight:700}
+.gapclk{margin-left:auto}
+.cap-card{display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--dim);padding:10px 12px;border:1px solid var(--faint);border-radius:12px;background:var(--surface2)}
+.cc-top{display:flex;align-items:center;gap:8px}.cc-top .cap-in{flex:1;min-width:0;display:flex;align-items:center;gap:8px}.cc-top .cap-in span{white-space:nowrap}
+.cc-top .cap-in input{flex:1;min-width:0;width:auto!important;font-variant-numeric:tabular-nums;font-weight:600;text-align:right}.cc-top .vg{margin:0;flex:none}
+.cc-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.cc-stats>div{display:flex;flex-direction:column;gap:1px;min-width:0;padding:6px 8px;border-radius:9px;background:var(--board)}
+.cc-stats span{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-stats b{font:700 14px/1.25 var(--display);color:var(--chalk);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cc-stats small{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:6px 0 14px}.nm-card{position:relative;display:flex;flex-direction:column;gap:2px;padding:6px 8px;border:1px solid var(--faint);border-radius:10px;background:var(--surface2)}
+.nm-card.on{border-color:rgba(142,166,255,.5)}.nm-card .nm-in{margin:0!important;padding:3px 24px 3px 6px!important;background:transparent!important;border:1px solid transparent!important;font-weight:600}.nm-card .nm-in:focus{border-color:var(--accent)!important;background:var(--board)!important}
+.nm-x{position:absolute;top:6px;right:6px;width:22px;height:22px;border:0;border-radius:6px;background:none;color:var(--dim);font-size:12px;line-height:1}.nm-x:hover{background:rgba(242,131,122,.15);color:var(--lose)}
+.nm-meta{font-size:11px;color:var(--dim);padding-left:6px}.nm-meta b{color:var(--accent);font-weight:600}.nm-add{border:1px dashed var(--faint);border-radius:10px;background:none;color:var(--dim);font-weight:600;font-size:12.5px;min-height:52px}.nm-add:hover{color:var(--chalk);border-color:rgba(255,255,255,.3)}
+.cf-tabs{display:flex;gap:4px;padding:3px;margin:0 0 12px;border-radius:11px;background:var(--board)}.cf-tab{flex:1;border:0;border-radius:8px;padding:7px 10px;background:none;color:var(--dim);font:600 13px var(--display);cursor:pointer}.cf-tab:hover{color:var(--chalk)}.cf-tab.on{background:var(--surface2);color:var(--chalk);box-shadow:0 1px 0 rgba(255,255,255,.06) inset}
+.cf-tab .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:4px;vertical-align:middle}
+.cf-row{display:grid;grid-template-columns:1fr 170px;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--faint)}.cf-tx{display:flex;flex-direction:column;gap:2px;min-width:0}.cf-tx b{color:var(--chalk);font-size:13px}.cf-tx span{font-size:11.5px;color:var(--dim)}
+.cf-in{display:flex;align-items:center;gap:6px}.cf-in input{flex:1;min-width:0;background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--chalk);font:inherit;font-size:13px;padding:6px 9px;text-align:right;font-variant-numeric:tabular-nums}.cf-in input:focus{outline:0;border-color:var(--accent)}.cf-in em{font-style:normal;font-size:12px;color:var(--dim);width:34px}
+.cf-sw{border-top:1px solid var(--faint);padding-top:6px;display:flex;flex-direction:column;gap:2px}
+.lim{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-size:11.5px;font-weight:600;white-space:nowrap}.lim-t{position:relative;height:6px;border-radius:99px;background:var(--board);overflow:hidden}
+.lim-f{position:absolute;top:0;bottom:0}.lim-f.up{background:var(--win)}.lim-f.dn{background:var(--lose)}.lim-0{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--dim)}
+.cc-alert{font-size:12px;padding:6px 9px;border-radius:9px;color:var(--chalk);line-height:1.35}.cc-alert.bad{background:rgba(242,131,122,.14);border:1px solid rgba(242,131,122,.45)}.cc-alert.good{background:rgba(120,200,140,.12);border:1px solid rgba(120,200,140,.4)}.cc-alert.warn{background:rgba(240,190,90,.12);border:1px solid rgba(240,190,90,.4)}
+.qp.over{border-color:rgba(242,131,122,.6)!important;color:var(--lose)}
+.pop-h small{font-weight:500;color:var(--dim);font-size:11.5px;margin-left:6px}
+.it-row .it-v,.hold-row input{text-align:right;font-variant-numeric:tabular-nums}
+.cap-card b{color:var(--chalk);font-weight:700}.cap-card .cap-in input{width:96px;background:var(--board)}.cap-card .cap-in input[readonly]{opacity:.8;cursor:default;border-style:dashed}.cap-base{width:100%;font-size:12px}
+.hold{width:100%;border-top:1px solid var(--faint);padding-top:6px}.hold summary{cursor:pointer;font-size:12.5px;color:var(--chalk);font-weight:600}
+.hold-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;margin-top:8px}.hold-row{display:grid;grid-template-columns:56px 1fr;gap:2px 6px;align-items:center;font-size:12.5px}
+.hold-row input{background:var(--board);border:1px solid var(--faint);border-radius:8px;color:var(--chalk);font:inherit;font-size:12.5px;padding:4px 7px;min-width:0}.hold-row input:focus{outline:0;border-color:var(--accent)}
+.hold-row .hv{grid-column:2;font-size:11px;color:var(--dim);min-height:13px}.hold-row .hv em{font-style:normal;color:var(--draw)}.hold-tot{margin-top:6px;font-size:12.5px}
+.qpre{display:flex;flex-wrap:wrap;gap:4px;width:100%}.qp{border:1px solid var(--faint);background:transparent;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;color:var(--dim)}.qp:hover{color:var(--chalk);border-color:rgba(255,255,255,.3)}.qp.on{background:rgba(142,166,255,.18);border-color:var(--accent);color:#fff}.qp small{display:block;font-size:10px;font-weight:500;color:var(--dim);line-height:1.1}.qp.on small{color:#cdd6ff}.qp{line-height:1.25;padding:3px 10px}
+.rep-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.rep-head .sp{flex:1}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:12px}.kpi{background:var(--surface2);border:1px solid var(--faint);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.kpi span{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}.kpi b{font:700 18px/1.2 var(--display)}.kpi small{font-size:12px;font-weight:500;color:var(--dim)}
+.spark{width:100%;height:70px;margin-top:12px}.spark polyline{fill:none;stroke:var(--accent);stroke-width:2;vector-effect:non-scaling-stroke}
+table.rep td.r,table.rep th.r{text-align:right;font-variant-numeric:tabular-nums}table.rep tr.open td{background:rgba(142,166,255,.07)}.tag{font-size:10.5px;color:var(--accent);font-weight:600}
+.hft td.pl{text-align:right;font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap}
+td.bt{font-size:12px;color:var(--dim);white-space:nowrap}
 .rbtn:hover{background:var(--faint);border-radius:4px}
 .hft td .mc0,.hft td .mc1,.hft td .mc2,.tbl-wrap td .mc0,.tbl-wrap td .mc1,.tbl-wrap td .mc2{font-weight:600}
+
+/* ================= redesign 2026-11: tối giản, hiện đại – giữ bảng màu cũ ================= */
+:root{--line:rgba(255,255,255,.07);--glass:rgba(255,255,255,.028);--glass2:rgba(255,255,255,.05);--r:20px}
+body{background:radial-gradient(1100px 520px at 12% -12%,rgba(142,166,255,.09),transparent 62%),radial-gradient(900px 480px at 100% -8%,rgba(185,164,255,.06),transparent 60%),var(--board);background-attachment:fixed}
+.wrap{padding:14px 22px 18px}
+/* header: thương hiệu | tab ở giữa | nhân vật + cài đặt + trạng thái */
+.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px 16px;margin-bottom:14px}
+.top>div:first-child{flex:none}
+h1{display:flex;align-items:center;gap:10px;font:700 21px/1 var(--display);letter-spacing:-.025em}
+h1::before{content:"";width:12px;height:12px;border-radius:4px;background:linear-gradient(135deg,var(--accent),var(--lilac));box-shadow:0 0 18px rgba(142,166,255,.55)}
+.tabs{background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:3px;backdrop-filter:blur(8px)}
+.tab{border-radius:999px;padding:6px 18px;font-size:13.5px}
+.tab[aria-selected="true"]{background:rgba(255,255,255,.09);box-shadow:none}
+.top-r{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
+.hx{display:flex;align-items:center;gap:8px}.hx:empty{display:none}
+.hx .cap-bar{margin:0}
+.hx-add,.it-cfg summary,.sync{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--dim);font:600 12.5px var(--body);white-space:nowrap;transition:color .15s,border-color .15s,background .15s}
+.hx-add:hover,.it-cfg summary:hover{color:var(--chalk);border-color:rgba(255,255,255,.18);background:var(--glass2)}
+.it-cfg[open] summary{color:var(--chalk);border-color:rgba(142,166,255,.5)}
+.sync{font-weight:500}
+@media (max-width:1100px){.top{grid-template-columns:auto 1fr}.top .tabs{justify-self:end}.top-r{grid-column:1/-1}}
+@media (max-width:640px){.sync span{display:none}.sync{padding:0 11px}}
+.it-pop{border-radius:18px;border-color:var(--line);background:rgba(20,26,35,.97);backdrop-filter:blur(14px);padding:16px;box-shadow:0 24px 60px -12px rgba(0,0,0,.65)}
+
+/* khung chơi */
+.play-cols,.pbar-row + .play-cols{height:calc(100vh - 80px);gap:16px}
+.panel,.hf,.col,.detail,.sess{background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.012)) ,var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.col{position:relative;padding:18px;gap:14px;border-top:1px solid var(--line)!important;border-radius:22px}
+.col[data-slot="1"]{--slot:var(--sky)}.col[data-slot="2"]{--slot:var(--lilac)}
+.col::before{content:"";position:absolute;left:22px;right:22px;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--slot),transparent);opacity:.9}
+.col::-webkit-scrollbar,.hf-list::-webkit-scrollbar,.it-pop::-webkit-scrollbar{width:8px}.col::-webkit-scrollbar-thumb,.hf-list::-webkit-scrollbar-thumb,.it-pop::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:8px}
+.c-head{gap:14px}
+.c-name{font-size:19px;display:flex;align-items:center;gap:8px}
+.c-name::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--slot);box-shadow:0 0 10px var(--slot)}
+.name-sel{margin-left:0;padding-left:4px;letter-spacing:-.01em}
+.c-rate{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}.c-rate b{font-size:24px;letter-spacing:-.02em;text-transform:none}
+
+/* thắng / hòa / thua: thanh mảnh + số */
+.wdl{display:grid;gap:7px}
+.wdl-bar{display:flex;gap:3px;height:5px;border-radius:99px;overflow:hidden;background:var(--glass2)}
+.wdl-bar i{display:block;min-width:0;border-radius:99px}.wdl-bar .w{background:var(--win)}.wdl-bar .d{background:var(--draw)}.wdl-bar .l{background:var(--lose)}.wdl-bar .z{flex:1}
+.wdl-n{display:flex;gap:16px;font-size:12px;color:var(--dim)}.wdl-n b{font:700 15px var(--display);margin-right:3px;font-variant-numeric:tabular-nums}
+.wdl-n .win b{color:var(--win)}.wdl-n .draw b{color:var(--draw)}.wdl-n .lose b{color:var(--lose)}.wdl-t{margin-left:auto}
+
+/* tiền: 3 số liệu không khung + vốn gập lại */
+.cap-card{padding:0;border:0;background:none;gap:10px}
+.cc-stats{gap:0;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.14)}
+.cc-stats>div{background:none;border-radius:0;padding:9px 12px}.cc-stats>div+div{border-left:1px solid var(--line)}
+.cc-stats span{font-size:10px;letter-spacing:.09em}.cc-stats b{font-size:15.5px;letter-spacing:-.01em}
+.m-more{border-radius:12px}
+.m-more>summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;font-size:12.5px;color:var(--dim);padding:2px 2px}
+.m-more>summary::-webkit-details-marker{display:none}
+.m-more>summary b{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--chalk)}
+.m-more>summary::after{content:"";width:6px;height:6px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);transform:rotate(45deg) translateY(-2px);transition:transform .15s;margin:0 4px 0 6px}
+.m-more[open]>summary::after{transform:rotate(-135deg) translateY(-1px)}
+.m-more[open]>summary{margin-bottom:8px}.m-more>summary:hover{color:var(--chalk)}
+.m-more .cc-top .cap-in input{background:rgba(0,0,0,.2);border-color:var(--line);height:34px;border-radius:10px}
+.m-more .hold{border-top:0;padding-top:8px}.m-more .hold summary{color:var(--dim);font-weight:500;font-size:12px}
+.lim{font-size:11px}.lim-t{height:4px;background:var(--glass2)}
+.cc-alert{border-radius:12px;padding:7px 11px}
+
+/* khối chơi: nước đi + cược + kết quả */
+.play-box{display:grid;gap:10px;padding:12px 14px;border-radius:18px;background:rgba(0,0,0,.16);border:1px solid var(--line)}
+.ring{width:66px;height:66px;border-radius:20px;font-size:34px;border:1px solid var(--line);background:var(--glass)}
+.ring.empty{font-size:34px;border-style:dashed;border-color:rgba(255,255,255,.14)}
+.ring.mr0{box-shadow:0 0 0 4px rgba(111,180,255,.06),0 10px 30px -12px rgba(111,180,255,.6)}
+.ring.mr1{box-shadow:0 0 0 4px rgba(255,143,214,.06),0 10px 30px -12px rgba(255,143,214,.6)}
+.ring.mr2{box-shadow:0 0 0 4px rgba(63,214,196,.06),0 10px 30px -12px rgba(63,214,196,.6)}
+.mv{font-size:24px;letter-spacing:-.02em}
+.btn.roll{border-radius:999px;padding:6px 22px;min-height:36px;font-size:14px;background:linear-gradient(135deg,#9fb3ff,var(--accent));box-shadow:0 8px 22px -10px rgba(142,166,255,.8)}
+.stake{gap:8px}.stake select{border-radius:999px;padding:4px 10px;background:var(--glass2);border-color:var(--line)}
+.qp{border-color:var(--line);background:var(--glass);padding:4px 12px}
+.res-row{gap:8px}
+.res{min-height:46px;border-radius:14px;font-size:15px;letter-spacing:.01em}
+.res.win{background:rgba(95,211,141,.10);border-color:rgba(95,211,141,.28)}
+.res.draw{background:rgba(240,200,96,.10);border-color:rgba(240,200,96,.28)}
+.res.lose{background:rgba(242,131,122,.10);border-color:rgba(242,131,122,.28)}
+.res-hint{margin-top:7px;text-align:center}
+.play-box .pnl-line{border-top:1px solid var(--line);padding-top:9px;font-size:12px}
+
+/* AI & chân thẻ */
+.ai{background:none;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.advice{background:var(--glass2);border-radius:12px}
+.pbar{height:6px;gap:3px}
+.foot{border-top:1px solid var(--line);padding-top:10px;gap:2px}
+.foot .btn.ghost{min-height:30px;padding:3px 10px;font-weight:500}
+
+/* lịch sử bên cạnh */
+.hf-in{padding:16px 18px;gap:12px}
+.hf-head h2{font-size:16px;letter-spacing:-.01em}
+.hf-sum{gap:2px 14px;font-size:12px}
+.hft{border:0;border-radius:0;font-size:12.5px}
+.hft th{background:none;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.09em}
+.hft td{border-bottom:1px solid rgba(255,255,255,.035)}
+.hft tbody tr:not(.sh):hover td{background:rgba(255,255,255,.03)}
+.hft tr.sh td{background:rgba(142,166,255,.07);border-bottom:0}
+.hf-foot{border-top:1px solid var(--line);padding-top:10px}
+.hf-foot .btn{border-radius:999px}
+.btn{border-color:var(--line)}.btn.small{border-radius:999px}
+.toast{border-radius:999px;padding:10px 20px}
+dialog{border-radius:22px;border-color:var(--line);background:rgba(27,35,48,.98)}
+/* ===== 2 nhân vật: mọi số hiển thị đủ, không bị che (user 2026-11-25) ===== */
+.play-cols,.pbar-row + .play-cols{height:auto;min-height:calc(100vh - 80px)}
+@container (min-width:560px){.pc-in .col{overflow:visible}}
+.cc-stats{display:flex;flex-direction:column;padding:4px 0}
+.cc-stats>div{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:baseline;column-gap:10px;padding:5px 12px}
+.cc-stats>div+div{border-left:0;border-top:1px solid var(--line)}
+.cc-stats span{overflow:visible;font-size:10.5px}
+.cc-stats b{grid-column:2;text-align:right;overflow:visible;white-space:normal;overflow-wrap:anywhere;font-size:15px}
+.cc-stats small{grid-column:2;text-align:right;overflow:visible;white-space:normal;font-size:11px}
+.hft .ms{display:none}.hft.tight .mn{display:none}.hft.tight .ms{display:inline}
+.hft.tight td,.hft.tight th{padding:0 5px}
+.hft tr.sh td{white-space:normal;height:auto;padding-top:3px;padding-bottom:3px;line-height:1.35}
+.hft td.pl{font-size:11.5px;overflow:visible}
+.hft td.pl{white-space:nowrap}.pc-in .hf{flex:none;height:440px;min-height:0}
+@container (min-width:560px){.pc-in{flex-direction:column}.pc-in .col{flex:none}}
+@container (min-width:640px){.pc-in{flex-direction:row}.pc-in .col{flex:0 0 clamp(320px,52%,430px)}.pc-in .hf{flex:1 1 0;height:auto}}
+.hft th,.hft td{padding:0 5px}
+/* ít chữ hơn (user 2026-11-25) */
+.cc-stats>div{padding:8px 12px;align-items:center}
+.cc-stats span small{grid-column:auto;display:inline;margin-left:6px;font-size:11px;letter-spacing:0;text-transform:none;font-weight:600}
+.sh-in{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.hft tr.sh .sh-r{color:var(--dim);font-size:11.5px;white-space:nowrap}.hft tr.sh .sh-r b{color:inherit}
+.hft tr.sh td{white-space:nowrap;padding-top:2px;padding-bottom:2px}
+.hf-empty{margin:auto;color:var(--dim);font-size:12.5px;opacity:.7}
+.hf-sum{gap:2px 12px}
+.stage .mv-sub{font-size:12px;letter-spacing:.02em}
+.stage .tx>.mv-sub:first-child{margin:0 0 2px}
+/* hiện / ẩn bảng chơi (tối đa 2) */
+.c-hide{flex:none;display:grid;place-items:center;width:30px;height:30px;margin-right:-6px;border:0;border-radius:9px;background:none;color:var(--dim);opacity:.6;transition:opacity .15s,background .15s,color .15s}
+.c-hide:hover{opacity:1;color:var(--chalk);background:var(--glass2)}
+.vis-cfg{position:relative}.vis-cfg summary{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--dim);font:600 12.5px var(--body);white-space:nowrap;cursor:pointer;list-style:none}
+.vis-cfg summary::-webkit-details-marker{display:none}.vis-cfg summary:hover,.vis-cfg[open] summary{color:var(--chalk);border-color:rgba(255,255,255,.18)}.vis-cfg summary b{color:var(--chalk)}
+.vis-pop{position:absolute;right:0;top:calc(100% + 8px);z-index:31;width:260px;max-height:60vh;overflow:auto;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(20,26,35,.97);backdrop-filter:blur(14px);box-shadow:0 24px 60px -12px rgba(0,0,0,.65)}
+.vis-pop .hint{margin:0 0 8px;font-size:11.5px;color:var(--dim)}
+.vis-row{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:10px;background:none;color:var(--chalk);font-size:13px;text-align:left}
+.vis-row:hover:not(:disabled){background:var(--glass2)}.vis-row:disabled{opacity:.4;cursor:not-allowed}
+.vis-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vis-sw{flex:none;position:relative;width:32px;height:18px;border-radius:99px;background:var(--faint)}.vis-sw::after{content:"";position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--dim);transition:transform .15s}
+.vis-row.on .vis-sw{background:var(--accent)}.vis-row.on .vis-sw::after{transform:translateX(14px);background:#fff}
+.slot-empty{display:grid;place-items:center;border:1px dashed rgba(255,255,255,.12);border-radius:22px;min-height:320px}
+.slot-empty.all{grid-column:1/-1}
+.slot-in{display:flex;flex-direction:column;align-items:center;gap:6px;padding:24px;text-align:center;color:var(--dim);font-size:12.5px;max-width:420px}
+.slot-in b{color:var(--chalk);font:600 15px var(--display)}
+.slot-ic{display:grid;place-items:center;width:44px;height:44px;margin-bottom:4px;border-radius:14px;border:1px solid var(--line);background:var(--glass);font:300 26px/1 var(--display);color:var(--dim)}
+.slot-list{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}.slot-list .qp{padding:6px 14px;font-size:12.5px;color:var(--chalk)}.slot-list .qp:hover{border-color:var(--accent)}
+.cc-stats b.flat{color:var(--draw)}.cc-now b{font-size:16.5px}
+.eb{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}.eb select{width:100%;padding:10px 12px;border:1px solid var(--faint);border-radius:10px;background:rgba(0,0,0,.25);color:var(--chalk);font:inherit}.eb input{text-align:right}
+.eb-p{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.hft td.pl .rbtn{font-weight:600}
+.hf-items{display:flex;flex-wrap:wrap;gap:6px}.hi{display:inline-flex;align-items:baseline;gap:6px;padding:4px 11px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--dim);font-size:12px}.hi:hover{color:var(--chalk);border-color:rgba(255,255,255,.18)}.hi.on{border-color:var(--accent);background:rgba(142,166,255,.14);color:var(--chalk)}.hi-n{font-weight:600;color:var(--chalk)}.hi-c{font-size:11px}.hi b{font-variant-numeric:tabular-nums}
+.ai-t .ai-it{color:var(--accent);letter-spacing:.06em}
+/* biểu đồ lãi/lỗ cộng dồn */
+.plw{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.pl-head{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;margin-bottom:14px}.pl-head h3{margin:0;font:700 15px var(--display)}.pl-head .muted{font-size:12px}
+.pl-now{font:700 22px var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.pl-tabs{display:inline-flex;gap:2px;margin-left:auto;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--glass)}.pl-tab{border:0;background:none;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--dim)}.pl-tab:hover{color:var(--chalk)}.pl-tab.on{background:rgba(255,255,255,.09);color:var(--chalk)}
+.plc-wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px}
+.pl-y{position:relative;width:52px;height:240px}.pl-y span{position:absolute;right:0;transform:translateY(-50%);font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+.plc{position:relative;height:240px;cursor:crosshair;touch-action:pan-y}.plc svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.plc line.g{stroke:rgba(255,255,255,.06);stroke-width:1;vector-effect:non-scaling-stroke}.plc line.z{stroke:rgba(255,255,255,.28);stroke-width:1;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+.plc .ln{fill:none;stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke}.plc .ln.up{stroke:var(--win)}.plc .ln.dn{stroke:var(--lose)}
+.pl-x{position:relative;height:18px;margin:6px 0 0 62px}.pl-x span{position:absolute;transform:translateX(-50%);font-size:11px;color:var(--dim);white-space:nowrap}
+.pl-guide,.pl-dot,.pl-tip{position:absolute;pointer-events:none;opacity:0;transition:opacity .1s}.plc.on .pl-guide,.plc.on .pl-dot,.plc.on .pl-tip{opacity:1}
+.pl-guide{top:0;bottom:0;width:1px;background:rgba(255,255,255,.25)}
+.pl-dot{width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;border:2px solid var(--surface)}.pl-dot.up{background:var(--win)}.pl-dot.dn{background:var(--lose)}
+.pl-tip{top:6px;margin-left:12px;display:flex;flex-direction:column;gap:2px;min-width:170px;padding:8px 11px;border:1px solid var(--line);border-radius:12px;background:rgba(20,26,35,.96);box-shadow:0 12px 30px -10px rgba(0,0,0,.6);font-size:12px;white-space:nowrap}
+.pl-tip.flip{transform:translateX(calc(-100% - 24px))}.pl-tip small{color:var(--dim)}.pl-tip b{font:700 15px var(--display);font-variant-numeric:tabular-nums}.pl-tip span{color:var(--dim)}.pl-tip em{font-style:normal;font-weight:600}
+.pl-empty{display:grid;place-items:center;height:140px;border:1px dashed var(--line);border-radius:14px;color:var(--dim);font-size:12.5px}
+.ai{grid-template-columns:minmax(0,1fr)}.ai>*,.ai-more>*{min-width:0}.ai .pl,.rates .pl,.prof .pl{white-space:normal}.ai-line,.advice{overflow-wrap:anywhere}
+/* tổng quan: cột lãi/lỗ theo kỳ */
+.pb{margin-top:14px}.pb-plot{position:relative;display:flex;align-items:stretch;gap:3px;height:170px;padding:0 2px}
+.pb-z{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.28)}
+.pb-c{position:relative;flex:1 1 0;min-width:0;max-width:56px;border-radius:6px}.pb-c:hover{background:rgba(255,255,255,.04)}
+.pb-b{position:absolute;left:18%;right:18%;border-radius:4px}.pb-b.up{background:var(--win);border-bottom-left-radius:0;border-bottom-right-radius:0}.pb-b.dn{background:var(--lose);border-top-left-radius:0;border-top-right-radius:0}
+.pb-tip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);z-index:5;flex-direction:column;gap:2px;padding:8px 11px;border:1px solid var(--line);border-radius:12px;background:rgba(20,26,35,.96);box-shadow:0 12px 30px -10px rgba(0,0,0,.6);font-size:12px;white-space:nowrap}
+.pb-c:hover .pb-tip{display:flex}.pb-c:first-child .pb-tip{left:0;transform:none}.pb-c:last-child .pb-tip{left:auto;right:0;transform:none}
+.pb-tip small,.pb-tip span{color:var(--dim)}.pb-tip b{font:700 15px var(--display);font-variant-numeric:tabular-nums}
+.pb-x{display:flex;gap:3px;margin-top:6px;padding:0 2px}.pb-x span{flex:1 1 0;min-width:0;max-width:56px;text-align:center;font-size:10.5px;color:var(--dim);white-space:nowrap;overflow:visible}
+table.rep tr.tot td{border-top:1px solid var(--line);background:rgba(255,255,255,.03)}
+.brand{border:0;background:none;padding:0;color:inherit;font:inherit;letter-spacing:inherit;cursor:pointer;transition:opacity .15s}.brand:hover{opacity:.8}
+h1::before{content:none}.brand{display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--line)!important;border-radius:12px;background:var(--glass)!important;color:var(--chalk)}.brand:hover{opacity:1;background:var(--glass2)!important;border-color:rgba(255,255,255,.18)!important}
+.stake.need .qpre .qp:not(:last-child){border-color:rgba(240,200,96,.6);color:var(--chalk);animation:needp 1.6s ease-in-out infinite}.need-tx{color:var(--draw);font-weight:600}@keyframes needp{50%{box-shadow:0 0 0 3px rgba(240,200,96,.18)}}.stake.shake{animation:shk .35s}@keyframes shk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.stage{flex-wrap:nowrap;gap:12px}.stage .tx{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;min-width:0;flex:1}.mv-t{flex:none;min-width:58px}.stage .mv{font-size:21px;line-height:1.15}.stage .mv.dim{color:var(--dim);font-size:16px}.stage .mv-sub{margin:1px 0 0}.stage .stage-btns{margin:0;flex-wrap:wrap;gap:6px}.stage .stage-btns .btn{min-height:36px;border-radius:999px;white-space:nowrap}.stage .btn.roll{padding:6px 14px}.stage .stage-btns .btn{padding-left:12px;padding-right:12px}.stage .tx{flex-wrap:nowrap}.stage .stage-btns{flex-wrap:nowrap}
+/* lịch sử: 3 cột vừa 1 màn hình */
+.hv{display:grid;grid-template-columns:250px minmax(0,1fr) 290px;gap:14px;height:calc(100vh - 86px);min-height:520px}
+.hcol{display:flex;flex-direction:column;gap:12px;min-height:0;padding:16px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.012)),var(--surface)}
+.hsel{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--glass2);color:var(--chalk);font:600 14px var(--display)}
+.hs-list{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:4px;margin:0 -6px;padding:0 6px}
+.hs-i{display:flex;flex-direction:column;gap:2px;width:100%;padding:8px 10px;border:1px solid transparent;border-radius:12px;background:none;color:var(--chalk);text-align:left}
+.hs-i:hover{background:var(--glass2)}.hs-i[aria-pressed="true"]{background:rgba(142,166,255,.12);border-color:rgba(142,166,255,.45)}
+.hs-t{font-weight:600;font-size:13px}.hs-m{font-size:11.5px;color:var(--dim)}.hs-m i,.hks i{font-style:normal;font-weight:700}.hs-m .w,.hks .w{color:var(--win)}.hs-m .d,.hks .d{color:var(--draw)}.hs-m .l,.hks .l{color:var(--lose)}
+.hm-head{display:flex;align-items:flex-start;gap:10px;justify-content:space-between}.hm-head h2{margin:0;font:700 18px var(--display)}.hm-head .sub{margin:2px 0 0;font-size:12px;color:var(--dim);max-width:60ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.hks{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.14)}.hk{flex:1 1 110px;display:flex;flex-direction:column;gap:1px;padding:8px 14px}.hk+.hk{border-left:1px solid var(--line)}
+.hk span{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}.hk b{font:700 16px var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}.hk small{font-size:11px;color:var(--dim);font-weight:500}
+.htbl{flex:1;min-height:0;overflow:auto;border:1px solid var(--line);border-radius:14px}
+.htbl table{min-width:0;font-size:13px}.htbl th{position:sticky;top:0;z-index:1;background:#171e29}.htbl th,.htbl td{padding:6px 12px}.htbl td.n,.htbl th.n{width:48px;color:var(--dim)}.htbl .r{text-align:right;font-variant-numeric:tabular-nums}
+.htbl tbody tr:hover td{background:rgba(255,255,255,.03)}.swm{margin-left:3px;font-size:9px;font-weight:700;color:var(--draw)}
+.hside{overflow:auto}.hside-b{display:flex;flex-direction:column;gap:8px}.hside-b+.hside-b{padding-top:12px;border-top:1px solid var(--line)}
+.hside-b h3{margin:0;font:600 10.5px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}.hside-b p{margin:0;font-size:12.5px;line-height:1.5}
+.hside .bar{grid-template-columns:40px minmax(0,1fr) 38px;font-size:12px}.hside .bar .tr{height:7px}.hside .timeline{gap:3px}.hside .sq{width:11px;height:11px;border-radius:3px}
+@media (max-width:1100px){.hv{grid-template-columns:1fr;height:auto}.hs-list{max-height:260px}.htbl{max-height:70vh}}
+.it-row .it-p{text-align:right;font-variant-numeric:tabular-nums}.it-h{margin-top:0}.it-h span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:0 2px}.it-h span:nth-child(2),.it-h span:nth-child(3){text-align:right;padding-right:10px}
+.sov{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.012)),var(--surface)}.sov-in{display:flex;flex-direction:column;gap:14px;height:100%;padding:18px 20px}.sov-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.sov-head h2{margin:0;font:700 17px var(--display)}.sov-head .pl-tabs{margin-left:auto}.sov .plw{margin-top:0;padding-top:0;border-top:0}.sov .plc,.sov .pl-y{height:300px}.sov-foot{margin-top:auto;display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding-top:12px;border-top:1px solid var(--line)}.sov-more{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-left:auto;font-size:12px;color:var(--dim)}.sov-more .qp{color:var(--chalk)}
+.hw-save{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid rgba(95,211,141,.3);border-radius:14px;background:rgba(95,211,141,.06)}.hw-save b{font-size:13px}.hw-save p{margin:4px 0;font-size:12px;color:var(--dim);line-height:1.5}.hw-save small{font-size:11.5px;color:var(--dim)}.hw-btns{display:flex;flex-direction:column;gap:6px;flex:none}
+.hw{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column}.hw li{display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--line)}.hw-ic{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:7px;background:var(--glass2);font-size:11px;font-weight:700;color:var(--accent)}.hw b{font-size:13px}.hw p{margin:2px 0 0;font-size:12px;color:var(--dim);line-height:1.5}.cf-tab{white-space:nowrap;padding:7px 8px}
+/* vốn: 3 hàng, giữa là số lượng vật phẩm (bấm để nhập) */
+.cc-stats.cc-rows>.ccr{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:12px;padding:8px 12px}
+.cc-stats.cc-rows>.ccr+.ccr,.cc-stats.cc-rows>.cce+.ccr{border-top:1px solid var(--line)}
+.cc-rows .ccl{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.cc-rows .ccq{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:2px 8px;min-width:0;font-size:11.5px;color:var(--dim);line-height:1.35;text-align:right}
+.cc-rows .ccq span{white-space:nowrap}.cc-rows .ccq em{font-style:normal;opacity:.55}
+.cc-stats.cc-rows b{grid-column:auto;text-align:right;white-space:nowrap}
+.ccr.ed{cursor:pointer;transition:background .15s}.ccr.ed:hover{background:rgba(255,255,255,.03)}.ccr.ed:hover .ccq em{opacity:1;color:var(--accent)}.ccr.on{background:rgba(142,166,255,.08)}
+.cc-stats.cc-rows>.cce{display:block;padding:10px 12px 12px;background:rgba(142,166,255,.05);border-top:1px solid var(--line)}
+.cce .hold-grid{margin-top:0}.cce-f{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12.5px}.cce-f .cap-in{flex:1;min-width:0}.cce-f .cap-in input{flex:1;min-width:0;width:auto;text-align:right;background:var(--board)}.cce-f>span{flex:1}
+.cc-rows .ccq,.cc-rows .ccq span,.cc-rows .ccq em{text-transform:none;letter-spacing:0;font-size:11.5px;overflow:visible}.cce .hold-row .hn,.cce span,.cce label span{text-transform:none;letter-spacing:0}
+.cce-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px}.cce-i{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:1px 6px;min-width:0}.cce-i i{font-style:normal;font-size:12px;color:var(--chalk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cce-i input{width:100%;min-width:0;box-sizing:border-box;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}.cce-i input:focus{outline:0;border-color:var(--accent)}.cce-i small{grid-column:2;min-height:13px;font-size:10.5px;color:var(--dim);text-align:right}
+.cc-stats.cc-rows>.ccr .ccd{grid-column:1/-1;justify-self:end;display:flex;gap:8px;margin-top:2px;font-size:11px;color:var(--dim);text-transform:none;letter-spacing:0}.ccd span{font-weight:600}.ccl small.auto{margin-left:6px;font-size:9.5px;letter-spacing:.04em;color:var(--accent);text-transform:none}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>Hope</h1>
+      <h1><button type="button" class="brand" data-act="tab" data-x="play" title="Về trang chơi" aria-label="Trang chơi"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5M5.5 8.5V20a1 1 0 001 1H10v-6h4v6h3.5a1 1 0 001-1V8.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h1>
     </div>
     <nav class="tabs" role="tablist" aria-label="Màn hình">
-      <button class="tab" role="tab" id="tab-play" data-act="tab" data-x="play" aria-selected="true">Chơi</button>
-      <button class="tab" role="tab" id="tab-hist" data-act="tab" data-x="hist" aria-selected="false">Lịch sử</button>
+     <button class="tab" role="tab" id="tab-hist" data-act="tab" data-x="hist" aria-selected="false">Lịch sử</button>
+      <button class="tab" role="tab" id="tab-rep" data-act="tab" data-x="rep" aria-selected="false">Tổng quan</button>
       <button class="tab" role="tab" id="tab-chars" data-act="tab" data-x="chars" aria-selected="false">Nhân vật</button>
     </nav>
-    <div class="sync" id="sync" role="status" data-s="local"><i></i><span>Lưu trên thiết bị này</span></div>
+    <div class="top-r"><div class="hx" id="hx"></div><div class="sync" id="sync" role="status" data-s="local"><i></i><span>Lưu trên thiết bị này</span></div></div>
   </header>
   <main id="view" role="tabpanel" tabindex="-1"></main>
 </div>
@@ -345,7 +614,7 @@ const MV_NAME = ['Búa', 'Kéo', 'Bao'];
 const MV_GLYPH = ['✊', '✌️', '✋'];
 const RES_NAME = { W: 'Thắng', D: 'Hòa', L: 'Thua' };
 const RES_CLS = { W: 'win', D: 'draw', L: 'lose' };
-const MAX_ACTIVE = 2, MIN_AI = 5, MAX_CHARS = 2, NAME_MAX = 24, BLOCK = 4;   // tối đa 2 nhân vật, trang Chơi hiện cả hai cạnh nhau; BLOCK = số ván của một chuỗi mục tiêu
+const MAX_ACTIVE = 2, MIN_AI = 5, MAX_CHARS = 30, NAME_MAX = 24, BLOCK = 4;   // tối đa 2 nhân vật, trang Chơi hiện cả hai cạnh nhau; BLOCK = số ván của một chuỗi mục tiêu
 const LS_KEY = 'bang-oan-tu-ti:v1';
 const ROUND_RE = /^[RSP][WDL][RSP]?$/;   // ký tự thứ 3 (nếu có): nước random gốc trước khi bạn đồng ý đổi theo AI
 const SLOT_COLORS = ['var(--sky)', 'var(--lilac)', 'var(--chalk)'];
@@ -375,7 +644,7 @@ function fmtDate(iso) {
 
 /* ============================== luật chơi & random ============================== */
 const dec = s => { const m = MV.indexOf(s[0]), r = s[1]; return { m, r, o: r === 'W' ? (m + 1) % 3 : r === 'D' ? m : (m + 2) % 3, sw: s.length > 2 ? MV.indexOf(s[2]) : null }; };
-const mvh = j => `<span class="mc${j}">${MV_GLYPH[j]} ${MV_NAME[j]}</span>`;   // tên nước đi có màu riêng
+const mvh = j => `<span class="mc${j}" title="${MV_NAME[j]}">${MV_GLYPH[j]}<span class="mn"> ${MV_NAME[j]}</span></span>`;   // tên nước đi có màu riêng
 const outcomeOf = (m, o) => m === o ? 'D' : (m + 1) % 3 === o ? 'W' : 'L';   // Búa(0) thắng Kéo(1), Kéo thắng Bao(2), Bao thắng Búa
 
 /* ============================== thống kê ============================== */
@@ -509,19 +778,24 @@ function analyze(own, shared) {
   const len = a => a.reduce((s, x) => s + x.length, 0);
   return { n: Math.max(len(own), len(shared)), p, items, edge: 1 - R / sum };
 }
-function seqsFor(c) {
-  const cur = c.rounds.map(dec);
-  if (!state.settings.learnArchives) return [cur];
-  const arcs = [...c.archives].sort((x, y) => x.at < y.at ? -1 : 1).map(a => a.rounds.map(dec)).filter(s => s.length);
-  return [...arcs, cur];
+/* AI theo vật phẩm (user 2026-11-25): đang cược vật phẩm nào thì AI chỉ học các ván cược đúng vật phẩm đó –
+   phiên hiện tại + các lượt chơi vật phẩm đó trước đây của nhân vật này (phiên cũ trọng số thấp hơn).
+   Không cược: AI dùng lịch sử chơi hiện tại như trước. */
+const aiItem = c => { const s = c.stake || {}; return num(s.q) > 0 && itemOf(s.i) ? s.i : ''; };
+const itemRounds = (z, k) => z.rounds.filter((_, i) => betHas(z.bets[i], k));
+function seqsFor(c) {                               // chỉ lịch sử đang có trên bảng: phiên hiện tại + các phiên chưa bị "Xóa lịch sử" (user 2026-11-25)
+  const k = aiItem(c), pick = z => (k ? itemRounds(z, k) : z.rounds).map(dec);
+  const arcs = c.archives.filter(a => !a.hid).sort((x, y) => x.at < y.at ? -1 : 1).map(pick).filter(s => s.length);
+  return [...arcs, pick(c)];
 }
-/* nhóm "đối thủ đọc bài bạn" học từ: mọi nhân vật khác + toàn bộ lịch sử (cả phiên đã lưu) của nhân vật này.
-   Nhờ vậy khi đối thủ đổi nhân vật và bạn bấm "Đối thủ đổi", quy luật bắt bài vẫn còn nguyên. */
+const curSeq = c => { const s = seqsFor(c); return s[s.length - 1]; };
+const aiTag = c => { const k = aiItem(c), it = itemOf(k); return it ? ` · <b class="ai-it" title="AI chỉ học các ván cược ${esc(it.n)} đang có trên bảng lịch sử">${esc(it.n)}</b>` : ''; };
+/* nhóm "đối thủ đọc bài bạn": gộp các nhân vật (cùng vật phẩm nếu đang cược) */
 function sharedFor(c) {
-  if (!state.settings.crossLearn) return null;
-  const tail = (id, k) => allRounds(state.chars[id]).slice(-k).map(dec);          // chỉ lấy phần gần nhất cho nhẹ máy
-  const others = state.order.filter(id => id !== c.id).map(id => tail(id, 300)).filter(s => s.length);
-  return [...others, tail(c.id, 600)];
+  return null;                                     // mỗi nhân vật chỉ phân tích lịch sử của chính nhân vật đó (user 2026-11-25)
+  const k = aiItem(c), cur = z => k ? itemRounds(z, k) : z.rounds;
+  const others = state.order.filter(id => id !== c.id).map(id => [...state.chars[id].archives.filter(a => !a.hid).flatMap(a => cur(a)), ...cur(state.chars[id])].slice(-300).map(dec)).filter(s => s.length);
+  return [...others, seqsFor(c).flat().slice(-600)];
 }
 const analysisOf = c => analyze(seqsFor(c), sharedFor(c));
 const evalMove = (a, m) => ({ W: a.p[(m + 1) % 3], D: a.p[m], L: a.p[(m + 2) % 3] });
@@ -695,15 +969,25 @@ function selfOf(seqs) {
 }
 
 function backtestOf(c) {
-  const key = c.rounds.length + '|' + c.archives.length + '|' + (c.rounds[c.rounds.length - 1] || '') + '|' + state.settings.learnArchives;
+  const key = c.rounds.length + '|' + c.archives.length + '|' + (c.rounds[c.rounds.length - 1] || '') + '|' + aiItem(c) + '|' + c.bets.length + '|' + c.archives.filter(a => a.hid).length;
   if (c._bt && c._bt.key === key) return c._bt.v;
-  const cur = c.rounds.map(dec), hits = hitsOf(seqsFor(c).slice(0, -1), cur, 22);
+  const S = seqsFor(c), cur = S[S.length - 1], hits = hitsOf(S.slice(0, -1), cur, 22);
   const v = { n: hits.length, hit: hits.reduce((x, y) => x + y, 0), hits, shift: shiftOf(hits), self: selfOf(seqsFor(c)) };
   c._bt = { key, v }; return v;
 }
 
 /* ============================== dữ liệu: chuẩn hóa & lưu ============================== */
-const DEFAULT_SETTINGS = { learnArchives: true, crossLearn: true, ai2: true };
+const DEFAULT_SETTINGS = { learnArchives: true, crossLearn: true, ai2: true, autoSwap: true, gapMin: 3, capital: 0, capAt: 0, items: null, tp: null, sl: null, streak: 4, maxBet: 0, slAsk: true, beep: false };
+const DEFAULT_ITEMS = [{ k: 'xu', n: 'Xu', per: 1000, v: 1000 }, { k: 'tst', n: 'TST', per: 1, v: 0 }, { k: 'trau', n: 'Trâu', v: 0 }, { k: 'pb12', n: 'PB#12', v: 0 }, { k: 'kv', n: 'KV', v: 0 }, { k: 'do', n: 'Đồ', v: 0 }];
+const GAP_DEFAULT = 3;   // phút: quá mốc này chưa có ván mới thì coi như đối thủ đã đổi
+const num = x => { const v = typeof x === 'number' ? x : parseFloat(String(x).replace(/\s/g, '').replace(',', '.')); return isFinite(v) ? v : 0; };
+/* ts & bets luôn cùng độ dài với rounds (dữ liệu cũ không có thì để trống) */
+const alignTs = (a, n) => Array.from({ length: n }, (_, i) => { const v = Array.isArray(a) ? +a[i] : 0; return isFinite(v) && v > 0 ? v : 0; });
+const alignBets = (a, n) => Array.from({ length: n }, (_, i) => { const b = Array.isArray(a) ? a[i] : null; if (!(b && typeof b === 'object' && num(b.q) > 0)) return null;
+  const add = Array.isArray(b.add) ? b.add.filter(p => p && num(p.q) > 0).slice(0, 4).map(p => ({ i: String(p.i || '').slice(0, 16), q: num(p.q), v: Math.max(0, num(p.v)) })) : [];
+  return { i: String(b.i || '').slice(0, 16), q: num(b.q), v: Math.max(0, num(b.v)), ...(add.length ? { add } : {}) }; });
+/* báo cáo ngày đã lưu: { 'yyyy-mm-dd': {n, W, D, L, p} } */
+function normDaily(d) { const o = {}; if (d && typeof d === 'object') for (const k of Object.keys(d)) { const v = d[k]; if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === 'object') o[k] = { n: Math.max(0, Math.round(num(v.n))), W: Math.max(0, Math.round(num(v.W))), D: Math.max(0, Math.round(num(v.D))), L: Math.max(0, Math.round(num(v.L))), p: num(v.p) }; } return o; }
 function normChar(id, c) {
   if (!c || typeof c !== 'object') return null;
   const okR = a => (Array.isArray(a) ? a : []).filter(s => typeof s === 'string' && ROUND_RE.test(s));
@@ -713,13 +997,26 @@ function normChar(id, c) {
     name: String(c.name || 'Nhân vật').trim().slice(0, NAME_MAX) || 'Nhân vật',
     createdAt: typeof c.createdAt === 'string' ? c.createdAt : new Date().toISOString(),
     rounds: okR(c.rounds),
+    ts: alignTs(c.ts, okR(c.rounds).length),
+    bets: alignBets(c.bets, okR(c.rounds).length),
+    capital: Math.max(0, num(c.capital)),
+    capAt: Math.max(0, num(c.capAt)),
+    capDate: typeof c.capDate === 'string' ? c.capDate.slice(0, 10) : '',
+    holds: (() => { const o = {}; if (c.holds && typeof c.holds === 'object') for (const k of Object.keys(c.holds)) { const h = c.holds[k]; if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !h || typeof h !== 'object') continue; const x = {}; for (const i of Object.keys(h)) if (num(h[i]) > 0) x[String(i).slice(0, 16)] = num(h[i]); if (Object.keys(x).length) o[k] = x; } return o; })(),
+    ...(() => { const x = {}; if (c.baseHold && typeof c.baseHold === 'object') for (const i of Object.keys(c.baseHold)) if (num(c.baseHold[i]) > 0) x[String(i).slice(0, 16)] = num(c.baseHold[i]); return Object.keys(x).length ? { baseHold: x } : {}; })(),   // vốn gốc theo số lượng vật phẩm
+    caps: (() => { const o = {}; if (c.caps && typeof c.caps === 'object') for (const k of Object.keys(c.caps)) if (/^\d{4}-\d{2}-\d{2}$/.test(k) && num(c.caps[k]) > 0) o[k] = num(c.caps[k]); return o; })(),
+    daily: normDaily(c.daily),
+    stake: c.stake && typeof c.stake === 'object' ? { i: String(c.stake.i || '').slice(0, 16), q: Math.max(0, num(c.stake.q)), ...(c.stake.need ? { need: 1 } : {}) } : { i: '', q: 0 },
     pending: p === 0 || p === 1 || p === 2 ? p : null,
     pendingFrom: (c.pendingFrom === 0 || c.pendingFrom === 1 || c.pendingFrom === 2) && p !== null && c.pendingFrom !== p ? c.pendingFrom : null,   // nước random gốc nếu đã đồng ý đổi theo AI
     archives: (Array.isArray(c.archives) ? c.archives : []).filter(a => a && typeof a === 'object').map(a => ({
       id: String(a.id || newId()).slice(0, 24),
       at: typeof a.at === 'string' ? a.at : new Date().toISOString(),
       note: typeof a.note === 'string' ? a.note.slice(0, 120) : '',
+      ...(a.hid ? { hid: 1 } : {}),                 // đã "Xóa lịch sử" ở trang Chơi: ẩn khỏi khung bên ngoài, vẫn giữ để tracking
       rounds: okR(a.rounds),
+      ts: alignTs(a.ts, okR(a.rounds).length),
+      bets: alignBets(a.bets, okR(a.rounds).length),
     })),
   };
 }
@@ -727,19 +1024,34 @@ function normState(raw) {
   const chars = {};
   const src = raw && raw.chars && typeof raw.chars === 'object' ? raw.chars : {};
   for (const id of Object.keys(src)) { if (!/^[a-z0-9]{1,16}$/.test(id)) continue; const c = normChar(id, src[id]); if (c) chars[id] = c; }
+  { const s0 = raw && raw.settings || {};                 // vốn chung cũ → chuyển thành vốn của từng nhân vật
+    for (const id of Object.keys(chars)) { if (src[id] && src[id].capital === undefined && num(s0.capital) > 0) chars[id].capital = num(s0.capital); if (src[id] && src[id].capAt === undefined && num(s0.capAt) > 0) chars[id].capAt = num(s0.capAt); } }
   const order = [...new Set((Array.isArray(raw && raw.order) ? raw.order : []).filter(id => chars[id]))];
   Object.keys(chars).forEach(id => { if (!order.includes(id)) order.push(id); });
   const active = [...new Set((Array.isArray(raw && raw.active) ? raw.active : []).filter(id => chars[id]))].slice(0, MAX_ACTIVE);
-  for (const id of order) if (active.length < MAX_ACTIVE && !active.includes(id)) active.push(id);   // luôn hiện đủ nhân vật (tối đa MAX_ACTIVE)
+  if (!(raw && Array.isArray(raw.active)) || (!active.length && !(raw.settings && raw.settings.visV))) for (const id of order) if (active.length < MAX_ACTIVE && !active.includes(id)) active.push(id);   // lần đầu: hiện đủ; sau đó giữ đúng các bảng bạn chọn hiện/ẩn
   const s = raw && raw.settings && typeof raw.settings === 'object' ? raw.settings : {};
   const settings = {
     learnArchives: s.ai2 ? !!s.learnArchives : true,     // bản AI mới: học cả các phiên đã lưu (chỉ bật lại một lần, sau đó tùy bạn)
     ai2: true,
     crossLearn: s.crossLearn === undefined ? DEFAULT_SETTINGS.crossLearn : !!s.crossLearn,
+    autoSwap: s.autoSwap === undefined ? true : !!s.autoSwap,
+    gapMin: Math.min(120, Math.max(1, num(s.gapMin) || GAP_DEFAULT)),
+    capital: num(s.capital),
+    capAt: Math.max(0, num(s.capAt)),
+    tp: s.tp && num(s.tp.v) > 0 ? { v: num(s.tp.v), pct: !!s.tp.pct } : null,          // chốt lời / cắt lỗ mỗi ngày
+    sl: s.sl && num(s.sl.v) > 0 ? { v: num(s.sl.v), pct: !!s.sl.pct } : null,
+    streak: s.streak === undefined ? 4 : Math.min(20, Math.max(0, Math.round(num(s.streak)))),   // cảnh báo thua liên tiếp
+    maxBet: Math.min(100, Math.max(0, num(s.maxBet))),                                   // % vốn hôm nay
+    slAsk: s.slAsk === undefined ? true : !!s.slAsk,
+    beep: !!s.beep,
+    visV: !!s.visV,                                      // đã từng ẩn hết bảng: không tự hiện lại
+    items: (Array.isArray(s.items) && s.items.length ? s.items : DEFAULT_ITEMS).filter(x => x && x.k).slice(0, 30).map(x => { const k = String(x.k).slice(0, 16), had = num(x.per) > 0, per = had ? num(x.per) : k === 'xu' ? 1000 : 1;
+      return { k, n: String(x.n || x.k).slice(0, 16), per, v: Math.max(0, num(x.v)) * (had ? 1 : per) }; }),   /* Xu cũ (giá 1 xu) → giá của 1.000 xu */
   };
   return { chars, order, active, settings };
 }
-const payloadOf = c => ({ v: 1, name: c.name, createdAt: c.createdAt, rounds: c.rounds, pending: c.pending, pendingFrom: c.pendingFrom, archives: c.archives });
+const payloadOf = c => ({ v: 1, name: c.name, createdAt: c.createdAt, rounds: c.rounds, ts: c.ts, bets: c.bets, stake: c.stake, capital: c.capital, capAt: c.capAt, capDate: c.capDate, caps: c.caps, holds: c.holds, baseHold: c.baseHold, daily: c.daily, pending: c.pending, pendingFrom: c.pendingFrom, archives: c.archives });
 const metaOf = s => ({ v: 1, order: s.order, active: s.active, settings: s.settings });
 function serialize(s = state) {
   const chars = {}; for (const id of s.order) chars[id] = payloadOf(s.chars[id]);
@@ -749,7 +1061,7 @@ function defaultState() {
   const chars = {};
   { const id = newId(); chars[id] = normChar(id, { name: 'Nhân vật 1' }); }   // mặc định chỉ 1 nhân vật; bấm "+ Nhân vật mới" để có thêm người thứ hai
   const order = Object.keys(chars);
-  return { chars, order, active: order.slice(0, MAX_ACTIVE), settings: { ...DEFAULT_SETTINGS } };
+  return { chars, order, active: order.slice(0, MAX_ACTIVE), settings: { ...DEFAULT_SETTINGS, items: DEFAULT_ITEMS.map(x => ({ ...x })) } };
 }
 function loadLocal() {
   try { const raw = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); if (raw && raw.chars) { const s = normState(raw); if (s.order.length) return s; } } catch (e) {}
@@ -764,7 +1076,7 @@ function persistLocal(now) {
 window.addEventListener('pagehide', () => persistLocal(true));
 
 let state = loadLocal() || defaultState();
-const ui = { tab: 'play', hc: null, hs: 'current', rows: 50, aiOpen: false };
+const ui = { tab: 'play', hc: null, hs: 'current', rows: 50, aiOpen: false, itOpen: false, rc: null };
 
 /* ============================== đồng bộ đám mây (db) ============================== */
 const Cloud = { disabled: false, status: 'local', uid: null, col: null, loaded: false, dirty: new Set(), del: new Set(), ver: {}, timer: null, flushing: false, retry: {}, guard: null, errShown: false };
@@ -898,7 +1210,7 @@ function rollOne(id) {
 }
 function archiveCurrent(c, note) {
   if (!c.rounds.length) return null;
-  const a = { id: newId(), at: new Date().toISOString(), note: (note || '').trim().slice(0, 120), rounds: [...c.rounds] };
+  const a = { id: newId(), at: new Date().toISOString(), note: (note || '').trim().slice(0, 120), rounds: [...c.rounds], ts: [...c.ts], bets: [...c.bets] };
   c.archives.push(a); return a;
 }
 function makeDemo() {
@@ -936,8 +1248,12 @@ function dialogBox({ title, text = '', field = null, buttons }) {
       dlg.removeEventListener('close', onClose);
       if (!dlg.open) { resolve({ id, value }); return; }
       // chờ sự kiện close để hộp thoại kế tiếp (nếu có) không bị đóng nhầm
-      dlg.addEventListener('close', () => resolve({ id, value }), { once: true });
-      try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); resolve({ id, value }); }
+      // (user 2026-11-25) khi mở từ ô ⚙ Cài đặt chung (details đang mở) trình duyệt có lúc KHÔNG phát sự kiện close
+      // → nút Xóa/OK không có tác dụng. Dự phòng: tự trả kết quả sau 80 ms nếu chưa nhận được close.
+      let sent = false; const send = () => { if (sent) return; sent = true; resolve({ id, value }); };
+      dlg.addEventListener('close', send, { once: true });
+      try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); send(); }
+      setTimeout(send, 80);
     }
     buttons.forEach(b => {
       const el = document.createElement('button');
@@ -960,6 +1276,379 @@ let toastT = null;
 function toast(msg) {
   const t = $('#toast'); t.textContent = msg; t.classList.add('on');
   clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 3600);
+}
+
+
+/* ============================== cược, vốn & lợi nhuận THEO NHÂN VẬT (user 2026-11-25) ==============================
+   Mỗi ván lưu thêm: ts (thời điểm ghi kết quả) và bet {i: mã vật phẩm, q: số lượng, v: giá trị 1 đơn vị lúc đó}.
+   Thắng +q×v, thua −q×v, hòa 0. Mỗi nhân vật có vốn riêng: vốn + lãi/lỗ = số dư.
+   Báo cáo ngày / tháng: tính từ thời điểm từng ván; ngày đã qua được lưu lại trong c.daily nên còn cả khi xóa lịch sử ván. */
+const fmtN = x => (Math.round(x * 100) / 100).toLocaleString('vi-VN');
+const fmtS = x => (x > 0 ? '+' : x < 0 ? '−' : '') + fmtN(Math.abs(x));
+const fmtP = x => isFinite(x) ? (x > 0 ? '+' : x < 0 ? '−' : '') + (Math.round(Math.abs(x) * 10) / 10).toLocaleString('vi-VN') + '%' : '–';
+const sgnCls = x => x > 0 ? 'pos' : x < 0 ? 'neg' : 'zero';
+/* số tiền gọn cho ô hẹp: 6,3M · 1,5B · 650K (rê chuột xem số đầy đủ) */
+const fmtC = x => { const a = Math.abs(x), s = x > 0 ? '+' : x < 0 ? '−' : '', f = (v, u) => s + (Math.round(v * 100) / 100).toLocaleString('vi-VN') + u; return a >= 1e9 ? f(a / 1e9, 'B') : a >= 1e6 ? f(a / 1e6, 'M') : a >= 1e4 ? f(a / 1e3, 'K') : s + fmtN(a); };
+/* đọc số tiền gõ kiểu Việt Nam: 41.540.000 · 41540000 · 6,5 */
+const parseMoney = s => { s = String(s || '').replace(/\s/g, ''); if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.'); const v = parseFloat(s); return isFinite(v) ? v : 0; };
+const ymdOf = t => { const d = new Date(t), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
+const dmy = k => k.length === 7 ? `${k.slice(5)}/${k.slice(0, 4)}` : `${k.slice(8)}/${k.slice(5, 7)}/${k.slice(0, 4)}`;
+const itemOf = k => (state.settings.items || []).find(x => x.k === k) || null;
+/* giá gốc: Xu nhập giá của 1.000 xu (per = 1000), vật phẩm khác giá 1 đơn vị (user 2026-11-25) */
+const perOf = it => it && it.per > 0 ? it.per : 1;
+const unitPrice = it => it ? it.v / perOf(it) : 0;
+const unitOf = b => b && b.v > 0 ? b.v : unitPrice(itemOf(b && b.i));
+/* mức cược gộp “500x + 100KV” = 500 Xu + 100 KV cùng lúc, giá theo ⚙ Giá vật phẩm (user 2026-11-25) */
+const COMBO = 900000001, COMBO_PARTS = [['xu', 500], ['kv', 100]];
+const mkBet = (it, q) => q === COMBO ? (() => { const ps = COMBO_PARTS.filter(([k]) => itemOf(k)).map(([k, n]) => ({ i: k, q: n, v: unitPrice(itemOf(k)) })); return ps.length ? { ...ps[0], add: ps.slice(1) } : null; })() : it ? { i: it.k, q, v: unitPrice(it) } : null;
+const partsOf = b => !b || !(b.q > 0) ? [] : [{ i: b.i, q: b.q, v: b.v }, ...(Array.isArray(b.add) ? b.add : [])];
+const betValue = b => partsOf(b).reduce((a, p) => a + p.q * unitOf(p), 0);
+const comboValue = () => COMBO_PARTS.reduce((a, [k, n]) => a + n * unitPrice(itemOf(k)), 0);
+const betHas = (b, k) => partsOf(b).some(p => p.i === k);
+const qLabel = n => n === COMBO ? '500x + 100KV' : n === 1000500000 ? '500x + 1B' : n >= 1e9 ? fmtN(n / 1e9) + 'B' : n >= 1e6 ? fmtN(n / 1e6) + 'M' : n >= 1e4 ? fmtN(n / 1e3) + 'x' : n === 1000 ? '1K' : fmtN(n);
+const pnlOf = (s, b) => !b || !(b.q > 0) ? 0 : (s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0) * betValue(b);
+const qtyOf = (s, b) => !b || !(b.q > 0) ? 0 : (s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0) * b.q;
+const inCap = (c, t) => !c.capAt || (t || 0) >= c.capAt;
+/* các phiên của một nhân vật, mỗi phiên kèm ts & bets cùng độ dài với rounds */
+const segsOf = c => [...[...c.archives].sort((x, y) => x.at < y.at ? -1 : 1), { rounds: c.rounds, ts: c.ts, bets: c.bets }];
+function pnlSeg(z, c) { let p = 0; z.rounds.forEach((s, i) => { if (inCap(c, z.ts[i])) p += pnlOf(s, z.bets[i]); }); return p; }
+const pnlChar = c => segsOf(c).reduce((a, z) => a + pnlSeg(z, c), 0);
+function netItems(c) {                              // lãi/lỗ theo từng vật phẩm của một nhân vật (số lượng và giá trị)
+  const out = {};
+  segsOf(c).forEach(z => z.rounds.forEach((s, i) => {
+    const b = z.bets[i]; if (!b || !(b.q > 0) || !inCap(c, z.ts[i])) return;
+    const sg = s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0; partsOf(b).forEach(p => { const o = out[p.i] || (out[p.i] = { q: 0, v: 0, n: 0 }); o.q += sg * p.q; o.v += sg * p.q * unitOf(p); o.n++; });
+  }));
+  return out;
+}
+const betTxt = b => partsOf(b).map(p => { const it = itemOf(p.i); return `${qLabel(p.q)} ${it ? it.n : p.i}`; }).join(' + ');
+const presetsOf = it => !it ? [] : Array.isArray(it.p) && it.p.length ? it.p : it.k === 'xu' ? [100, 200, 300, 500, 1000, COMBO] : [1, 2, 3, 4, 5];   /* Xu: 100 · 200 · 300 · 500 · 1K · “500x + 1B” (một mức chung) */   /* Xu: 100…1000 · vật phẩm khác: 1…5 (user 2026-11-25) */
+/* thẻ: chọn mức cược cho ván sắp chơi (Xu: hiện sẵn 100 · 200 · 300 · 400 · 500 · 1000) */
+function stakeHTML(c) {
+  const it = state.settings.items || [], s = c.stake || {}, sel = itemOf(s.i) ? s.i : (it[0] || {}).k, cur = itemOf(sel), v = unitPrice(cur), q = num(s.q), pre = presetsOf(cur), mx = statusOf(c).maxAmt;
+  const valOf = n => n === COMBO ? comboValue() : n * v, over = n => mx > 0 && valOf(n) > 0 && valOf(n) > mx;
+  const need = !!s.need;
+  return `<div class="stake${need ? ' need' : ''}" data-sid="${c.id}"><span class="lb">Cược</span>
+    <select data-stake="i" data-id="${c.id}" aria-label="Vật phẩm cược">${it.map(x => `<option value="${esc(x.k)}"${x.k === sel ? ' selected' : ''}>${esc(x.n)}</option>`).join('')}</select>
+    <span class="sv">${q > 0 ? (q === COMBO ? `${esc(betTxt(mkBet(cur, q)))} ` : `${qLabel(q)} ${esc(cur ? cur.n : '')} `) + (valOf(q) > 0 ? '≈ ' + fmtN(valOf(q)) : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Chọn số lượng ${esc(cur ? cur.n : '')}</b>` : ''}</span>
+    ${pre.length ? `<span class="qpre">${pre.map(n => `<button type="button" class="qp${q === n ? ' on' : ''}${over(n) ? ' over' : ''}" data-act="qpick" data-id="${c.id}" data-x="${n}" aria-pressed="${q === n}"${over(n) ? ` title="Vượt cược tối đa ${state.settings.maxBet}% vốn hôm nay (${fmtN(mx)})"` : ''}>${qLabel(n)}</button>`).join('')}<button type="button" class="qp${q > 0 ? '' : ' on'}" data-act="qpick" data-id="${c.id}" data-x="0">Không cược</button></span>` : ''}</div>`;
+}
+/* thẻ: vốn, lãi/lỗ, số dư của nhân vật + lãi/lỗ phiên này và đồng hồ từ ván trước */
+/* thẻ: nhập vốn hôm nay theo từng vật phẩm, tự cộng tổng */
+function holdHTML(c) {
+  const today = ymdOf(Date.now()), h = (c.holds || {})[today] || {}, its = state.settings.items || [], tot = holdTotal(h), open = ui.holdOpen && ui.holdOpen[c.id];
+  return `<details class="hold" data-hold="${c.id}"${open ? ' open' : ''}><summary>✎ Nhập vốn theo vật phẩm${tot > 0 ? ` · tổng <b>${fmtN(tot)}</b>` : ''}</summary>
+    <div class="hold-grid">${its.map(x => { const q = num(h[x.k]), v = q * unitPrice(x);
+      return `<label class="hold-row"><span class="hn">${esc(x.n)}</span><input type="text" inputmode="decimal" data-money="1" data-cfg="hold" data-id="${c.id}" data-k="${esc(x.k)}" value="${q > 0 ? fmtN(q) : ''}" placeholder="số lượng" aria-label="Số lượng ${esc(x.n)}"><span class="hv">${q > 0 ? (unitPrice(x) > 0 ? '≈ ' + fmtN(v) : '<em>chưa có giá</em>') : ''}</span></label>`; }).join('')}</div>
+    <div class="hold-tot">Tổng vốn hôm nay <b>${fmtN(tot)}</b><span class="muted"> · số lượng × giá gốc trong ⚙ Vật phẩm (Xu: giá 1.000 xu)</span></div></details>`;
+}
+/* số lượng gọn: 50.000 → 50K, 1.200.000 → 1,2M */
+const fmtQ = (q, sign) => { const a = Math.abs(q), s = sign ? (q > 0 ? '+' : q < 0 ? '−' : '') : (q < 0 ? '−' : ''); return s + (a >= 1e6 ? (Math.round(a / 1e4) / 100).toLocaleString('vi-VN') + 'M' : a >= 1e4 ? (Math.round(a / 10) / 100).toLocaleString('vi-VN') + 'K' : fmtN(a)); };
+const qtyLine = (h, sign) => (state.settings.items || []).filter(x => num((h || {})[x.k])).map(x => `<span class="${sign ? sgnCls(h[x.k]) : ''}">${fmtQ(h[x.k], sign)} ${esc(x.n)}</span>`).join('');
+/* số lượng vật phẩm lời/lỗ trong hôm nay (theo từng ván có cược) */
+function netByDay(c) {                             // { 'yyyy-mm-dd': { mã: số lượng lời/lỗ } }
+  const out = {};
+  segsOf(c).forEach(z => z.rounds.forEach((s, i) => { if (!z.ts[i] || !inCap(c, z.ts[i])) return; const sg = s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0; if (!sg) return; const d = out[ymdOf(z.ts[i])] = out[ymdOf(z.ts[i])] || {}; partsOf(z.bets[i]).forEach(p => { d[p.i] = (d[p.i] || 0) + sg * p.q; }); }));
+  return out;
+}
+const netToday = c => netByDay(c)[ymdOf(Date.now())] || {};
+const addQ = (a, b) => { const o = { ...(a || {}) }; for (const k of Object.keys(b || {})) o[k] = num(o[k]) + num(b[k]); for (const k of Object.keys(o)) if (!o[k]) delete o[k]; return o; };
+/* số lượng vật phẩm đầu ngày: nhập hôm đó → dùng; không nhập → lấy số lượng cuối ngày trước (vốn gốc/lần nhập gần nhất ± lời/lỗ từng ngày) (user 2026-11-25) */
+function startHold(c, day) {
+  if ((c.holds || {})[day]) return c.holds[day];
+  if ((c.caps || {})[day] != null) return null;      // hôm nay nhập vốn bằng tiền → không suy ra số lượng
+  const anchors = Object.keys(c.holds || {}).filter(k => k < day).map(k => [k, c.holds[k]]);
+  if (c.baseHold && c.capDate && c.capDate <= day) anchors.push([c.capDate, c.baseHold]);
+  if (!anchors.length) return null;
+  anchors.sort((x, y) => x[0] < y[0] ? -1 : 1); const [k0, h0] = anchors[anchors.length - 1];
+  if (k0 === day) return h0;
+  const nb = netByDay(c); let h = { ...h0 };
+  Object.keys(nb).filter(k => k >= k0 && k < day).sort().forEach(k => { h = addQ(h, nb[k]); });
+  return h;
+}
+/* ô nhập số lượng từng vật phẩm cho Vốn gốc (base) hoặc Vốn đầu ngày (day) */
+function capEditHTML(c, which, T) {
+  const today = ymdOf(Date.now()), h = which === 'base' ? c.baseHold || {} : startHold(c, today) || {}, its = state.settings.items || [], tot = holdTotal(h);
+  const cfg = which === 'base' ? 'bhold' : 'hold';
+  return `<div class="cce"><div class="cce-g">${its.map(x => { const q = num(h[x.k]);
+      return `<label class="cce-i"><i>${esc(x.n)}</i><input type="text" inputmode="decimal" data-money="1" data-cfg="${cfg}" data-id="${c.id}" data-k="${esc(x.k)}" value="${q > 0 ? fmtN(q) : ''}" placeholder="0" aria-label="Số lượng ${esc(x.n)}"><small>${q > 0 ? (unitPrice(x) > 0 ? '≈ ' + fmtN(q * unitPrice(x)) : 'chưa có giá') : ''}</small></label>`; }).join('')}</div>
+    <div class="cce-f">${tot > 0 ? `<span>Tổng <b>${fmtN(tot)}</b></span>` : `<label class="cap-in"><span>hoặc nhập tổng tiền</span><input type="text" inputmode="decimal" data-money="1" data-cfg="${which === 'base' ? 'cbase' : 'ccap'}" data-id="${c.id}" value="${which === 'base' ? (T.base > 0 ? fmtN(T.base) : '') : (T.start > 0 ? fmtN(T.start) : '')}" placeholder="số tiền"></label>`}
+      ${which === 'base' ? `<button type="button" class="btn small vg" data-act="setBase" data-id="${c.id}" title="Lấy vốn đầu ngày hôm nay (cả số lượng vật phẩm) làm vốn gốc">📌 Lấy vốn đầu ngày</button>` : ''}
+      <button type="button" class="btn small ghost" data-act="capEdit" data-id="${c.id}" data-x="${which}">Xong</button></div></div>`;
+}
+function pnlLineHTML(c) {
+  const T = todayOf(c), today = ymdOf(Date.now()), ed = (ui.capEdit || {})[c.id] || '';
+  const dayH = startHold(c, today), net = netToday(c), carried = dayH && !(c.holds || {})[today];
+  const nowH = dayH ? addQ(dayH, net) : null;
+  const row = (key, label, h, total, cls, tip, extra) => `<div class="ccr${key ? ' ed' : ''}${ed === key && key ? ' on' : ''}"${key ? ` data-act="capEdit" data-id="${c.id}" data-x="${key}" role="button" tabindex="0"` : ''} title="${esc(tip)}">
+      <span class="ccl">${label}${extra || ''}</span><span class="ccq">${h ? qtyLine(h, false) || '' : ''}${key && !(h && qtyLine(h)) ? '<em>+ số lượng</em>' : ''}</span><b class="${cls || ''}">${total}</b></div>`;
+  return `<div class="cap-card">
+    <div class="cc-stats cc-rows">
+      ${row('base', 'Vốn gốc', c.baseHold, T.base > 0 ? fmtN(T.base) : '–', '', 'Số tiền đầu tư ban đầu – bấm để nhập số lượng từng vật phẩm')}
+      ${ed === 'base' ? capEditHTML(c, 'base', T) : ''}
+      ${row('day', 'Đầu ngày', dayH, T.start > 0 ? fmtN(T.start) : '–', '', carried ? 'Tự lấy từ cuối ngày trước – bấm để sửa số lượng hôm nay' : 'Vốn lúc bắt đầu hôm nay (qua ngày tự lấy vốn cuối ngày trước) – bấm để nhập số lượng từng vật phẩm', carried ? ' <small class="auto">tự động</small>' : '')}
+      ${ed === 'day' ? capEditHTML(c, 'day', T) : ''}
+      <div class="ccr cc-now" title="Hôm nay ${fmtS(T.p)}${T.base > 0 ? ' · từ vốn gốc ' + fmtS(T.tot) : ''}"><span class="ccl">Hiện tại${T.start > 0 && T.p ? ` <small class="${sgnCls(T.p)}">${fmtP(T.p / T.start * 100)}</small>` : ''}</span>
+        <span class="ccq">${nowH ? qtyLine(nowH, false) : ''}</span><b class="${T.p > 0 ? 'pos' : T.p < 0 ? 'neg' : 'flat'}">${fmtN(T.bal)}</b></div></div>
+    ${limHTML(c)}</div>`;
+}
+const lastTs = c => c.ts.length ? c.ts[c.ts.length - 1] || 0 : 0;
+const gapMs = () => Math.max(1, num(state.settings.gapMin) || GAP_DEFAULT) * 60000;
+function gapText(c) {
+  const t = lastTs(c); if (!c.rounds.length || !t) return '';
+  const s = Math.max(0, Math.floor((Date.now() - t) / 1000)), mm = Math.floor(s / 60), ss = String(s % 60).padStart(2, '0');
+  if (!state.settings.autoSwap) return `⏱ ${mm}:${ss} từ ván trước`;
+  return Date.now() - t > gapMs() ? `<b class="neg" title="Quá ${fmtN(gapMs() / 60000)} phút chưa có ván mới: ván tới tính là đối thủ mới">⏱ ${mm}:${ss} · đối thủ mới</b>` : `⏱ ${mm}:${ss}`;
+}
+/* nhận xét một phiên vừa kết thúc */
+function sessionNote(z, mins, c) {
+  const t = statsOf(z.rounds), p = pnlSeg(z, c);
+  return `Tự động · nghỉ ${mins} phút → đối thủ mới · ${t.n} ván ${t.W}T ${t.D}H ${t.L}B (${pc(t.winRate)}% thắng)` + (z.bets.some(b => b && b.q > 0) ? ` · lãi/lỗ ${fmtS(p)}` : '');
+}
+/* quá mốc thời gian mà chưa có ván mới: tự lưu phiên cũ (như bấm “Đối thủ đổi”) rồi mới tính ván này */
+function autoSwapCheck(c) {
+  if (!state.settings.autoSwap || !c.rounds.length) return false;
+  const t = lastTs(c); if (!t || Date.now() - t <= gapMs()) return false;
+  const mins = Math.round((Date.now() - t) / 60000), z = { rounds: c.rounds, ts: c.ts, bets: c.bets }, note = sessionNote(z, mins, c);
+  archiveCurrent(c, note); c.rounds = []; c.ts = []; c.bets = []; delete c._bt;
+  toast(`${c.name}: đã ${mins} phút không có ván mới → coi như đối thủ đã đổi. Phiên trước: ${note.split(' · ').slice(2).join(' · ')}`);
+  return true;
+}
+/* ---------- báo cáo lãi/lỗ theo ngày & tháng ---------- */
+function liveDays(c) {                              // tổng hợp từ các ván còn trong lịch sử (có thời điểm)
+  const d = {};
+  segsOf(c).forEach(z => z.rounds.forEach((s, i) => {
+    const t = z.ts[i]; if (!t || !inCap(c, t)) return;
+    const k = ymdOf(t), o = d[k] || (d[k] = { n: 0, W: 0, D: 0, L: 0, p: 0, last: 0 });
+    o.n++; o[s[1]]++; o.p += pnlOf(s, z.bets[i]); o.last = Math.max(o.last, t);
+  }));
+  return d;
+}
+/* lưu lại các ngày đã kết thúc (trước hôm nay) vào c.daily; trả về true nếu có thay đổi */
+function closeDays(c) {
+  const today = ymdOf(Date.now()), live = liveDays(c); c.daily = c.daily || {}; let ch = false;
+  for (const k of Object.keys(live)) if (k < today) {
+    const o = live[k], s = c.daily[k], v = { n: o.n, W: o.W, D: o.D, L: o.L, p: Math.round(o.p * 100) / 100 };
+    if (!s || s.n !== v.n || s.p !== v.p || s.W !== v.W || s.L !== v.L) { c.daily[k] = v; ch = true; }
+  }
+  return ch;
+}
+/* mọi ngày: số liệu sống + các ngày đã lưu (kể cả khi lịch sử ván đã xóa).
+   Vốn đầu ngày = vốn nhập cho đúng ngày đó (c.caps[ngày]) nếu có, còn không = số dư cuối ngày trước (vốn + lãi/lỗ cộng dồn).
+   c.capital = vốn gốc ban đầu (lần nhập đầu tiên) – dùng cho tổng lãi suất. */
+function dayRows(c) {
+  const live = liveDays(c), all = { ...(c.daily || {}) }, today = ymdOf(Date.now()), caps = c.caps || {};
+  Object.keys(live).forEach(k => { all[k] = { ...live[k], live: true }; });
+  const keys = [...new Set([...Object.keys(all), ...Object.keys(caps), ...Object.keys(c.holds || {})])].filter(k => !c.capAt || k >= ymdOf(c.capAt)).sort();
+  let bal = baseOf(c);
+  return keys.map(k => { const o = all[k] || { n: 0, W: 0, D: 0, L: 0, p: 0 }, cv = capOfDay(c, k), set = cv != null, b0 = set ? cv : bal; bal = b0 + o.p;
+    return { k, n: o.n, W: o.W, D: o.D, L: o.L, p: o.p, b0, b1: bal, rate: b0 > 0 ? o.p / b0 * 100 : NaN, open: k === today, set }; });
+}
+/* vốn nhập theo vật phẩm (c.holds[ngày] = {mã: số lượng}): tổng = Σ số lượng × giá 1 đơn vị (giá đổi thì tổng tự tính lại) */
+const holdTotal = h => Object.keys(h || {}).reduce((a, k) => a + num(h[k]) * unitPrice(itemOf(k)), 0);
+const baseOf = c => c.baseHold && Object.keys(c.baseHold).length ? holdTotal(c.baseHold) : c.holds && c.capDate && c.holds[c.capDate] ? holdTotal(c.holds[c.capDate]) : num(c.capital);
+const capOfDay = (c, k) => c.holds && c.holds[k] ? holdTotal(c.holds[k]) : (c.caps || {})[k] != null ? num(c.caps[k]) : null;
+/* hôm nay của một nhân vật: vốn đầu ngày, lãi/lỗ hôm nay, số dư; tổng từ vốn gốc */
+function todayOf(c) {
+  const rows = dayRows(c), tr = rows.find(r => r.open), start = tr ? tr.b0 : rows.length ? rows[rows.length - 1].b1 : baseOf(c), p = tr ? tr.p : 0;
+  return { start, p, bal: start + p, base: baseOf(c), tot: rows.reduce((a, r) => a + r.p, 0) };
+}
+function monthRows(days, len = 7) {                  // len 7 = tháng, 4 = năm
+  const m = {};
+  days.forEach(d => { const k = d.k.slice(0, len), o = m[k] || (m[k] = { k, days: 0, n: 0, W: 0, D: 0, L: 0, p: 0, b0: d.b0, b1: d.b1, up: 0, down: 0 });
+    o.days++; o.n += d.n; o.W += d.W; o.D += d.D; o.L += d.L; o.p += d.p; o.b1 = d.b1; if (d.p > 0) o.up++; else if (d.p < 0) o.down++; });
+  return Object.values(m).map(o => ({ ...o, rate: o.b0 > 0 ? o.p / o.b0 * 100 : NaN }));
+}
+/* phần trên trang Chơi: chỉ còn phần ẩn nhập giá trị vật phẩm (vốn & lãi/lỗ nằm trong thẻ từng nhân vật) */
+function capHTML() {
+  const S = state.settings;
+  const rows = (S.items || []).map(x => {
+    return `<div class="it-row"><input class="it-n" data-cfg="iname" data-k="${esc(x.k)}" value="${esc(x.n)}" maxlength="16" aria-label="Tên vật phẩm">
+      <input class="it-p" type="text" inputmode="decimal" data-money="1" data-cfg="iper" data-k="${esc(x.k)}" value="${fmtN(perOf(x))}" aria-label="Số lượng tính giá của ${esc(x.n)}" title="Giá bên cạnh là giá của ngần này ${esc(x.n)}">
+      <input class="it-v" type="text" inputmode="decimal" data-money="1" data-cfg="ival" data-k="${esc(x.k)}" value="${x.v > 0 ? fmtN(x.v) : ''}" placeholder="${perOf(x) > 1 ? 'giá ' + fmtN(perOf(x)) + ' ' + esc(x.n) : 'giá 1 đơn vị'}" aria-label="Giá gốc của ${esc(x.n)}" title="${perOf(x) > 1 ? 'Giá của ' + fmtN(perOf(x)) + ' ' + esc(x.n) : 'Giá của 1 ' + esc(x.n)}">
+     <button class="btn ghost small" data-act="delItem" data-x="${esc(x.k)}" aria-label="Xóa ${esc(x.n)}">✕</button></div>`; }).join('');
+  const tab = ['lim', 'how'].includes(ui.cfgTab) ? ui.cfgTab : 'items', on = n => S.tp || S.sl || S.streak > 0 || S.maxBet > 0 ? n : '';
+  const sw = (key, title, desc) => `<label class="sw"><input type="checkbox" data-act="setOpt" data-x="${key}" ${S[key] ? 'checked' : ''}><span class="ui"></span><span class="tx"><b>${title}</b><span>${desc}</span></span></label>`;
+  const fld = (ic, title, desc, input) => `<div class="cf-row"><div class="cf-tx"><b>${ic} ${title}</b><span>${desc}</span></div><div class="cf-in">${input}</div></div>`;
+  const items = `<p class="hint">Giá là giá của <b>số lượng</b> ghi bên cạnh (vd 1.000 Xu = 650.000). App tự chia ra giá 1 đơn vị để tính từng mức cược. Thắng +giá trị cược, thua −giá trị cược, hòa 0.</p>
+      <div class="it-row it-h"><span>Vật phẩm</span><span>Số lượng</span><span>Giá</span><span></span></div>${rows}<div class="actions" style="margin-top:8px"><button class="btn small" data-act="addItem">+ Vật phẩm</button></div>`;
+  const lim = `<p class="hint">Áp dụng cho từng nhân vật, tính theo <b>hôm nay</b>. Gõ <b>%</b> để tính theo vốn hôm nay (vd <b>20%</b>) hoặc gõ số tiền (vd <b>5.000.000</b>). Để trống hoặc 0 = tắt.</p>
+      ${fld('🎯', 'Chốt lời mỗi ngày', 'Lãi hôm nay chạm mốc này: thẻ báo nên chốt và nghỉ.', `<input type="text" inputmode="decimal" data-cfg="tp" value="${limTxt(S.tp)}" placeholder="vd 20%">`)}
+      ${fld('🛑', 'Cắt lỗ mỗi ngày', 'Lỗ hôm nay chạm mốc này: thẻ báo đỏ, nên dừng nhân vật này.', `<input type="text" inputmode="decimal" data-cfg="sl" value="${limTxt(S.sl)}" placeholder="vd 10%">`)}
+      ${fld('⚠️', 'Thua liên tiếp', 'Cảnh báo khi thua liên tục từng này ván trong phiên hiện tại.', `<input type="number" min="0" max="20" step="1" data-cfg="streak" value="${S.streak || ''}" placeholder="0"><em>ván</em>`)}
+      ${fld('💸', 'Cược tối đa mỗi ván', 'Mức cược vượt % này của vốn hôm nay sẽ có viền đỏ.', `<input type="number" min="0" max="100" step="1" data-cfg="maxBet" value="${S.maxBet || ''}" placeholder="0"><em>%</em>`)}
+      ${fld('⏱', 'Đối thủ đổi sau', 'Quá số phút này chưa có ván mới thì ván tới tính là đối thủ mới (tắt/bật ở tab Nhân vật).', `<input type="number" min="1" max="120" step="1" data-cfg="gap" value="${S.gapMin}"><em>phút</em>`)}
+      <div class="cf-sw">${sw('slAsk', 'Hỏi lại khi đã chạm cắt lỗ', 'Bấm ghi kết quả sau khi chạm cắt lỗ thì app hỏi xác nhận trước.')}${sw('beep', 'Âm báo', 'Kêu “bíp” khi chạm chốt lời, cắt lỗ hoặc thua liên tiếp.')}</div>`;
+  return `<div class="cap-bar"><details class="it-cfg"${ui.itOpen ? ' open' : ''}><summary>⚙ Cài đặt chung</summary><div class="it-pop">
+      <div class="cf-tabs" role="tablist"><button type="button" role="tab" class="cf-tab${tab === 'items' ? ' on' : ''}" data-act="cfgTab" data-x="items" aria-selected="${tab === 'items'}">💎 Giá vật phẩm</button><button type="button" role="tab" class="cf-tab${tab === 'lim' ? ' on' : ''}" data-act="cfgTab" data-x="lim" aria-selected="${tab === 'lim'}">🎯 Giới hạn & cảnh báo${on(' <i class="dot"></i>')}</button><button type="button" role="tab" class="cf-tab${tab === 'how' ? ' on' : ''}" data-act="cfgTab" data-x="how" aria-selected="${tab === 'how'}">ℹ️ Cách hoạt động</button></div>
+      ${tab === 'items' ? items : tab === 'lim' ? lim : howHTML()}</div></details></div>`;
+}
+/* ⚙ Cài đặt chung › ℹ️ Cách hoạt động: dữ liệu lưu ở đâu + các bước dùng app */
+function howHTML() {
+  let kb = 0; try { kb = Math.round((localStorage.getItem(LS_KEY) || '').length / 1024); } catch (e) {}
+  const nR = state.order.reduce((a, id) => a + allRounds(state.chars[id]).length, 0), cloud = Cloud.status === 'synced' || Cloud.status === 'syncing';
+  const it = (ic, t, d) => `<li><span class="hw-ic">${ic}</span><div><b>${t}</b><p>${d}</p></div></li>`;
+  return `<div class="hw-save"><div><b>💾 ${cloud ? 'Đang lưu theo tài khoản và đồng bộ' : 'Dữ liệu tự lưu trên máy này'}</b>
+      <p>${cloud ? 'Mỗi thao tác được lưu ngay và đồng bộ giữa các thiết bị.' : 'Mỗi thao tác được lưu ngay vào trình duyệt trên máy này (không gửi đi đâu). Mở bằng trình duyệt khác, máy khác, hoặc sau khi xóa dữ liệu duyệt web sẽ không thấy dữ liệu – nên sao lưu định kỳ.'}</p>
+      <small>${state.order.length} nhân vật · ${nR} ván · khoảng ${kb} KB</small></div>
+      <div class="hw-btns"><button type="button" class="btn small" data-act="copyBackup">Sao lưu</button><button type="button" class="btn small ghost" data-act="restoreBackup">Khôi phục…</button></div></div>
+    <ol class="hw">
+      ${it('1', 'Chọn cược', 'Chọn vật phẩm và số lượng (Xu: 100 … 1K, 500x + 100KV; vật phẩm khác 1–5) hoặc “Không cược”. Đổi vật phẩm thì phải chọn lại số lượng.')}
+      ${it('2', 'Random → chơi → ghi kết quả', 'Bấm Random lấy nước đi, chơi xong bấm Thắng / Hòa / Thua. Ghi nhầm thì bấm vào kết quả hoặc cược trong bảng lịch sử để sửa.')}
+      ${it('3', 'AI nhận định', 'AI chỉ học lịch sử đang có trên bảng của chính nhân vật đó, theo vật phẩm đang cược; cần 5 ván. Khi AI thấy nước tốt hơn sẽ hiện nút ✓ để đổi.')}
+      ${it('4', 'Vốn & lãi/lỗ', 'Nhập vốn ở “Nhập / sửa vốn”, bấm 📌 Vốn gốc để chốt số tiền đầu tư. Qua ngày, vốn đầu ngày tự lấy số dư cuối ngày trước. Giá trị cược = số lượng × giá trong 💎 Giá vật phẩm.')}
+      ${it('5', 'Đối thủ đổi', `Quá ${state.settings.gapMin} phút không có ván mới thì phiên cũ tự lưu và tính là đối thủ mới; hoặc bấm “Đối thủ đổi”.`)}
+      ${it('6', 'Xóa lịch sử', 'Nút Xóa lịch sử ở trang chơi chỉ dọn bảng và để AI học lại từ đầu; kết quả vẫn giữ trong tab Lịch sử và Tổng quan. Xóa vĩnh viễn ở tab Nhân vật.')}
+      ${it('7', 'Giới hạn & cảnh báo', 'Đặt chốt lời / cắt lỗ mỗi ngày, cảnh báo thua liên tiếp và cược tối đa ở tab 🎯.')}
+      ${it('8', 'Xem lại', 'Tab Lịch sử: từng phiên, từng ván. Tab Tổng quan: biểu đồ lãi/lỗ, theo ngày / tháng / năm, từng nhân vật. Chỉ hiện 1 bảng thì ô bên cạnh là tổng quan.')}
+    </ol>`;
+}
+/* giới hạn ngày: {v, pct} – pct = % vốn hôm nay, còn lại là số tiền */
+const parseLim = s => { s = String(s || '').trim(); if (!s) return null; const pct = /%\s*$/.test(s), v = pct ? num(s.replace(/%/g, '').replace(',', '.')) : parseMoney(s); return v > 0 ? { v: Math.min(pct ? 1000 : 1e15, v), pct } : null; };
+const limTxt = l => l ? (l.pct ? String(l.v).replace('.', ',') + '%' : fmtN(l.v)) : '';
+const limAmt = (l, start) => !l ? 0 : l.pct ? (start > 0 ? start * l.v / 100 : 0) : l.v;
+function lossRun(c) { let k = 0; for (let i = c.rounds.length - 1; i >= 0 && c.rounds[i][1] === 'L'; i--) k++; return k; }
+function statusOf(c) {
+  const S = state.settings, T = todayOf(c), tp = limAmt(S.tp, T.start), sl = limAmt(S.sl, T.start), run = lossRun(c);
+  return { T, tp, sl, run, hitTp: tp > 0 && T.p >= tp, hitSl: sl > 0 && T.p <= -sl, longL: S.streak > 0 && run >= S.streak, maxAmt: S.maxBet > 0 && T.start > 0 ? T.start * S.maxBet / 100 : 0 };
+}
+/* thẻ: thanh tiến độ từ cắt lỗ → 0 → chốt lời + các cảnh báo */
+function limHTML(c) {
+  const z = statusOf(c), { tp, sl } = z, p = z.T.p, al = [];
+  if (z.hitSl) al.push(`<div class="cc-alert bad">🛑 Đã chạm cắt lỗ hôm nay (${fmtS(p)}). Nên dừng ${esc(c.name)} hôm nay.</div>`);
+  else if (z.hitTp) al.push(`<div class="cc-alert good">🎯 Đã đạt chốt lời hôm nay (${fmtS(p)}). Nên chốt và nghỉ.</div>`);
+  if (z.longL) al.push(`<div class="cc-alert warn">⚠️ Thua ${z.run} ván liên tiếp. Cân nhắc nghỉ vài phút hoặc giảm mức cược.</div>`);
+  let bar = '';
+  if (tp > 0 || sl > 0) {
+    const R = (sl || 0) + (tp || 0), z0 = (sl || 0) / R * 100, x = Math.max(0, Math.min(100, z0 + p / R * 100));
+    bar = `<div class="lim" title="Lãi/lỗ hôm nay ${fmtS(p)}${sl ? ' · cắt lỗ −' + fmtN(sl) : ''}${tp ? ' · chốt lời +' + fmtN(tp) : ''}"><span class="neg">${sl ? '🛑 ' + fmtC(-sl) : ''}</span>
+      <div class="lim-t"><i class="lim-f ${p >= 0 ? 'up' : 'dn'}" style="left:${Math.min(z0, x)}%;width:${Math.abs(x - z0)}%"></i><i class="lim-0" style="left:${z0}%"></i></div><span class="pos">${tp ? '🎯 ' + fmtC(tp) : ''}</span></div>`;
+  }
+  return bar + al.join('');
+}
+let actx = null;
+function beep(hi) { if (!state.settings.beep) return; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); const o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = hi ? 880 : 330; g.gain.setValueAtTime(.15, actx.currentTime); g.gain.exponentialRampToValueAtTime(.001, actx.currentTime + .35); o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + .36); } catch (e) {} }
+setInterval(() => document.querySelectorAll('.gapclk[data-gap]').forEach(e => { const c = state.chars[e.dataset.gap]; if (c) e.innerHTML = gapText(c); }), 5000);
+/* sang ngày mới khi đang mở app: lưu ngày vừa kết thúc */
+setInterval(() => { const ch = state.order.filter(id => closeDays(state.chars[id])); if (ch.length) commit({ chars: ch, defer: true }); }, 60000);
+
+/* ---------- tab Lãi/lỗ: tổng quan + theo tháng + theo ngày, từng nhân vật hoặc tất cả ---------- */
+function repData(ids) {                             // gộp nhiều nhân vật theo ngày; ngày một nhân vật không chơi thì giữ số dư của nhân vật đó
+  const per = ids.map(id => { const c = state.chars[id], rows = dayRows(c); return { rows, map: Object.fromEntries(rows.map(r => [r.k, r])), base: baseOf(c) }; });
+  const keys = [...new Set(per.flatMap(x => x.rows.map(r => r.k)))].sort(), today = ymdOf(Date.now()), last = per.map(x => x.base);
+  const days = keys.map(k => { const o = { k, n: 0, W: 0, D: 0, L: 0, p: 0, b0: 0, b1: 0, open: k === today, set: false };
+    per.forEach((x, i) => { const r = x.map[k]; if (r) { o.n += r.n; o.W += r.W; o.D += r.D; o.L += r.L; o.p += r.p; o.b0 += r.b0; o.b1 += r.b1; o.set = o.set || r.set; last[i] = r.b1; } else { o.b0 += last[i]; o.b1 += last[i]; } });
+    o.rate = o.b0 > 0 ? o.p / o.b0 * 100 : NaN; return o; });
+  const cap = per.reduce((a, x) => a + x.base, 0), p = days.reduce((a, d) => a + d.p, 0);
+  return { cap, days, months: monthRows(days), p, bal: days.length ? days[days.length - 1].b1 : cap };
+}
+/* ---- biểu đồ lãi/lỗ cộng dồn theo thời gian: mỗi ván có cược là một điểm; trên 0 màu thắng, dưới 0 màu thua ---- */
+const PL_RANGES = [['today', 'Hôm nay'], ['7d', '7 ngày'], ['30d', '30 ngày'], ['all', 'Tất cả']];
+let plData = null;
+function plSeries(ids, range) {
+  const pts = [], d0 = new Date(); d0.setHours(0, 0, 0, 0);
+  const from = range === 'today' ? d0.getTime() : range === '7d' ? d0.getTime() - 6 * 864e5 : range === '30d' ? d0.getTime() - 29 * 864e5 : 0;
+  ids.forEach(id => { const c = state.chars[id]; segsOf(c).forEach(z => z.rounds.forEach((s, i) => {
+    const t = z.ts[i], b = z.bets[i]; if (!t || t < from || !inCap(c, t) || !b || !(b.q > 0)) return;
+    pts.push({ t, v: pnlOf(s, b), who: c.name, bt: betTxt(b), r: s[1] }); })); });
+  pts.sort((a, b) => a.t - b.t); let s = 0; pts.forEach(p => { s += p.v; p.cum = s; }); return pts;
+}
+function niceStep(span, n) { const raw = span / n, p = Math.pow(10, Math.floor(Math.log10(raw || 1))), m = raw / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
+function plChartHTML(ids) {
+  const range = ui.plRange || 'all', pts = plSeries(ids, range), n = pts.length, multi = ids.length > 1;
+  const tabs = `<div class="pl-tabs" role="tablist" aria-label="Khoảng thời gian">${PL_RANGES.map(([k, l]) => `<button type="button" role="tab" class="pl-tab${k === range ? ' on' : ''}" aria-selected="${k === range}" data-act="plRange" data-x="${k}">${l}</button>`).join('')}</div>`;
+  const head = `<div class="pl-head"><div><h3>Lãi/lỗ cộng dồn</h3><span class="muted">${n ? `${n} ván có cược · ${fmtDate(new Date(pts[0].t).toISOString())} → ${fmtDate(new Date(pts[n - 1].t).toISOString())}` : 'chưa có ván có cược trong khoảng này'}</span></div>${n ? `<b class="pl-now ${sgnCls(pts[n - 1].cum)}">${fmtS(pts[n - 1].cum)}</b>` : ''}${tabs}</div>`;
+  if (!n) { plData = null; return `<div class="plw">${head}<div class="pl-empty">Chưa có dữ liệu</div></div>`; }
+  const vals = [0, ...pts.map(p => p.cum)], mn = Math.min(...vals), mx = Math.max(...vals), st = niceStep((mx - mn) || Math.abs(mx) || 1, 4);
+  const lo = Math.floor(mn / st) * st, hi = Math.max(Math.ceil(mx / st) * st, lo + st), H = 240, W = 1000;
+  const x = i => i / n * W, y = v => (hi - v) / (hi - lo) * H, z0 = y(0);
+  const line = vals.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(''), area = `${line}L${W} ${z0.toFixed(1)}L0 ${z0.toFixed(1)}Z`;
+  const ticks = []; for (let v = lo; v <= hi + st / 2; v += st) ticks.push(v);
+  const yl = ticks.map(v => `<span style="top:${(y(v) / H * 100).toFixed(2)}%">${v === 0 ? '0' : fmtC(v)}</span>`).join('');
+  const grid = ticks.map(v => `<line x1="0" x2="${W}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" class="${v === 0 ? 'z' : 'g'}"/>`).join('');
+  /* nhãn trục thời gian: đầu mỗi ngày; cùng một ngày thì vài mốc giờ */
+  const days = []; pts.forEach((p, i) => { const k = ymdOf(p.t); if (!days.length || days[days.length - 1].k !== k) days.push({ k, i: i + 1 }); });
+  let xl = days.length > 1 ? days.map(d => ({ i: d.i, t: dmy(d.k).slice(0, 5) })) : [0, .25, .5, .75, 1].map(f => { const i = Math.max(1, Math.round(f * n)); return { i, t: new Date(pts[i - 1].t).toTimeString().slice(0, 5) }; });
+  const every = Math.ceil(xl.length / 7); xl = xl.filter((_, j) => j % every === 0);
+  const xlab = [...new Map(xl.map(o => [o.i, o])).values()].map(o => `<span style="left:${(x(o.i) / W * 100).toFixed(2)}%">${o.t}</span>`).join('');
+  plData = { pts, n, lo, hi, multi };
+  return `<div class="plw">${head}
+    <div class="plc-wrap"><div class="pl-y" aria-hidden="true">${yl}</div>
+    <div class="plc" role="img" aria-label="Lãi/lỗ cộng dồn: ${n} ván, hiện ${fmtS(pts[n - 1].cum)}, thấp nhất ${fmtS(mn)}, cao nhất ${fmtS(mx)}">
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><clipPath id="plUp"><rect x="0" y="0" width="${W}" height="${Math.max(0, z0).toFixed(1)}"/></clipPath><clipPath id="plDn"><rect x="0" y="${z0.toFixed(1)}" width="${W}" height="${Math.max(0, H - z0).toFixed(1)}"/></clipPath>
+        <linearGradient id="plGu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--win)" stop-opacity=".28"/><stop offset="1" stop-color="var(--win)" stop-opacity=".02"/></linearGradient>
+        <linearGradient id="plGd" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--lose)" stop-opacity=".28"/><stop offset="1" stop-color="var(--lose)" stop-opacity=".02"/></linearGradient></defs>
+        ${grid}<path d="${area}" fill="url(#plGu)" clip-path="url(#plUp)"/><path d="${area}" fill="url(#plGd)" clip-path="url(#plDn)"/>
+        <path d="${line}" class="ln up" clip-path="url(#plUp)"/><path d="${line}" class="ln dn" clip-path="url(#plDn)"/></svg>
+      <i class="pl-guide"></i><i class="pl-dot"></i><div class="pl-tip"></div></div></div>
+    <div class="pl-x" aria-hidden="true">${xlab}</div></div>`;
+}
+function plHover(e) {
+  const box = e.target.closest && e.target.closest('.plc'); if (!box || !plData) return;
+  const r = box.getBoundingClientRect(), D = plData, f = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), i = Math.min(D.n, Math.max(1, Math.round(f * D.n))), p = D.pts[i - 1];
+  const px = i / D.n * 100, py = (D.hi - p.cum) / (D.hi - D.lo) * 100;
+  box.classList.add('on'); box.querySelector('.pl-guide').style.left = px + '%';
+  const dot = box.querySelector('.pl-dot'); dot.style.left = px + '%'; dot.style.top = py + '%'; dot.className = 'pl-dot ' + (p.cum >= 0 ? 'up' : 'dn');
+  const tip = box.querySelector('.pl-tip'), dt = new Date(p.t);
+  tip.innerHTML = `<small>${dmy(ymdOf(p.t)).slice(0, 5)} · ${dt.toTimeString().slice(0, 5)}${D.multi ? ' · ' + esc(p.who) : ''}</small><b class="${sgnCls(p.cum)}">${fmtS(p.cum)}</b><span>Ván: ${RES_NAME[p.r]} · ${esc(p.bt)} · <em class="${sgnCls(p.v)}">${fmtS(p.v)}</em></span>`;
+  tip.style.left = px + '%'; tip.classList.toggle('flip', px > 70);
+}
+document.addEventListener('pointermove', plHover);
+/* ▦ Bảng chơi / ⚙ Cài đặt chung: bấm ra ngoài thì tự đóng (bỏ qua khi đang mở hộp thoại) */
+document.addEventListener('pointerdown', e => {
+  if (e.target.closest && e.target.closest('dialog')) return;
+  document.querySelectorAll('details.vis-cfg[open], details.it-cfg[open]').forEach(d => { if (!d.contains(e.target)) { d.open = false; if (d.classList.contains('vis-cfg')) ui.visOpen = false; else ui.itOpen = false; } });
+}, true);
+document.addEventListener('pointerleave', e => { const b = e.target.closest && e.target.closest('.plc'); if (b) b.classList.remove('on'); }, true);
+function viewRep() {
+  if (!state.order.length) return `<div class="empty-box"><b>Chưa có nhân vật nào</b>Thêm nhân vật ở tab Nhân vật.</div>`;
+  if (ui.rc !== 'all' && !state.chars[ui.rc]) ui.rc = state.order[0];
+  const ids = ui.rc === 'all' ? state.order : [ui.rc], R = repData(ids), c = ui.rc === 'all' ? null : state.chars[ui.rc];
+  const chips = [...state.order.map(id => `<button class="chip-btn" data-act="rChar" data-id="${id}" aria-pressed="${id === ui.rc}"><span class="nm">${esc(state.chars[id].name)}</span></button>`),
+    state.order.length > 1 ? `<button class="chip-btn" data-act="rChar" data-id="all" aria-pressed="${ui.rc === 'all'}"><span class="nm">Tất cả nhân vật</span></button>` : ''].join('');
+  const D = R.days, up = D.filter(d => d.p > 0).length, dn = D.filter(d => d.p < 0).length, best = D.reduce((a, d) => !a || d.p > a.p ? d : a, null), worst = D.reduce((a, d) => !a || d.p < a.p ? d : a, null);
+  const tot = D.reduce((a, d) => ({ n: a.n + d.n, W: a.W + d.W, D: a.D + d.D, L: a.L + d.L }), { n: 0, W: 0, D: 0, L: 0 });
+  const kpi = (l, v, cls) => `<div class="kpi"><span>${l}</span><b class="${cls || ''}">${v}</b></div>`;
+  const overall = `<div class="kpis">${kpi('Vốn gốc', fmtN(R.cap))}${kpi('Lãi/lỗ', fmtS(R.p), sgnCls(R.p))}${kpi('Số dư', fmtN(R.bal))}${kpi('Lãi suất', R.cap > 0 ? fmtP(R.p / R.cap * 100) : '–', sgnCls(R.p))}
+    ${kpi('Ngày chơi', `${D.length} <small>(${up} lãi · ${dn} lỗ)</small>`)}${kpi('Ván', `${tot.n} <small>${tot.W}T ${tot.D}H ${tot.L}B</small>`)}
+    ${kpi('Ngày tốt nhất', best && best.p > 0 ? `${fmtS(best.p)} <small>${dmy(best.k)}</small>` : '–', 'pos')}${kpi('Ngày tệ nhất', worst && worst.p < 0 ? `${fmtS(worst.p)} <small>${dmy(worst.k)}</small>` : '–', 'neg')}</div>`;
+  const spark = plChartHTML(ids);
+  /* theo mốc thời gian: Ngày / Tháng / Năm (một bảng + biểu đồ cột lãi/lỗ từng kỳ) */
+  const by = ['day', 'month', 'year'].includes(ui.repBy) ? ui.repBy : 'day', BYN = { day: 'Ngày', month: 'Tháng', year: 'Năm' };
+  const P = by === 'day' ? D : monthRows(D, by === 'month' ? 7 : 4), lab = k => k.length === 4 ? k : dmy(k), short = k => k.length === 10 ? k.slice(8) + '/' + k.slice(5, 7) : lab(k);
+  const byTabs = `<div class="pl-tabs" role="tablist" aria-label="Xem theo">${Object.keys(BYN).map(k => `<button type="button" role="tab" class="pl-tab${k === by ? ' on' : ''}" aria-selected="${k === by}" data-act="repBy" data-x="${k}">${BYN[k]}</button>`).join('')}</div>`;
+  const bars = (() => { const L = P.slice(-60); if (!L.length) return ''; const mp = Math.max(0, ...L.map(o => o.p)), mn = Math.max(0, ...L.map(o => -o.p)), rg = (mp + mn) || 1, z = mn / rg * 100, ev = Math.ceil(L.length / 12);
+    return `<div class="pb"><div class="pb-plot"><i class="pb-z" style="bottom:${z}%"></i>${L.map((o, j) => { const h = Math.abs(o.p) / rg * 100;
+      return `<div class="pb-c"><i class="pb-b ${o.p >= 0 ? 'up' : 'dn'}" style="${o.p >= 0 ? `bottom:${z}%` : `top:${100 - z}%`};height:max(${o.p ? 2 : 0}px,${h}%)"></i><div class="pb-tip"><small>${BYN[by]} ${lab(o.k)}</small><b class="${sgnCls(o.p)}">${fmtS(o.p)}</b><span>${o.n} ván · ${fmtP(o.rate)} · số dư ${fmtN(o.b1)}</span></div></div>`; }).join('')}</div>
+      <div class="pb-x">${L.map((o, j) => `<span>${j % ev === 0 || j === L.length - 1 ? short(o.k) : ''}</span>`).join('')}</div></div>`; })();
+  const pRows = [...P].reverse().map(o => `<tr${o.open || (by !== 'day' && D.length && D[D.length - 1].open && D[D.length - 1].k.startsWith(o.k)) ? ' class="open"' : ''}><td><b>${lab(o.k)}</b>${by === 'day' && o.open ? ' <small class="tag">hôm nay</small>' : ''}${by === 'day' && o.set ? ' <small class="tag">vốn nhập</small>' : ''}</td>${by === 'day' ? '' : `<td>${o.days} <small class="muted">(${o.up} lãi · ${o.down} lỗ)</small></td>`}<td>${o.n}</td><td>${o.W}T ${o.D}H ${o.L}B</td><td class="r ${sgnCls(o.p)}">${fmtS(o.p)}</td><td class="r ${sgnCls(o.p)}">${fmtP(o.rate)}</td><td class="r">${fmtN(o.b0)}</td><td class="r">${fmtN(o.b1)}</td></tr>`).join('');
+  /* tất cả nhân vật: vốn gốc, lãi/lỗ, số dư của từng nhân vật + tổng */
+  const perChar = !c && ids.length > 1 ? (() => { const rows = ids.map(id => { const r = repData([id]), t = r.days.reduce((a, d) => a + d.n, 0); return { nm: state.chars[id].name, cap: r.cap, p: r.p, bal: r.bal, n: t }; });
+    return `<section class="panel"><h2>Theo nhân vật</h2><p class="hint">Vốn gốc, lãi/lỗ và số dư hiện tại của từng nhân vật; dòng cuối là tổng.</p>
+      <div class="tbl-wrap"><table class="rep"><thead><tr><th>Nhân vật</th><th class="r">Ván</th><th class="r">Vốn gốc</th><th class="r">Lãi/lỗ</th><th class="r">Lãi suất</th><th class="r">Số dư</th></tr></thead><tbody>
+      ${rows.map(r => `<tr><td><b>${esc(r.nm)}</b></td><td class="r">${r.n}</td><td class="r">${r.cap > 0 ? fmtN(r.cap) : '–'}</td><td class="r ${sgnCls(r.p)}">${fmtS(r.p)}</td><td class="r ${sgnCls(r.p)}">${r.cap > 0 ? fmtP(r.p / r.cap * 100) : '–'}</td><td class="r">${fmtN(r.bal)}</td></tr>`).join('')}
+      <tr class="tot"><td><b>Tổng</b></td><td class="r">${tot.n}</td><td class="r"><b>${fmtN(R.cap)}</b></td><td class="r ${sgnCls(R.p)}"><b>${fmtS(R.p)}</b></td><td class="r ${sgnCls(R.p)}">${R.cap > 0 ? fmtP(R.p / R.cap * 100) : '–'}</td><td class="r"><b>${fmtN(R.bal)}</b></td></tr></tbody></table></div></section>`; })() : '';
+  const body = D.length ? `${perChar}
+    <section class="panel"><div class="rep-head"><h2>Theo mốc thời gian</h2><span class="sp"></span>${byTabs}</div><p class="hint" style="margin-top:4px">Lãi/lỗ từng ${BYN[by].toLowerCase()}${ids.length > 1 ? ' (gộp các nhân vật)' : ''}. Lãi suất = lãi/lỗ ÷ số dư đầu kỳ. Rê chuột lên cột để xem chi tiết.</p>
+      ${bars}
+      <div class="tbl-wrap" style="margin-top:14px"><table class="rep"><thead><tr><th>${BYN[by]}</th>${by === 'day' ? '' : '<th>Ngày chơi</th>'}<th>Ván</th><th>T/H/B</th><th class="r">Lãi/lỗ</th><th class="r">Lãi suất</th><th class="r">Số dư đầu</th><th class="r">Số dư cuối</th></tr></thead><tbody>${pRows}</tbody></table></div></section>`
+    : `<div class="empty-box"><b>Chưa có số liệu</b>Ghi kết quả các ván có cược ở tab Chơi; lãi/lỗ sẽ được tổng hợp theo ngày, tháng, năm ở đây.</div>`;
+  return `<section class="panel"><h2>Tổng quan</h2><p class="hint">Bấm tên nhân vật để xem tổng quan của nhân vật đó${state.order.length > 1 ? ', hoặc “Tất cả nhân vật” để xem gộp' : ''}.</p><div class="chips">${chips}</div></section>
+    <section class="panel"><div class="rep-head"><h2>${c ? esc(c.name) : 'Tất cả nhân vật'}</h2><span class="sp"></span>
+      <button class="btn small" data-act="repCsv" ${D.length ? '' : 'disabled'}>⬇ Tải CSV</button>${c ? `<button class="btn small ghost" data-act="capMark" data-id="${c.id}">Tính lãi lại từ bây giờ</button>` : ''}</div>
+      ${c && c.capAt ? `<p class="hint" style="margin:6px 0 0">Đang tính từ ${fmtDate(new Date(c.capAt).toISOString())}.</p>` : ''}${overall}${spark}</section>${body}`;
+}
+function repCsv() {
+  const ids = ui.rc === 'all' ? state.order : [ui.rc], R = repData(ids), name = ui.rc === 'all' ? 'Tat-ca' : state.chars[ui.rc].name;
+  const q = v => `"${String(v).replace(/"/g, '""')}"`, n = v => (Math.round(v * 100) / 100).toString();
+  const L = [`Hope – lãi/lỗ: ${name}`, `Vốn gốc,${n(R.cap)}`, `Lãi/lỗ,${n(R.p)}`, `Số dư,${n(R.bal)}`, '', 'THEO THÁNG', 'Tháng,Ngày chơi,Ván,Thắng,Hòa,Thua,Lãi/lỗ,Lãi suất %,Số dư cuối'];
+  R.months.forEach(m => L.push([q(dmy(m.k)), m.days, m.n, m.W, m.D, m.L, n(m.p), isFinite(m.rate) ? n(m.rate) : '', n(m.b1)].join(',')));
+  L.push('', 'THEO NGÀY', 'Ngày,Ván,Thắng,Hòa,Thua,Lãi/lỗ,Lãi suất %,Số dư đầu,Số dư cuối');
+  R.days.forEach(d => L.push([q(dmy(d.k)), d.n, d.W, d.D, d.L, n(d.p), isFinite(d.rate) ? n(d.rate) : '', n(d.b0), n(d.b1)].join(',')));
+  L.push('', 'THEO NĂM', 'Năm,Ngày chơi,Ván,Thắng,Hòa,Thua,Lãi/lỗ,Lãi suất %,Số dư cuối');
+  monthRows(R.days, 4).forEach(m => L.push([m.k, m.days, m.n, m.W, m.D, m.L, n(m.p), isFinite(m.rate) ? n(m.rate) : '', n(m.b1)].join(',')));
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+  a.download = `Hope_lai-lo_${name.replace(/[^\p{L}\p{N}]+/gu, '-')}_${ymdOf(Date.now())}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000);
 }
 
 /* ============================== giao diện ============================== */
@@ -986,13 +1675,13 @@ function profHTML(p) {
 function aiHTML(c, a, m, prof, goal) {
   if (a.n < MIN_AI) {
     const dots = Array.from({ length: MIN_AI }, (_, i) => `<i class="${i < a.n ? 'on' : ''}"></i>`).join('');
-    return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span><span class="dots5" aria-hidden="true">${dots}</span></div>
-      <p class="ai-line">Cần thêm <b>${MIN_AI - a.n}</b> ván để AI bắt đầu nhận định (${a.n}/${MIN_AI}).</p></div>`;
+    return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định${aiTag(c)}</span><span class="dots5" aria-hidden="true">${dots}</span></div>
+      <p class="ai-line dim">Cần thêm ${MIN_AI - a.n} ván</p></div>`;
   }
   const opp = [0, 1, 2].map(j => [j, a.p[j]]).sort((x, y) => y[1] - x[1]).map(([j, p]) => `<span class="mc${j}">${MV_NAME[j]}</span> ${pc(p)}%`).join(' · ');
   const oppLine = `<p class="ai-line dim">Đối thủ có thể ra: ${opp}</p>`;
   if (m === null) {
-    return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span><span class="conf">Đã học từ ${a.n} ván</span></div>${oppLine}${warnAI(c)}
+    return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định${aiTag(c)}</span><span class="conf">Đã học từ ${a.n} ván</span></div>${oppLine}${warnAI(c)}
       ${aiMore(profHTML(prof) + extraAI(c, prof, a) + `<p class="ai-line dim">${esc(reasonOf(a))}</p>`)}</div>`;
   }
   const v = advise(a, m, goal), ev = v.ev, CONF = ['Thấp', 'Vừa', 'Cao'];
@@ -1002,7 +1691,7 @@ function aiHTML(c, a, m, prof, goal) {
   else if (v.change) advice = `<span>Nên đổi sang <b class="mc${v.bm}">${MV_NAME[v.bm]}</b> (thắng ${pc(v.be.W)}%, thua ${pc(v.be.L)}%). Bấm “Đồng ý đổi” cạnh nước random.</span>`;
   else if (c.pendingFrom !== null) advice = `<span>Giữ nước <b class="mc${m}">${MV_NAME[m]}</b> (đã đổi từ ${MV_NAME[c.pendingFrom]} theo AI).</span>`;
   else advice = `<span>Giữ nước <b class="mc${m}">${MV_NAME[m]}</b>.</span>`;
-  return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định</span>${chip}</div>
+  return `<div class="ai"><div class="ai-top"><span class="ai-t">AI nhận định${aiTag(c)}</span>${chip}</div>
     <div class="pbar" role="img" aria-label="Thắng ${pc(ev.W)}%, hòa ${pc(ev.D)}%, thua ${pc(ev.L)}%"><i class="w" style="width:${ev.W * 100}%"></i><i class="d" style="width:${ev.D * 100}%"></i><i class="l" style="width:${ev.L * 100}%"></i></div>
     <div class="plabels"><span class="w">Thắng ${pc(ev.W)}%</span><span class="d">Hòa ${pc(ev.D)}%</span><span class="l">Thua ${pc(ev.L)}%</span></div>
     <div class="advice"><span class="ai-t">Khuyến nghị</span>${advice}</div>
@@ -1022,36 +1711,41 @@ function expertHTML(c, a, bt) {
   return h;
 }
 function warnAI(c) {                                // cảnh báo quan trọng: luôn hiện, không gập
-  const bt = c.rounds.length >= MIN_AI + 3 ? backtestOf(c) : null; let h = '';
+  const bt = curSeq(c).length >= MIN_AI + 3 ? backtestOf(c) : null; let h = '';
   if (bt && bt.shift) h += `<p class="xp-warn"><b>Đối thủ có vẻ vừa đổi cách chơi.</b> Trước đó AI đoán trúng ${bt.shift.eh}/${bt.shift.en} ván, nhưng ${bt.shift.ln} ván gần nhất chỉ trúng ${bt.shift.lh}. AI đang quên dần quy luật cũ và đòi lợi thế lớn hơn mới khuyên đổi nước; cứ đánh theo random vài ván để nó học lại.</p>`;
   if (bt && bt.self) h += `<p class="xp-warn me"><b>Bạn đang dễ bị đọc:</b> ${esc(bt.self.why)}. Đối thủ tinh ý có thể khắc lại. Cứ để Random quyết định, không tự chọn hay đổi nước theo cảm tính.</p>`;
   return h;
 }
 const aiMore = inner => `<details class="ai-more"${ui.aiOpen ? ' open' : ''}><summary>Chi tiết phân tích</summary>${inner}</details>`;
 function extraAI(c, prof, a) {
-  const bt = c.rounds.length >= MIN_AI + 3 ? backtestOf(c) : null, ok = bt && bt.n >= 6;
+  const bt = curSeq(c).length >= MIN_AI + 3 ? backtestOf(c) : null, ok = bt && bt.n >= 6;
   const q = ok ? (bt.hit / bt.n >= .5 ? 'Khá tốt.' : bt.hit / bt.n >= .4 ? 'Nhỉnh hơn ngẫu nhiên một chút.' : 'Chưa hơn ngẫu nhiên nhiều, đừng tin quá.') : '';
   return expertHTML(c, a, bt) + ratesHTML(prof) + (ok ? `<p class="ai-line dim">Kiểm chứng ${bt.n} ván gần nhất (chỉ dùng dữ liệu có trước mỗi ván): AI đoán trúng nước đối thủ ${bt.hit}/${bt.n} (${pc(bt.hit / bt.n)}%), ngẫu nhiên khoảng 33%. ${q}</p>` : '');
 }
 function cardHTML(id, slot) {
   const c = state.chars[id], st = statsOf(c.rounds), a = analysisOf(c), m = c.pending, n1 = c.rounds.length + 1, goal = goalOf(c);
-  if (c.rounds.length >= MIN_AI + 9) goal.shift = !!backtestOf(c).shift;
+  if (curSeq(c).length >= MIN_AI + 9) goal.shift = !!backtestOf(c).shift;
   const adv = m !== null && a.n >= MIN_AI ? advise(a, m, goal) : null, prof = profileOf(c, a), from = c.pendingFrom;
-  const chBtn = adv && adv.change ? `<button class="btn small fill agree" data-act="useBest" data-id="${id}" data-x="${adv.bm}" title="AI khuyên đổi sang ${MV_NAME[adv.bm]}. Lịch sử sẽ lưu nước đã đổi.">✓ Đồng ý đổi → ${MV_GLYPH[adv.bm]} ${MV_NAME[adv.bm]}</button>` : '';
-  const backBtn = from !== null ? `<button class="btn small ghost" data-act="revertBest" data-id="${id}">Hoàn lại ${MV_GLYPH[from]} ${MV_NAME[from]}</button>` : '';
-  const rbtn = `<div class="stage-btns"><button class="btn roll" data-act="rollOne" data-id="${id}">${m === null ? 'Random' : 'Random lại'}</button>${chBtn}${backBtn}</div>`;
-  const subTxt = from !== null ? `Nước đi ván ${n1} · đã đổi từ ${mvh(from)} theo AI` : `Nước đi ván ${n1}`;
+  const chBtn = adv && adv.change ? `<button class="btn small fill agree" data-act="useBest" data-id="${id}" data-x="${adv.bm}" title="Đồng ý đổi theo AI sang ${MV_NAME[adv.bm]}. Lịch sử sẽ lưu nước đã đổi.">✓ ${MV_GLYPH[adv.bm]} ${MV_NAME[adv.bm]}</button>` : '';
+  const backBtn = from !== null ? `<button class="btn small ghost" data-act="revertBest" data-id="${id}" title="Hoàn lại nước random gốc ${MV_NAME[from]}">↺ ${MV_GLYPH[from]} ${MV_NAME[from]}</button>` : '';
+  const rbtn = `<div class="stage-btns"><button class="btn roll" data-act="rollOne" data-id="${id}" title="${m === null ? 'Random nước đi' : 'Random lại nước đi'}">${m === null ? 'Random' : '↻ Random'}</button>${chBtn}${backBtn}</div>`;
+  const subTxt = from !== null ? `Ván ${n1} · đổi từ ${MV_GLYPH[from]}` : `Ván ${n1}`;
   const stage = m === null
-    ? `<div class="ring empty" data-glyph="${id}">?</div><div class="tx"><div class="mv">Chưa random</div><div class="mv-sub">Bấm Random để có nước đi ván ${n1}</div>${rbtn}</div>`
-    : `<div class="ring mr${m}" data-glyph="${id}">${MV_GLYPH[m]}</div><div class="tx"><div class="mv mc${m}">${MV_NAME[m]}</div><div class="mv-sub">${subTxt}</div>${rbtn}</div>`;
+    ? `<div class="ring empty" data-glyph="${id}">?</div><div class="tx"><div class="mv-t"><div class="mv dim">Ván ${n1}</div><div class="mv-sub">chưa random</div></div>${rbtn}</div>`
+    : `<div class="ring mr${m}" data-glyph="${id}">${MV_GLYPH[m]}</div><div class="tx"><div class="mv-t"><div class="mv mc${m}">${MV_NAME[m]}</div><div class="mv-sub">${subTxt}</div></div>${rbtn}</div>`;
   return `<article class="col" data-slot="${slot || 1}" aria-label="${esc(c.name)}">
-    <div class="c-head"><h3 class="c-name"><input class="name-in" type="text" maxlength="${NAME_MAX}" value="${esc(c.name)}" data-id="${id}" placeholder="Nhập tên nhân vật" aria-label="Tên nhân vật" title="Bấm để đổi tên" autocomplete="off" spellcheck="false"></h3>
-      <div class="c-rate"><b>${st.n ? pc(st.winRate) + '%' : '–'}</b>tỉ lệ thắng</div></div>
-    <div class="score1" aria-label="Thắng ${st.W}, hòa ${st.D}, thua ${st.L}"><span class="win">Thắng <b>${st.W}</b></span><span class="draw">Hòa <b>${st.D}</b></span><span class="lose">Thua <b>${st.L}</b></span></div>
-    <div class="sect"><div class="stage">${stage}</div></div>
+    <div class="c-head"><h3 class="c-name"><select class="name-sel" data-id="${id}" aria-label="Chọn nhân vật" title="Chọn nhân vật – dữ liệu lưu theo từng tên. Thêm / đổi tên ở ⚙ Cài đặt chung.">${state.order.map(x => `<option value="${x}"${x === id ? ' selected' : ''}>${esc(state.chars[x].name)}${x !== id && state.active.includes(x) ? ' (thẻ bên cạnh)' : ''}</option>`).join('')}</select></h3>
+      <div class="c-rate" title="Tỉ lệ thắng phiên hiện tại"><b>${st.n ? pc(st.winRate) + '%' : '–'}</b></div>
+      <button type="button" class="c-hide" data-act="hideCard" data-id="${id}" title="Ẩn bảng này (dữ liệu vẫn giữ)" aria-label="Ẩn bảng ${esc(c.name)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.2A10.4 10.4 0 0112 5c5 0 9 4.5 10 7-.4 1-1.2 2.3-2.4 3.5M6.6 6.6C4.4 8 2.8 10.1 2 12c1 2.5 5 7 10 7 1.8 0 3.4-.6 4.8-1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div class="wdl" aria-label="Thắng ${st.W}, hòa ${st.D}, thua ${st.L}"><div class="wdl-bar">${st.n ? `<i class="w" style="flex:${st.W}"></i><i class="d" style="flex:${st.D}"></i><i class="l" style="flex:${st.L}"></i>` : '<i class="z"></i>'}</div>
+      <div class="wdl-n"><span class="win"><b>${st.W}</b> thắng</span><span class="draw"><b>${st.D}</b> hòa</span><span class="lose"><b>${st.L}</b> thua</span></div></div>
+    ${pnlLineHTML(c)}
+    <div class="play-box"><div class="sect"><div class="stage">${stage}</div></div>
+    ${stakeHTML(c)}
     <div><div class="res-row" role="group" aria-label="Ghi kết quả ván ${n1}">
       ${['W', 'D', 'L'].map(r => `<button class="res ${RES_CLS[r]}" data-act="rec" data-id="${id}" data-x="${r}" ${m === null ? 'disabled' : ''}>${RES_NAME[r]}</button>`).join('')}</div>
-      ${m === null ? '' : `<p class="res-hint wait">Chơi xong nhớ bấm Thắng, Hòa hoặc Thua.</p>`}</div>
+</div>
+    <div class="pnl-line"><span>Phiên này <b class="${sgnCls(pnlSeg({ rounds: c.rounds, ts: c.ts, bets: c.bets }, c))}">${fmtS(pnlSeg({ rounds: c.rounds, ts: c.ts, bets: c.bets }, c))}</b></span><span class="gapclk" data-gap="${c.id}">${gapText(c)}</span></div></div>
     ${aiHTML(c, a, m, prof, goal)}
     <div class="foot"><button class="btn ghost small" data-act="undo" data-id="${id}" ${c.rounds.length ? '' : 'disabled'}>Hoàn tác</button>
       <button class="btn ghost small" data-act="reset" data-id="${id}" ${c.rounds.length ? '' : 'disabled'}>Reset…</button>
@@ -1063,28 +1757,37 @@ function cardHTML(id, slot) {
 const hfItems = {};   // danh sách dòng lịch sử theo từng nhân vật
 let fitting = false;
 function histFrameHTML(id) {
-  const c = state.chars[id], st = statsOf(allRounds(c));
-  const segs = [{ label: 'Đang chơi', note: '', rounds: c.rounds, seg: 'cur' }, ...[...c.archives].sort((x, y) => x.at < y.at ? 1 : -1).map(a => ({ label: fmtDate(a.at).replace(/\/\d{4}/, ''), note: a.note, rounds: a.rounds, seg: a.id }))].filter(z => z.rounds.length);
+  const c = state.chars[id], vis = c.archives.filter(a => !a.hid), st = statsOf([...vis.flatMap(a => a.rounds), ...c.rounds]);
+  const segs = [{ label: 'Đang chơi', note: '', rounds: c.rounds, ts: c.ts, bets: c.bets, seg: 'cur' }, ...[...vis].sort((x, y) => x.at < y.at ? 1 : -1).map(a => ({ label: fmtDate(a.at).replace(/\/\d{4}/, ''), note: a.note, at: a.at, rounds: a.rounds, ts: a.ts, bets: a.bets, seg: a.id }))].filter(z => z.rounds.length);
   const items = hfItems[id] = [];
+  /* phân loại theo vật phẩm: số ván, thắng/hòa/thua, số lượng ròng, lãi/lỗ – bấm để lọc bảng */
+  const by = {}; segs.forEach(sg => sg.rounds.forEach((s, i) => { const sgn = s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0; partsOf(sg.bets[i]).forEach(p => { const o = by[p.i] || (by[p.i] = { n: 0, W: 0, D: 0, L: 0, q: 0, v: 0 }); o.n++; o[s[1]]++; o.q += sgn * p.q; o.v += sgn * p.q * unitOf(p); }); }));
+  let flt = (ui.hfItem || {})[id] || ''; if (flt && !by[flt]) flt = '';
+  const keep = (sg, i) => !flt || betHas(sg.bets[i], flt);
   segs.forEach(sg => {
-    const t = statsOf(sg.rounds), head = `${sg.label}${sg.note ? ' · ' + sg.note : ''} · ${t.n} ván: ${t.W} thắng, ${t.D} hòa, ${t.L} thua`;
-    items.push({ head: true, h: `<tr class="sh"><td colspan="4" title="${esc(head)}"><b>${esc(sg.label)}</b>${sg.note ? ' · ' + esc(sg.note) : ''}<span> · ${t.n} ván: ${t.W}T ${t.D}H ${t.L}B</span></td></tr>` });
+    const idx = sg.rounds.map((_, i) => i).filter(i => keep(sg, i)); if (!idx.length) return;
+    const t = statsOf(idx.map(i => sg.rounds[i])), head = `${sg.label}${sg.note ? ' · ' + sg.note : ''} · ${t.n} ván: ${t.W} thắng, ${t.D} hòa, ${t.L} thua`;
+    const sp = idx.reduce((a, i) => a + pnlOf(sg.rounds[i], sg.bets[i]), 0), hasB = idx.some(i => sg.bets[i] && sg.bets[i].q > 0);
+    const lb = sg.seg === 'cur' ? 'Đang chơi' : sg.at && ymdOf(sg.at) === ymdOf(Date.now()) ? new Date(sg.at).toTimeString().slice(0, 5) : sg.label.split(' ')[0];   // gọn: giờ (hôm nay) hoặc ngày
+    items.push({ head: true, h: `<tr class="sh"><td colspan="5" title="${esc(head)}${hasB ? ' · ' + fmtS(sp) : ''}"><div class="sh-in"><b>${esc(lb)}</b><span class="sh-r">${t.W}T ${t.D}H ${t.L}B${hasB ? ` · <b class="${sgnCls(sp)}">${fmtC(sp)}</b>` : ''}</span></div></td></tr>` });
     for (let i = sg.rounds.length - 1; i >= 0; i--) {
+      if (!keep(sg, i)) continue;
       const d = dec(sg.rounds[i]);
-      items.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${id}" data-x="${esc(sg.seg)}:${i}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td></tr>` });
+      items.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${id}" data-x="${esc(sg.seg)}:${i}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td>${(() => { const b = sg.bets[i], v = pnlOf(sg.rounds[i], b); const eb = `data-act="editBet" data-id="${id}" data-x="${esc(sg.seg)}:${i}"`; return b && b.q > 0 ? `<td class="pl ${sgnCls(v)}"><button class="rbtn" ${eb} title="Cược ${esc(betTxt(b))} · lãi/lỗ ${fmtS(v)} – bấm để sửa">${esc(betTxt(b))}</button></td>` : `<td class="pl zero"><button class="rbtn" ${eb} title="Không cược – bấm để sửa">·</button></td>`; })()}</tr>` });
     }
   });
   const body = st.n
-    ? `<div class="hf-sum"><span>Tổng <b>${st.n} ván</b></span><span class="w">Thắng <b>${st.W}</b></span><span class="d">Hòa <b>${st.D}</b></span><span class="l">Thua <b>${st.L}</b></span><span>Tỉ lệ thắng <b>${pc(st.winRate)}%</b></span></div>
-       <div class="hf-sum"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span>${mvh(j)} <b>${st.opp[j]}</b> (${pc(st.opp[j] / st.n)}%)</span>`).join('')}</div>
+    ? `<div class="hf-sum" title="Đối thủ ra: ${[0, 1, 2].map(j => `${MV_NAME[j]} ${st.opp[j]} ván`).join(', ')}"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span><span class="mc${j}">${MV_GLYPH[j]}</span> <b>${pc(st.opp[j] / st.n)}%</b></span>`).join('')}</div>
+       ${Object.keys(by).length ? `<div class="hf-items" role="group" aria-label="Lọc theo vật phẩm"><button type="button" class="hi${flt ? '' : ' on'}" data-act="hfItem" data-id="${id}" data-x="">Tất cả</button>${Object.keys(by).sort((a, b) => by[b].n - by[a].n).map(k => { const o = by[k], it = itemOf(k), nm = it ? it.n : k;
+         return `<button type="button" class="hi${flt === k ? ' on' : ''}" data-act="hfItem" data-id="${id}" data-x="${esc(k)}" title="${esc(nm)}: ${o.n} ván · ${o.W} thắng, ${o.D} hòa, ${o.L} thua · số lượng ${fmtS(o.q)} · lãi/lỗ ${fmtS(o.v)} – bấm để lọc"><span class="hi-n">${esc(nm)}</span><span class="hi-c">${o.n} ván</span><b class="${sgnCls(o.v)}">${fmtS(o.q)}</b></button>`; }).join('')}</div>` : ''}
        <div class="hf-list" data-hf="${id}"></div>`
-    : `<div class="empty-box" style="margin:auto 0"><b>Chưa có ván nào</b>Ghi kết quả ở thẻ bên cạnh, lịch sử sẽ hiện ở đây.</div>`;
-  const has = c.archives.length || c.rounds.length;
+    : `<div class="hf-empty">Chưa có ván</div>`;
+  const has = c.rounds.length || vis.length;
   return `<aside class="hf" aria-label="Lịch sử của ${esc(c.name)}"><div class="hf-in">
-    <div class="hf-head"><h2>Lịch sử</h2><span class="cap">${st.n} ván · ${c.archives.length} phiên đã lưu</span></div>
+    <div class="hf-head"><h2>Lịch sử</h2><span class="cap">${st.n ? st.n + ' ván' : ''}</span></div>
     ${body}
     <div class="hf-foot"><button class="btn small" data-act="goHist" data-id="${id}">Xem chi tiết</button><span class="sp"></span>
-      <button class="btn small danger" data-act="clearHist" data-id="${id}" ${has ? '' : 'disabled'}>Xóa lịch sử…</button></div></div></aside>`;
+      <button class="btn small danger" data-act="clearCur" data-id="${id}" ${has ? '' : 'disabled'} title="Xóa lịch sử chơi hiện tại khỏi màn hình. Kết quả vẫn lưu vào lịch sử của nhân vật (tab Lịch sử, Lãi/lỗ); AI bắt đầu tính lại từ đầu.">Xóa lịch sử</button></div></div></aside>`;
 }
 function fitList() {                                // chia mỗi danh sách thành 1–3 bảng để vừa khung; quá nhiều thì cuộn trong khung
   if (fitting) return;
@@ -1093,7 +1796,7 @@ function fitList() {                                // chia mỗi danh sách th�
     document.querySelectorAll('.hf-list[data-hf]').forEach(box => {
       const items = hfItems[box.dataset.hf] || [];
       const W = box.clientWidth, H = box.clientHeight; if (!W || !H) return;
-      const ROW = 22, HEAD = 26, GAP = 8, MINW = 215, total = items.length;
+      const ROW = 22, HEAD = 26, GAP = 8, MINW = 270, total = items.length;
       const maxCols = Math.max(1, Math.min(3, Math.floor((W + GAP) / (MINW + GAP))));
       const per = Math.max(1, Math.floor((H - HEAD) / ROW));
       const ncols = Math.min(maxCols, Math.max(1, Math.ceil(total / per))), size = Math.ceil(total / ncols);
@@ -1103,7 +1806,9 @@ function fitList() {                                // chia mỗi danh sách th�
         if (i < ncols - 1 && end > k && items[end - 1].head) end--;             // không để tiêu đề phiên mồ côi cuối cột
         chunks.push(items.slice(k, end)); k = end;
       }
-      box.innerHTML = chunks.map(ch => `<table class="hft"><colgroup><col style="width:34px"><col><col><col style="width:56px"></colgroup><thead><tr><th title="Ván">#</th><th>Bạn ra</th><th>Đối thủ</th><th title="Kết quả">KQ</th></tr></thead><tbody>${ch.map(x => x.h).join('')}</tbody></table>`).join('');
+      box.innerHTML = chunks.map(ch => `<table class="hft"><colgroup><col style="width:36px"><col><col><col style="width:54px"><col style="width:84px"></colgroup><thead><tr><th title="Ván">#</th><th title="Bạn ra"><span class="mn">Bạn ra</span><span class="ms">Bạn</span></th><th title="Đối thủ"><span class="mn">Đối thủ</span><span class="ms">Họ</span></th><th title="Kết quả">KQ</th><th title="Số lượng vật phẩm đã cược (màu = thắng/thua)">Cược</th></tr></thead><tbody>${ch.map(x => x.h).join('')}</tbody></table>`).join('');
+      box.querySelectorAll('.hft').forEach(tb => {                // chật quá thì chỉ hiện biểu tượng nước đi (rê chuột xem tên)
+        tb.classList.remove('tight'); if ([...tb.querySelectorAll('th, td')].some(x => x.scrollWidth > x.clientWidth + 1 && !x.closest('tr.sh'))) tb.classList.add('tight'); });
       box.classList.toggle('scroll', box.scrollHeight > H + 1);
     });
   } finally { fitting = false; }
@@ -1112,14 +1817,32 @@ const hfRO = typeof ResizeObserver === 'function' ? new ResizeObserver(() => fit
 window.addEventListener('resize', fitList);
 
 function viewPlay() {
-  const ids = activeIds();
-  const chips = state.order.length > MAX_ACTIVE ? state.order.map(x => `<button class="chip-btn" data-act="pick" data-id="${x}" aria-pressed="${ids.includes(x)}"><span class="nm">${esc(state.chars[x].name)}</span></button>`).join('') : '';
-  const add = state.order.length < MAX_CHARS ? `<button class="chip-btn add" data-act="add">+ Nhân vật mới</button>` : '';
-  const bar = chips || add ? `<section class="panel pbar-row" title="Tối đa ${MAX_CHARS} nhân vật, hiện cạnh nhau. Bấm vào tên trên thẻ để đổi tên."><h2>Nhân vật</h2><div class="chips">${chips}${add}</div></section>` : '';
-  const body = ids.length
-    ? `<div class="play-cols${ids.length === 1 ? ' one' : ''}">${ids.map((id, i) => `<div class="play-col"><div class="pc-in">${cardHTML(id, i + 1)}${histFrameHTML(id)}</div></div>`).join('')}</div>`
-    : `<div class="empty-box" style="margin-top:16px"><b>Chưa có nhân vật nào</b>Bấm “+ Nhân vật mới” để bắt đầu chơi.</div>`;
+  const ids = activeIds(), bar = '';                // thanh Nhân vật / ⚙ Cài đặt chung nằm trên header (#hx)
+  const hidden = state.order.filter(x => !ids.includes(x));
+  const slot = `<div class="play-col slot-empty${ids.length ? '' : ' all'}"><div class="slot-in"><div class="slot-ic">+</div><b>Bảng trống</b>
+      ${hidden.length ? `<span>Chọn nhân vật để hiện bảng chơi</span><div class="slot-list">${hidden.map(x => `<button type="button" class="qp" data-act="showCard" data-id="${x}">${esc(state.chars[x].name)}</button>`).join('')}</div>`
+        : `<span>Chưa có nhân vật khác</span><div class="slot-list"><button type="button" class="qp" data-act="add">+ Nhân vật mới</button></div>`}</div></div>`;
+  const body = `<div class="play-cols">${ids.map((id, i) => `<div class="play-col"><div class="pc-in">${cardHTML(id, i + 1)}${histFrameHTML(id)}</div></div>`).join('')}${ids.length === 1 ? slotOverviewHTML(ids[0], hidden) : ids.length < MAX_ACTIVE ? slot : ''}</div>`;
   return bar + body;
+}
+/* chỉ hiện 1 bảng: ô bên cạnh là tổng quan (biểu đồ lãi/lỗ) của nhân vật đang chơi, hoặc tất cả nhân vật (user 2026-11-25) */
+function slotOverviewHTML(id, hidden) {
+  const all = ui.slotScope === 'all' && state.order.length > 1, ids = all ? state.order : [id], R = repData(ids), nm = state.chars[id].name;
+  const today = R.days.find(d => d.open), k = (l, v, cls) => `<div class="hk"><span>${l}</span><b class="${cls || ''}">${v}</b></div>`;
+  const scope = state.order.length > 1 ? `<div class="pl-tabs" role="tablist" aria-label="Phạm vi"><button type="button" role="tab" class="pl-tab${all ? '' : ' on'}" data-act="slotScope" data-x="me" aria-selected="${!all}">${esc(nm)}</button><button type="button" role="tab" class="pl-tab${all ? ' on' : ''}" data-act="slotScope" data-x="all" aria-selected="${all}">Tất cả nhân vật</button></div>` : '';
+  const more = hidden.length ? `<div class="sov-more"><span>Hiện thêm bảng:</span>${hidden.map(x => `<button type="button" class="qp" data-act="showCard" data-id="${x}">+ ${esc(state.chars[x].name)}</button>`).join('')}</div>` : '';
+  return `<div class="play-col sov"><div class="sov-in">
+    <div class="sov-head"><h2>Tổng quan</h2>${scope}</div>
+    <div class="hks">${k('Vốn gốc', R.cap > 0 ? fmtN(R.cap) : '–')}${k('Hôm nay', fmtS(today ? today.p : 0), sgnCls(today ? today.p : 0))}${k('Lãi/lỗ', fmtS(R.p), sgnCls(R.p))}${k('Số dư', fmtN(R.bal))}${k('Lãi suất', R.cap > 0 ? fmtP(R.p / R.cap * 100) : '–', sgnCls(R.p))}</div>
+    ${plChartHTML(ids)}
+    <div class="sov-foot"><button type="button" class="btn small" data-act="tab" data-x="rep">Xem đầy đủ ở tab Tổng quan</button>${more}</div></div></div>`;
+}
+/* nút ▦ trên header: bật/tắt bảng chơi của từng nhân vật (tối đa MAX_ACTIVE) */
+function visHTML() {
+  const ids = activeIds(), full = ids.length >= MAX_ACTIVE;
+  return `<details class="vis-cfg"${ui.visOpen ? ' open' : ''}><summary title="Hiện / ẩn bảng chơi">▦ Bảng chơi <b>${ids.length}/${MAX_ACTIVE}</b></summary><div class="vis-pop">
+    <p class="hint">Hiện tối đa ${MAX_ACTIVE} bảng. Ẩn bảng không xóa dữ liệu.</p>
+    ${state.order.map(x => { const on = ids.includes(x), dis = !on && full; return `<button type="button" class="vis-row${on ? ' on' : ''}" data-act="${on ? 'hideCard' : 'showCard'}" data-id="${x}" ${dis ? 'disabled title="Đã đủ ' + MAX_ACTIVE + ' bảng – ẩn bớt một bảng trước"' : ''}><span class="vis-nm">${esc(state.chars[x].name)}</span><span class="vis-sw" aria-hidden="true"></span></button>`; }).join('')}</div></details>`;
 }
 
 /* ---------- lịch sử ---------- */
@@ -1134,14 +1857,15 @@ function barsHTML(st) {
   return `<div class="blk"><h3>Đối thủ hay ra</h3><div class="bars">${opp}</div></div>
     <div class="blk"><h3>Bạn ra → kết quả</h3><div class="bars">${mine}</div></div>`;
 }
-function tableHTML(rounds, loc, cid) {
+function tableHTML(rounds, loc, cid, bets) {
+  bets = bets || [];
   const total = rounds.length, shown = Math.min(total, ui.rows);
   const rows = [];
   for (let i = total - 1; i >= total - shown; i--) {
     const d = dec(rounds[i]);
-    rows.push(`<tr><td>${i + 1}</td><td>${mvh(d.m)}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${cid}" data-x="${esc(loc(i))}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td><td class="swc">${d.sw !== null ? `Đã đổi từ ${mvh(d.sw)} theo AI` : ''}</td></tr>`);
+    rows.push(`<tr><td>${i + 1}</td><td>${mvh(d.m)}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${cid}" data-x="${esc(loc(i))}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td><td class="bt">${esc(betTxt(bets[i]))}</td><td class="pl ${sgnCls(pnlOf(rounds[i], bets[i]))}">${bets[i] && bets[i].q > 0 ? fmtS(pnlOf(rounds[i], bets[i])) : ''}</td><td class="swc">${d.sw !== null ? `Đã đổi từ ${mvh(d.sw)} theo AI` : ''}</td></tr>`);
   }
-  return `<div class="tbl-wrap"><table><thead><tr><th>Ván</th><th>Bạn ra</th><th>Đối thủ ra</th><th>Kết quả</th><th>Ghi chú</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
+  return `<div class="tbl-wrap"><table><thead><tr><th>Ván</th><th>Bạn ra</th><th>Đối thủ ra</th><th>Kết quả</th><th>Cược</th><th>Lãi/lỗ</th><th>Ghi chú</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
     ${total > shown ? `<div class="actions"><button class="btn small" data-act="rowsMore">Xem thêm 50 ván (còn ${total - shown})</button></div>` : ''}`;
 }
 function viewHist() {
@@ -1151,9 +1875,9 @@ function viewHist() {
   const chips = state.order.map(id => `<button class="chip-btn" data-act="hChar" data-id="${id}" aria-pressed="${id === ui.hc}"><span class="nm">${esc(state.chars[id].name)}</span></button>`).join('');
   const arcs = [...c.archives].sort((x, y) => x.at < y.at ? 1 : -1);
   const sessions = [
-    { id: 'all', title: 'Tất cả phiên', sub: 'Gộp mọi phiên đã lưu và phiên hiện tại', rounds: allRounds(c) },
-    { id: 'current', title: 'Đang chơi', sub: 'Lịch sử hiện tại', rounds: c.rounds },
-    ...arcs.map(a => ({ id: a.id, title: fmtDate(a.at), sub: a.note || 'Không ghi chú', rounds: a.rounds, arc: a })),
+    { id: 'all', title: 'Tất cả phiên', sub: 'Gộp mọi phiên đã lưu và phiên hiện tại', rounds: allRounds(c), bets: segsOf(c).flatMap(z => z.bets) },
+    { id: 'current', title: 'Đang chơi', sub: 'Lịch sử hiện tại', rounds: c.rounds, bets: c.bets },
+    ...arcs.map(a => ({ id: a.id, title: fmtDate(a.at), sub: a.note || 'Không ghi chú', rounds: a.rounds, bets: a.bets, arc: a })),
   ];
   if (!sessions.some(s => s.id === ui.hs)) ui.hs = 'current';
   const list = sessions.map(s => {
@@ -1167,7 +1891,7 @@ function viewHist() {
   let head, acts = '';
   if (s.id === 'current') {
     head = `<h2>Đang chơi · ${esc(c.name)}</h2><p class="sub">Phiên hiện tại, chưa lưu vào kho.</p>`;
-    acts = `<button class="btn small" data-act="reset" data-id="${c.id}" ${c.rounds.length ? '' : 'disabled'}>Reset và lưu phiên…</button>`;
+    acts = `<button class="btn small" data-act="reset" data-id="${c.id}" ${c.rounds.length ? '' : 'disabled'}>Lưu phiên & bắt đầu mới…</button>`;
   } else if (s.id === 'all') {
     head = `<h2>Tất cả phiên · ${esc(c.name)}</h2><p class="sub">${c.archives.length} phiên đã lưu và phiên hiện tại.</p>`;
   } else {
@@ -1180,22 +1904,37 @@ function viewHist() {
   if (s.id === 'current') {
     const a = analysisOf(c);
     const pf = profileOf(c, a);
-    aiSee = a.n >= MIN_AI ? `<div class="ai-see"><b>AI đang thấy:</b> ${esc(reasonOf(a))}${pf.labels.length ? `<div style="margin-top:8px"><span class="ai-t">Kiểu đối thủ</span> ${pf.labels.map(l => `<b class="kind-t">${esc(l)}</b>`).join(' ')}</div><ul class="pf-list">${pf.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}${ratesHTML(pf)}<div class="cap" style="margin-top:6px">Phân tích dựa trên ${pf.n} ván${state.settings.learnArchives ? ' (gồm cả các phiên đã lưu)' : ' của phiên hiện tại'}.</div></div>` : `<p class="ai-see">AI cần thêm ${MIN_AI - a.n} ván để bắt đầu nhận định.</p>`;
+    aiSee = a.n >= MIN_AI ? `<div class="ai-see"><b>AI đang thấy:</b> ${esc(reasonOf(a))}${pf.labels.length ? `<div style="margin-top:8px"><span class="ai-t">Kiểu đối thủ</span> ${pf.labels.map(l => `<b class="kind-t">${esc(l)}</b>`).join(' ')}</div><ul class="pf-list">${pf.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}${ratesHTML(pf)}<div class="cap" style="margin-top:6px">Phân tích dựa trên ${pf.n} ván của lịch sử chơi hiện tại.</div></div>` : `<p class="ai-see">AI cần thêm ${MIN_AI - a.n} ván để bắt đầu nhận định.</p>`;
   }
+  /* bố cục gọn, vừa 1 màn hình (user 2026-11-25): trái = nhân vật + phiên · giữa = số liệu + từng ván · phải = biểu đồ nhỏ */
   const cur = st.cur ? `${RES_NAME[st.cur.r]} ×${st.cur.k}` : '–';
-  const tl = s.rounds.slice(-300).map((r, i, arr) => { const d = dec(r); return `<i class="sq ${RES_CLS[d.r]}" title="Ván ${s.rounds.length - arr.length + i + 1}: ${MV_NAME[d.m]}${d.sw !== null ? ' (đổi từ ' + MV_NAME[d.sw] + ' theo AI)' : ''} · đối thủ ${MV_NAME[d.o]} · ${RES_NAME[d.r]}"></i>`; }).join('');
-  const detail = s.rounds.length ? `
-    <div class="sum-grid"><div class="blk"><h3>Tỉ số</h3><div class="score">${scoreRows(st, 20)}</div>
-        <div class="facts"><span>Tỉ lệ thắng <b>${pc(st.winRate)}%</b></span><span>Chuỗi hiện tại <b>${cur}</b></span><span>Thắng liên tiếp dài nhất <b>${st.bestW}</b></span><span>Thua liên tiếp dài nhất <b>${st.bestL}</b></span></div>
-        ${st.chg.n ? `<div class="facts"><span>Đồng ý đổi theo AI <b>${st.chg.n} ván</b>, thắng <b>${pc(st.chg.W / st.chg.n)}%</b>, thua <b>${pc(st.chg.L / st.chg.n)}%</b></span>${st.kept.n ? `<span>Giữ nước random <b>${st.kept.n} ván</b>, thắng <b>${pc(st.kept.W / st.kept.n)}%</b>, thua <b>${pc(st.kept.L / st.kept.n)}%</b></span>` : ''}</div>` : ''}</div>
-      <div style="display:grid;gap:18px">${barsHTML(st)}</div></div>
-    <div class="blk" style="margin-top:14px"><h3>Diễn biến${s.rounds.length > 300 ? ' (300 ván gần nhất)' : ''}</h3><div class="timeline">${tl}</div></div>
-    <div class="blk" style="margin-top:18px"><h3>Từng ván, mới nhất trước · bấm vào kết quả để sửa</h3>${tableHTML(s.rounds, loc, c.id)}</div>`
-    : `<div class="empty-box"><b>Chưa có ván nào</b>Ghi kết quả ở tab Chơi, lịch sử sẽ hiện ở đây.</div>`;
-  return `<section class="panel"><h2>Nhân vật</h2><p class="hint">Chọn nhân vật để xem lịch sử và các phiên đã lưu.</p><div class="chips">${chips}</div></section>
-    <div class="hist-grid"><div><div class="cap" style="margin-bottom:8px">Phiên của ${esc(c.name)}</div><div class="sess-list">${list}</div>
-        <div class="actions"><button class="btn small danger" data-act="clearHist" data-id="${c.id}" ${(c.archives.length || c.rounds.length) ? '' : 'disabled'}>Xóa lịch sử…</button></div></div>
-      <div class="detail">${head}${detail}${aiSee}${acts ? `<div class="actions">${acts}</div>` : ''}</div></div>`;
+  const sp = s.rounds.reduce((z, r, i) => z + pnlOf(r, s.bets[i]), 0), hasB = s.bets.some(b => b && b.q > 0);
+  const kp = (l, v, cls, tip) => `<div class="hk"${tip ? ` title="${esc(tip)}"` : ''}><span>${l}</span><b class="${cls || ''}">${v}</b></div>`;
+  const kpis = `<div class="hks">${kp('Ván', st.n)}${kp('Tỉ lệ thắng', st.n ? pc(st.winRate) + '%' : '–')}${kp('T · H · B', `<i class="w">${st.W}</i> · <i class="d">${st.D}</i> · <i class="l">${st.L}</i>`)}${hasB ? kp('Lãi/lỗ', fmtS(sp), sgnCls(sp)) : ''}${kp('Chuỗi', cur, '', `Thắng liên tiếp dài nhất ${st.bestW} · thua liên tiếp dài nhất ${st.bestL}`)}${st.chg.n ? kp('Đổi theo AI', `${st.chg.n} <small>· thắng ${pc(st.chg.W / st.chg.n)}%</small>`, '', `Giữ nước random ${st.kept.n} ván, thắng ${st.kept.n ? pc(st.kept.W / st.kept.n) : 0}%`) : ''}</div>`;
+  const tl = s.rounds.slice(-120).map((r, i, arr) => { const d = dec(r); return `<i class="sq ${RES_CLS[d.r]}" title="Ván ${s.rounds.length - arr.length + i + 1}: ${MV_NAME[d.m]} · đối thủ ${MV_NAME[d.o]} · ${RES_NAME[d.r]}"></i>`; }).join('');
+  const total = s.rounds.length, shown = Math.min(total, Math.max(ui.rows, 200));
+  const rows = []; for (let i = total - 1; i >= total - shown; i--) { const d = dec(s.rounds[i]), b = s.bets[i], v = pnlOf(s.rounds[i], b);
+    rows.push(`<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '<sup class="swm">AI</sup>' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${c.id}" data-x="${esc(loc(i))}" title="Bấm để sửa kết quả">${RES_NAME[d.r]}</button></td><td class="bt"><button class="rbtn" data-act="editBet" data-id="${c.id}" data-x="${esc(loc(i))}" title="Bấm để sửa cược">${b && b.q > 0 ? esc(betTxt(b)) : '·'}</button></td><td class="r ${sgnCls(v)}">${b && b.q > 0 ? fmtS(v) : ''}</td></tr>`); }
+  const table = s.rounds.length ? `<div class="htbl"><table><thead><tr><th class="n">#</th><th>Bạn ra</th><th>Đối thủ</th><th>Kết quả</th><th>Cược</th><th class="r">Lãi/lỗ</th></tr></thead><tbody>${rows.join('')}</tbody></table>
+      ${total > shown ? `<div class="actions" style="justify-content:center"><button class="btn small" data-act="rowsMore">Xem thêm (còn ${total - shown} ván)</button></div>` : ''}</div>`
+    : `<div class="hf-empty">Chưa có ván</div>`;
+  let ai = '';
+  if (s.id === 'current') { const a = analysisOf(c), pf = profileOf(c, a);
+    ai = `<div class="hside-b"><h3>AI đang thấy${aiTag(c)}</h3>${a.n >= MIN_AI ? `<p>${esc(reasonOf(a))}</p>${pf.labels.length ? `<div>${pf.labels.map(l => `<b class="kind-t">${esc(l)}</b>`).join(' ')}</div>` : ''}` : `<p class="muted">Cần thêm ${MIN_AI - a.n} ván.</p>`}</div>`; }
+  const side = s.rounds.length ? `<div class="hside-b"><h3>Đối thủ hay ra</h3><div class="bars">${[0, 1, 2].map(j => `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr"><i style="width:${st.opp[j] / (st.n || 1) * 100}%;background:var(--mv${j})"></i></span><span class="v">${pc(st.opp[j] / (st.n || 1))}%</span></div>`).join('')}</div></div>
+      <div class="hside-b"><h3>Bạn ra → kết quả</h3><div class="bars">${[0, 1, 2].map(j => { const b = st.byMove[j], n = b.W + b.D + b.L; return `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr">${n ? `<i class="w" style="width:${b.W / n * 100}%"></i><i class="d" style="width:${b.D / n * 100}%"></i><i class="l" style="width:${b.L / n * 100}%"></i>` : ''}</span><span class="v">${n}</span></div>`; }).join('')}</div></div>
+      <div class="hside-b"><h3>Diễn biến${s.rounds.length > 120 ? ' · 120 ván gần nhất' : ''}</h3><div class="timeline">${tl}</div></div>${ai}` : ai;
+  const sel = `<select class="hsel" aria-label="Chọn nhân vật">${state.order.map(id => `<option value="${id}"${id === c.id ? ' selected' : ''}>${esc(state.chars[id].name)}</option>`).join('')}</select>`;
+  const slist = sessions.map(z => { const t = tally(z.rounds), p = z.rounds.reduce((q, r, i) => q + pnlOf(r, z.bets[i]), 0), hb = z.bets.some(b => b && b.q > 0);
+    return `<button class="hs-i" data-act="hSess" data-x="${z.id}" aria-pressed="${z.id === ui.hs}" title="${esc(z.sub)}"><span class="hs-t">${esc(z.id === 'all' || z.id === 'current' ? z.title : fmtDate(z.arc.at))}${z.arc && z.arc.hid ? ' <small class="muted">· đã xóa khỏi bảng</small>' : ''}</span>
+      <span class="hs-m">${t.n} ván · <i class="w">${t.W}</i>/<i class="d">${t.D}</i>/<i class="l">${t.L}</i>${hb ? ` · <b class="${sgnCls(p)}">${fmtC(p)}</b>` : ''}</span></button>`; }).join('');
+  const title = s.id === 'current' ? 'Đang chơi' : s.id === 'all' ? 'Tất cả phiên' : 'Phiên ' + fmtDate(s.arc.at);
+  return `<div class="hv">
+    <aside class="hcol hleft">${sel}<div class="hs-list">${slist}</div>
+      <button class="btn small danger" data-act="clearHist" data-id="${c.id}" ${(c.archives.length || c.rounds.length) ? '' : 'disabled'}>Xóa lịch sử…</button></aside>
+    <section class="hcol hmain"><div class="hm-head"><div><h2>${esc(title)}</h2>${s.arc && s.arc.note ? `<p class="sub" title="${esc(s.arc.note)}">${esc(s.arc.note)}</p>` : ''}</div>${acts ? `<div class="hm-acts">${acts}</div>` : ''}</div>
+      ${s.rounds.length ? kpis : ''}${table}</section>
+    <aside class="hcol hside">${side || '<div class="hf-empty">Chưa có số liệu</div>'}</aside></div>`;
 }
 const tally = r => statsOf(r);
 
@@ -1210,11 +1949,10 @@ function viewChars() {
   }).join('');
   const cloudTxt = { synced: 'Lịch sử đang được lưu theo tài khoản của bạn và đồng bộ giữa các thiết bị.', syncing: 'Đang ghi lên bộ nhớ đám mây.', connecting: 'Đang kết nối bộ nhớ đám mây.', error: 'Chưa ghi được lên đám mây. Dữ liệu vẫn nằm trên thiết bị này và sẽ được thử lại.', local: 'Lịch sử đang được lưu trong trình duyệt của thiết bị này và không tự đồng bộ sang thiết bị khác. Để chuyển sang máy khác, hãy dùng sao lưu bên dưới.' }[Cloud.status];
   const sw = (key, title, desc) => `<label class="sw"><input type="checkbox" data-act="setOpt" data-x="${key}" ${state.settings[key] ? 'checked' : ''}><span class="ui"></span><span class="tx"><b>${title}</b><span>${desc}</span></span></label>`;
-  return `<section class="panel"><h2>Danh sách nhân vật</h2><p class="hint">Mỗi tên có lịch sử riêng. Tối đa 2 nhân vật, trang Chơi hiện cả hai cạnh nhau.</p>
+  return `<section class="panel"><h2>Danh sách nhân vật</h2><p class="hint">Mỗi tên có lịch sử, vốn và báo cáo riêng. Trang Chơi hiện 2 thẻ cạnh nhau; chọn nhân vật cho mỗi thẻ ở ô tên trên thẻ.</p>
       <div class="rows">${rows}</div><div class="actions"><button class="btn fill small" data-act="add" ${state.order.length >= MAX_CHARS ? 'disabled' : ''}>+ Nhân vật mới</button></div></section>
     <section class="panel"><h2>Cài đặt</h2>
-      ${sw('learnArchives', 'AI học cả các phiên đã lưu', 'Bật (khuyên dùng): AI phân tích mọi ván trước đó để nhận ra đối thủ lì hay hay đổi; phiên cũ có trọng số thấp hơn phiên mới. Tắt: AI chỉ học phiên hiện tại.')}
-      ${sw('crossLearn', 'Đối thủ đọc bài bạn: học chung giữa các nhân vật và phiên', 'Bật: khi đối thủ đổi nhân vật, AI vẫn giữ quy luật “họ biết bạn ra gì nên khắc lại” (khắc nước vừa ra, khắc nước hay ra, đoán thói quen). Thói quen riêng của từng đối thủ vẫn chỉ học từ phiên hiện tại.')}</section>
+      ${sw('autoSwap', 'Tự nhận biết đối thủ đổi theo thời gian', `Bật: quá <input class="gap-in" type="number" min="1" max="120" step="1" data-cfg="gap" value="${state.settings.gapMin}"> phút chưa có ván mới thì ván tiếp theo được tính là đối thủ mới: phiên cũ tự lưu kèm nhận xét (số ván, thắng/hòa/thua, lãi/lỗ). Không cần bấm “Đối thủ đổi”.`)}</section>
     <section class="panel"><h2>Lưu trữ & sao lưu</h2><p class="hint">${cloudTxt}</p>
       <div class="actions" style="margin-top:0"><button class="btn small" data-act="copyBackup">Sao chép bản sao lưu</button><button class="btn small" data-act="restoreBackup">Dán để khôi phục…</button><button class="btn small ghost" data-act="demo">Thêm nhân vật demo</button></div></section>`;
 }
@@ -1227,7 +1965,8 @@ function render() {
   const fo = document.activeElement, key = fo && fo.dataset && fo.dataset.act ? [fo.dataset.act, fo.dataset.id, fo.dataset.x].join('|') : null;
   const nameKey = fo && fo.classList && fo.classList.contains('name-in') ? fo.dataset.id : null;
   const y = window.scrollY;
-  $('#view').innerHTML = ui.tab === 'play' ? viewPlay() : ui.tab === 'hist' ? viewHist() : viewChars();
+  $('#view').innerHTML = ui.tab === 'play' ? viewPlay() : ui.tab === 'hist' ? viewHist() : ui.tab === 'rep' ? viewRep() : viewChars();
+  $('#hx').innerHTML = ui.tab === 'play' ? visHTML() + capHTML() : '';
   window.scrollTo(0, y);
   if (hfRO) { hfRO.disconnect(); document.querySelectorAll('.hf-list[data-hf]').forEach(hb => hfRO.observe(hb)); }
   fitList();
@@ -1266,7 +2005,7 @@ async function resetFlow(id) {
   if (r.id === 'cancel') return;
   stopRoll(id);
   if (r.id === 'save') archiveCurrent(c, r.value);
-  c.rounds = []; c.pending = null; c.pendingFrom = null;
+  c.rounds = []; c.ts = []; c.bets = []; c.pending = null; c.pendingFrom = null;
   commit({ chars: [id] });
   toast(r.id === 'save' ? `Đã lưu phiên của ${c.name} vào kho và reset.` : `Đã reset ${c.name} (không lưu).`);
 }
@@ -1317,6 +2056,7 @@ const ACT = {
       });
       if (r.id !== 'drop' || c.pending === null) return;
     }
+    autoSwapCheck(c);                               // lâu không có ván mới: đối thủ đã đổi, AI nhận định lại từ đầu
     rollOne(id); commit({ chars: [id] }); animateRoll([id]);
   },
   useBest(id, x) {                                  // đồng ý đổi theo AI: nhớ nước random gốc để lịch sử ghi lại
@@ -1329,10 +2069,37 @@ const ACT = {
     const c = state.chars[id]; if (!c || c.pendingFrom === null) return;
     c.pending = c.pendingFrom; c.pendingFrom = null; commit({ chars: [id] });
   },
-  rec(id, r) {
+  plRange(id, x) { ui.plRange = x; render(); },
+  capEdit(id, x) { ui.capEdit = ui.capEdit || {}; ui.capEdit[id] = ui.capEdit[id] === x ? '' : x; render(); },
+  slotScope(id, x) { ui.slotScope = x; render(); },
+  repBy(id, x) { ui.repBy = x; render(); },
+  hfItem(id, x) { ui.hfItem = ui.hfItem || {}; ui.hfItem[id] = ui.hfItem[id] === x ? '' : x || ''; render(); },   // lọc bảng lịch sử theo vật phẩm
+  showCard(id) {                                    // hiện bảng chơi của nhân vật (tối đa MAX_ACTIVE)
+    if (!state.chars[id] || state.active.includes(id)) return;
+    if (state.active.length >= MAX_ACTIVE) { toast(`Đã hiện đủ ${MAX_ACTIVE} bảng. Ẩn bớt một bảng trước.`); return; }
+    state.active = [...state.active, id]; commit({ meta: true });
+  },
+  hideCard(id) { stopRoll(id); state.active = state.active.filter(x => x !== id); state.settings.visV = true; commit({ meta: true }); },
+  cfgTab(id, x) { ui.cfgTab = x; ui.itOpen = true; render(); },
+  async rec(id, r) {
     const c = state.chars[id]; if (!c || c.pending === null) return;
-    c.rounds.push(MV[c.pending] + r + (c.pendingFrom !== null ? MV[c.pendingFrom] : '')); c.pending = null; c.pendingFrom = null;
+    if (c.stake && c.stake.need) {                  // vừa đổi vật phẩm mà chưa chọn số lượng
+      toast(`Chưa chọn số lượng ${(itemOf(c.stake.i) || {}).n || ''}. Bấm số lượng hoặc “Không cược” trước khi ghi kết quả.`);
+      document.querySelectorAll(`.stake[data-sid="${id}"]`).forEach(e => { e.classList.remove('shake'); void e.offsetWidth; e.classList.add('shake'); }); return; }
+    const z0 = statusOf(c);
+    if (z0.hitSl && state.settings.slAsk && !await confirmBox(`${c.name} đã chạm cắt lỗ hôm nay`, `Lãi/lỗ hôm nay <b>${fmtS(z0.T.p)}</b> (cắt lỗ −${fmtN(z0.sl)}). Vẫn ghi kết quả ván này?`, 'Vẫn ghi ván', true)) return;
+    if (c.pending === null) return;
+    autoSwapCheck(c);                               // quá mốc thời gian: ván này thuộc đối thủ mới
+    const st = c.stake || {}, it = itemOf(st.i) || (state.settings.items || [])[0], q = num(st.q);
+    c.rounds.push(MV[c.pending] + r + (c.pendingFrom !== null ? MV[c.pendingFrom] : '')); c.ts.push(Date.now());
+    c.bets.push(q > 0 && it ? mkBet(it, q) : null); c.pending = null; c.pendingFrom = null;
     commit({ chars: [id] });
+    const b = c.bets[c.bets.length - 1]; if (b) { const v = pnlOf(c.rounds[c.rounds.length - 1], b); toast(`${c.name}: ${RES_NAME[r]} · cược ${betTxt(b)} · ${fmtS(v)} · số dư ${fmtN(todayOf(c).bal)}`); }
+    const z1 = statusOf(c);                         // vừa chạm mốc: báo ngay
+    if (z1.hitSl && !z0.hitSl) { toast(`🛑 ${c.name} chạm cắt lỗ hôm nay (${fmtS(z1.T.p)}). Nên dừng.`); beep(false); }
+    else if (z1.hitTp && !z0.hitTp) { toast(`🎯 ${c.name} đạt chốt lời hôm nay (${fmtS(z1.T.p)}). Nên chốt và nghỉ.`); beep(true); }
+    else if (z1.longL && z1.run === state.settings.streak) { toast(`⚠️ ${c.name} thua ${z1.run} ván liên tiếp. Cân nhắc nghỉ hoặc giảm cược.`); beep(false); }
+    if (closeDays(c)) commit({ chars: [id], defer: true });
   },
   async editRes(id, x) {                            // sửa kết quả của một ván đã ghi (bấm nhầm Thắng/Hòa/Thua)
     const k = String(x).lastIndexOf(':'), seg = String(x).slice(0, k), i = +String(x).slice(k + 1);
@@ -1351,9 +2118,33 @@ const ACT = {
     commit({ chars: [id] });
     toast(`Đã sửa ván ${i + 1}: ${RES_NAME[d.r]} → ${RES_NAME[r.id]}.`);
   },
+  async editBet(id, x) {                            // sửa vật phẩm / số lượng cược của một ván đã ghi (ghi nhầm)
+    const k = String(x).lastIndexOf(':'), seg = String(x).slice(0, k), i = +String(x).slice(k + 1);
+    const segOf = () => { const c = state.chars[id]; if (!c) return null; return seg === 'cur' ? c : c.archives.find(a => a.id === seg) || null; };
+    const z0 = segOf(); if (!z0 || !z0.rounds[i]) return;
+    const b0 = z0.bets[i] || null, its = state.settings.items || [], sel0 = b0 && itemOf(b0.i) ? b0.i : (its[0] || {}).k;
+    const chips = k2 => presetsOf(itemOf(k2)).map(n => `<button type="button" class="qp" data-ebq="${n}">${qLabel(n)}</button>`).join('');
+    const p = dialogBox({
+      title: `Sửa cược ván ${i + 1}`,
+      text: `Đang ghi: <b>${b0 && b0.q > 0 ? esc(betTxt(b0)) : 'không cược'}</b> · ${RES_NAME[dec(z0.rounds[i]).r]}</p>
+        <div class="eb"><select id="ebI" aria-label="Vật phẩm">${its.map(it => `<option value="${esc(it.k)}"${it.k === sel0 ? ' selected' : ''}>${esc(it.n)}</option>`).join('')}</select>
+        <input id="ebQ" type="text" inputmode="decimal" value="${b0 && b0.add ? qLabel(COMBO) : b0 && b0.q > 0 ? fmtN(b0.q) : ''}" placeholder="số lượng" aria-label="Số lượng"></div>
+        <div class="eb-p" id="ebP">${chips(sel0)}</div><p class="dlg-text" style="margin:8px 0 0">Số lượng 0 hoặc để trống = không cược.`,
+      buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'none', label: 'Không cược', kind: '' }, { id: 'ok', label: 'Lưu', kind: 'fill', primary: true }],
+    });
+    const ebI = $('#ebI'), ebQ = $('#ebQ'), ebP = $('#ebP');
+    ebI.addEventListener('change', () => { ebP.innerHTML = chips(ebI.value); });
+    ebP.addEventListener('click', e => { const t = e.target.closest('[data-ebq]'); if (t) { ebQ.value = +t.dataset.ebq === COMBO ? qLabel(COMBO) : fmtN(+t.dataset.ebq); ebP.querySelectorAll('.qp').forEach(q => q.classList.toggle('on', q === t)); } });
+    const r = await p; if (r.id !== 'ok' && r.id !== 'none') return;
+    const it = itemOf(ebI.value), q = r.id === 'none' ? 0 : ebQ.value.trim() === qLabel(COMBO) ? COMBO : Math.max(0, parseMoney(ebQ.value));
+    const z = segOf(); if (!z || z.rounds[i] !== z0.rounds[i]) { toast('Dữ liệu đã thay đổi, hãy thử lại.'); return; }
+    const nb = q === COMBO ? mkBet(it, q) : q > 0 && it ? { i: it.k, q, v: b0 && b0.i === it.k && !b0.add && b0.v > 0 ? b0.v : unitPrice(it) } : null;
+    z.bets[i] = nb; commit({ chars: [id] });
+    toast(`Đã sửa cược ván ${i + 1}: ${b0 && b0.q > 0 ? betTxt(b0) : 'không cược'} → ${nb ? betTxt(nb) + ' (' + fmtS(pnlOf(z.rounds[i], nb)) + ')' : 'không cược'}.`);
+  },
   undo(id) {
     const c = state.chars[id]; if (!c || !c.rounds.length) return;
-    const last = c.rounds.pop(); c.pending = MV.indexOf(last[0]); c.pendingFrom = last.length > 2 ? MV.indexOf(last[2]) : null;
+    const last = c.rounds.pop(); c.ts.pop(); c.bets.pop(); c.pending = MV.indexOf(last[0]); c.pendingFrom = last.length > 2 ? MV.indexOf(last[2]) : null;
     commit({ chars: [id] }); toast(`Đã hoàn tác ván cuối của ${c.name}.`);
   },
   reset(id) { resetFlow(id); },
@@ -1368,7 +2159,7 @@ const ACT = {
     });
     if (r.id !== 'ok' || !c.rounds.length) return;
     stopRoll(id);
-    archiveCurrent(c, r.value); c.rounds = []; c.pending = null; c.pendingFrom = null;
+    archiveCurrent(c, r.value); c.rounds = []; c.ts = []; c.bets = []; c.pending = null; c.pendingFrom = null;
     commit({ chars: [id] });
     toast(`Đã lưu phiên của ${c.name} và bắt đầu phiên mới. Bấm Random để lấy nước đi đầu tiên.`);
   },
@@ -1382,7 +2173,7 @@ const ACT = {
     const msg = c.rounds.length ? `Phiên hiện tại (${c.rounds.length} ván) sẽ được lưu vào kho trước, rồi phiên này trở thành phiên đang chơi.` : 'Phiên này sẽ trở thành phiên đang chơi.';
     if (!await confirmBox('Khôi phục phiên này?', msg, 'Khôi phục', false)) return;
     stopRoll(id); archiveCurrent(c, 'Tự lưu trước khi khôi phục');
-    c.archives = c.archives.filter(z => z.id !== x); c.rounds = [...a.rounds]; c.pending = null; c.pendingFrom = null;
+    c.archives = c.archives.filter(z => z.id !== x); c.rounds = [...a.rounds]; c.ts = [...a.ts]; c.bets = [...a.bets]; c.pending = null; c.pendingFrom = null;
     ui.hs = 'current'; commit({ chars: [id] }); toast('Đã khôi phục phiên.');
   },
   async arcNote(id, x) {
@@ -1395,6 +2186,16 @@ const ACT = {
     if (!await confirmBox('Xóa phiên đã lưu?', `Phiên ${fmtDate(a.at)} (${a.rounds.length} ván) sẽ bị xóa vĩnh viễn.`, 'Xóa phiên', true)) return;
     c.archives = c.archives.filter(z => z.id !== x); ui.hs = 'current'; commit({ chars: [id] });
   },
+  clearCur(id) {                                    // trang Chơi: xóa lịch sử chơi hiện tại, kết quả lưu vào lịch sử nhân vật để tracking tổng
+    const c = state.chars[id], vis = c ? c.archives.filter(a => !a.hid) : [];
+    if (!c || (!c.rounds.length && !vis.length)) { toast('Chưa có ván nào để xóa.'); return; }
+    stopRoll(id); const n = c.rounds.length + vis.reduce((z, a) => z + a.rounds.length, 0);
+    if (c.rounds.length) { const st = statsOf(c.rounds), p = pnlSeg({ rounds: c.rounds, ts: c.ts, bets: c.bets }, c); archiveCurrent(c, `${c.rounds.length} ván · ${st.W}T ${st.D}H ${st.L}B${c.bets.some(b => b && b.q > 0) ? ' · ' + fmtS(p) : ''}`); }
+    c.archives.forEach(a => { a.hid = 1; });
+    c.rounds = []; c.ts = []; c.bets = []; c.pending = null; c.pendingFrom = null;
+    ui.hs = 'current'; ui.rows = 50; commit({ chars: [id] });
+    toast(`Đã xóa ${n} ván khỏi màn hình. Kết quả vẫn lưu trong lịch sử của ${c.name}; AI tính lại từ đầu.`);
+  },
   async clearHist(id) {                             // xóa lịch sử đã lưu (và tùy chọn cả phiên đang chơi)
     const c = state.chars[id]; if (!c) return;
     const na = c.archives.length, nr = c.rounds.length, sv = c.archives.reduce((z, a) => z + a.rounds.length, 0);
@@ -1406,12 +2207,31 @@ const ACT = {
     if (r.id === 'cancel') return;
     stopRoll(id);
     c.archives = [];
-    if (r.id === 'all') { c.rounds = []; c.pending = null; c.pendingFrom = null; }
+    if (r.id === 'all') { c.rounds = []; c.ts = []; c.bets = []; c.pending = null; c.pendingFrom = null; }
     ui.hs = 'current'; ui.rows = 50;
     commit({ chars: [id] });
     toast(r.id === 'all' ? `Đã xóa toàn bộ lịch sử của ${c.name}.` : `Đã xóa ${na} phiên đã lưu của ${c.name}. Phiên đang chơi được giữ nguyên.`);
   },
   demo() { makeDemo(); },
+  addItem() { const it = state.settings.items; let k = 'vp' + (it.length + 1); while (it.some(x => x.k === k)) k += 'x'; it.push({ k, n: 'Vật phẩm ' + (it.length + 1), v: 0 }); ui.itOpen = true; commit({ meta: true }); },
+  async delItem(id, x) { const it = itemOf(x); if (!it) return; if (!await confirmBox(`Xóa vật phẩm “${it.n}”?`, 'Các ván đã cược bằng vật phẩm này vẫn giữ giá trị đã ghi lúc chơi.', 'Xóa', true)) return; state.settings.items = state.settings.items.filter(z => z.k !== x); ui.itOpen = true; commit({ meta: true }); },
+  async capMark(id) { const c = state.chars[id]; if (!c) return; if (!await confirmBox(`Tính lãi/lỗ của “${c.name}” lại từ bây giờ?`, 'Các ván và các ngày đã qua vẫn giữ trong lịch sử nhưng không còn tính vào lãi/lỗ, số dư và báo cáo.', 'Tính lại', false)) return; c.capAt = Date.now(); commit({ chars: [id] }); },
+  async setBase(id) {                               // vốn hôm nay → vốn gốc (số tiền đầu tư ban đầu); lãi/lỗ & báo cáo tính từ hôm nay
+    const c = state.chars[id]; if (!c) return; const T = todayOf(c), today = ymdOf(Date.now());
+    if (!(T.start > 0)) { toast('Nhập vốn hôm nay (hoặc vốn theo vật phẩm) trước, rồi bấm Vốn gốc.'); return; }
+    if (!await confirmBox(`Đặt vốn gốc cho “${c.name}”?`, `Vốn gốc = <b>${fmtN(T.start)}</b> (vốn hôm nay). Lãi/lỗ, số dư và báo cáo của nhân vật này tính từ hôm nay; qua ngày, vốn đầu ngày là số dư hiện tại. Các ngày trước vẫn còn trong lịch sử ván.`, 'Đặt vốn gốc', false)) return;
+    const d0 = new Date(); d0.setHours(0, 0, 0, 0); c.capAt = d0.getTime(); c.capDate = today; c.capital = T.start; if ((c.holds || {})[today]) c.baseHold = { ...c.holds[today] }; else delete c.baseHold; c.caps = c.caps || {}; if (!(c.holds || {})[today]) c.caps[today] = T.start;
+    commit({ chars: [id] }); toast(`Đã đặt vốn gốc ${fmtN(T.start)} cho ${c.name}.`);
+  },
+  async addName() {                                 // thêm tên ở ⚙ Cài đặt chung (không đổi nhân vật đang chơi)
+    if (state.order.length >= MAX_CHARS) { toast('Tối đa ' + MAX_CHARS + ' tên nhân vật.'); return; }
+    const name = await nameFlow('Thêm tên nhân vật', '', null); if (!name) return;
+    const id = newId(); state.chars[id] = normChar(id, { name }); state.order.push(id); if (state.active.length < MAX_ACTIVE) state.active.push(id);
+    ui.itOpen = true; commit({ chars: [id], meta: true }); toast(`Đã thêm ${name}. Chọn tên này ở ô tên trên thẻ.`);
+  },
+  qpick(id, x) { const c = state.chars[id]; if (!c) return; c.stake = c.stake || { i: 'xu', q: 0 }; c.stake.q = num(x); delete c.stake.need; if (!itemOf(c.stake.i)) c.stake.i = (state.settings.items[0] || {}).k || 'xu'; commit({ chars: [id] }); },
+  rChar(id) { ui.rc = id; render(); },
+  repCsv() { repCsv(); },
   async copyBackup() {
     const text = JSON.stringify({ app: 'bang-oan-tu-ti', ...serialize() });
     try { await navigator.clipboard.writeText(text); toast('Đã sao chép bản sao lưu. Hãy dán vào nơi bạn muốn giữ.'); }
@@ -1441,18 +2261,56 @@ function renameInline(el) {
 }
 document.addEventListener('change', e => {
   const el = e.target;
-  if (el.tagName !== 'INPUT') return;
+  if (el.tagName !== 'INPUT' && el.tagName !== 'SELECT') return;
+  if (el.classList.contains('hsel')) { ACT.hChar(el.value); return; }
+  if (el.classList.contains('name-sel')) {          // chọn nhân vật cho thẻ này (đang ở thẻ kia thì đổi chỗ hai thẻ)
+    const to = el.value, from = el.dataset.id, a = state.active.slice(), i = a.indexOf(from), j = a.indexOf(to);
+    if (i < 0 || to === from || !state.chars[to]) return; if (j >= 0) a[j] = from; a[i] = to; state.active = a; commit({ meta: true }); return; }
+  if (el.dataset.stake) { const c = state.chars[el.dataset.id]; if (!c) return; c.stake = c.stake || { i: '', q: 0 }; if (el.dataset.stake === 'q') c.stake.q = Math.max(0, num(el.value));
+    else if (c.stake.i !== el.value) {              // đổi sang vật phẩm nào cũng phải chọn lại số lượng (user 2026-11-25)
+      c.stake.i = el.value;
+      ui.hfItem = ui.hfItem || {}; ui.hfItem[c.id] = el.value;   // lịch sử bên phải tự lọc theo vật phẩm vừa chọn (bấm “Tất cả” để xem hết)
+      c.stake.q = 0; c.stake.need = 1; toast(`Đã đổi sang ${(itemOf(el.value) || {}).n || el.value}: chọn số lượng cược.`); }
+    commit({ chars: [c.id] }); return; }
+  if (el.dataset.cfg) { const S = state.settings, it = itemOf(el.dataset.k);
+    if (el.dataset.cfg === 'bhold' || el.dataset.cfg === 'cbase') { const c = state.chars[el.dataset.id]; if (c) {   // vốn gốc: số lượng từng vật phẩm, hoặc tổng tiền
+        const v = Math.max(0, parseMoney(el.value)), today = ymdOf(Date.now());
+        if (el.dataset.cfg === 'bhold') { c.baseHold = c.baseHold || {}; if (v > 0) c.baseHold[el.dataset.k] = v; else delete c.baseHold[el.dataset.k]; if (!Object.keys(c.baseHold).length) delete c.baseHold; }
+        else { delete c.baseHold; c.capital = v; }
+        if (!c.capDate) c.capDate = today;
+        commit({ chars: [c.id] }); } return; }
+    if (el.dataset.cfg === 'hold') { const c = state.chars[el.dataset.id]; if (c) {      // vốn theo vật phẩm của hôm nay
+        const today = ymdOf(Date.now()), v = Math.max(0, parseMoney(el.value)); c.holds = c.holds || {}; const h = c.holds[today] = c.holds[today] || { ...(startHold(c, today) || {}) };
+        if (v > 0) h[el.dataset.k] = v; else delete h[el.dataset.k];
+        if (!Object.keys(h).length) delete c.holds[today];
+        else if (!(baseOf(c) > 0) || !c.capDate || c.capDate === today) c.capDate = today;   // lần nhập đầu tiên = vốn gốc
+        c.caps = c.caps || {}; delete c.caps[today]; ui.holdOpen = ui.holdOpen || {}; ui.holdOpen[c.id] = true;
+        commit({ chars: [c.id] }); } return; }
+    if (el.dataset.cfg === 'ccap') { const c = state.chars[el.dataset.id]; if (c) {      // vốn nhập hôm nào lưu cho hôm đó; lần nhập đầu tiên là vốn gốc
+        const today = ymdOf(Date.now()), v = Math.max(0, parseMoney(el.value)); c.caps = c.caps || {}; if (c.holds) delete c.holds[today];
+        if (v > 0) { c.caps[today] = v; if (!(baseOf(c) > 0) || c.capDate === today) { c.capital = v; c.capDate = today; } } else delete c.caps[today];
+        commit({ chars: [c.id] }); } return; }
+    if (el.dataset.cfg === 'gap') S.gapMin = Math.min(120, Math.max(1, Math.round(num(el.value)) || GAP_DEFAULT));
+    else if (el.dataset.cfg === 'tp' || el.dataset.cfg === 'sl') S[el.dataset.cfg] = parseLim(el.value);
+    else if (el.dataset.cfg === 'streak') S.streak = Math.min(20, Math.max(0, Math.round(num(el.value))));
+    else if (el.dataset.cfg === 'maxBet') S.maxBet = Math.min(100, Math.max(0, num(el.value)));
+    else if (el.dataset.cfg === 'iname' && it) it.n = el.value.trim().slice(0, 16) || it.n;
+    else if (el.dataset.cfg === 'ival' && it) it.v = Math.max(0, parseMoney(el.value));
+    else if (el.dataset.cfg === 'iper' && it) it.per = Math.max(1, parseMoney(el.value) || 1);   // giá đang nhập là giá của bấy nhiêu đơn vị
+    if (el.dataset.cfg === 'iname' || el.dataset.cfg === 'ival' || el.dataset.cfg === 'iper') ui.itOpen = true;
+    commit({ meta: true }); return; }
   if (el.classList.contains('name-in')) renameInline(el);
   else if (el.dataset.act === 'setOpt') ACT.setOpt(null, el.dataset.x, el);
 });
-document.addEventListener('toggle', e => { const t = e.target; if (t && t.classList && t.classList.contains('ai-more')) ui.aiOpen = t.open; }, true);   // nhớ trạng thái mở/gập khi vẽ lại
-document.addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('name-in')) e.target.select(); });
+document.addEventListener('toggle', e => { const t = e.target; if (t && t.classList && t.classList.contains('ai-more')) ui.aiOpen = t.open; if (t && t.classList && t.classList.contains('it-cfg')) ui.itOpen = t.open; if (t && t.classList && t.classList.contains('vis-cfg')) ui.visOpen = t.open; if (t && t.classList && t.classList.contains('m-more')) { ui.capOpen = ui.capOpen || {}; ui.capOpen[t.dataset.capd] = t.open; } if (t && t.classList && t.classList.contains('hold')) { ui.holdOpen = ui.holdOpen || {}; ui.holdOpen[t.dataset.hold] = t.open; } }, true);   // nhớ trạng thái mở/gập khi vẽ lại
+document.addEventListener('focusin', e => { if (e.target.classList && e.target.classList.contains('name-in') || e.target.dataset && e.target.dataset.money && !e.target.readOnly) e.target.select(); });
 document.addEventListener('keydown', e => {
   const el = e.target; if (!(el.classList && el.classList.contains('name-in'))) return;
   if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
   else if (e.key === 'Escape') { el.value = (state.chars[el.dataset.id] || {}).name || ''; el.blur(); }
 });
 
+state.order.forEach(id => closeDays(state.chars[id]));   // lưu các ngày đã kết thúc
 render();
 initCloud();
 </script>
