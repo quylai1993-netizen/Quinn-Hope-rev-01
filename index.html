@@ -582,6 +582,7 @@ h1::before{content:none}.brand{display:grid;place-items:center;width:38px;height
 .cc-rows .ccq,.cc-rows .ccq span,.cc-rows .ccq em{text-transform:none;letter-spacing:0;font-size:11.5px;overflow:visible}.cce .hold-row .hn,.cce span,.cce label span{text-transform:none;letter-spacing:0}
 .cce-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px}.cce-i{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:1px 6px;min-width:0}.cce-i i{font-style:normal;font-size:12px;color:var(--chalk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cce-i input{width:100%;min-width:0;box-sizing:border-box;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}.cce-i input:focus{outline:0;border-color:var(--accent)}.cce-i small{grid-column:2;min-height:13px;font-size:10.5px;color:var(--dim);text-align:right}
 .cc-stats.cc-rows>.ccr .ccd{grid-column:1/-1;justify-self:end;display:flex;gap:8px;margin-top:2px;font-size:11px;color:var(--dim);text-transform:none;letter-spacing:0}.ccd span{font-weight:600}.ccl small.auto{margin-left:6px;font-size:9.5px;letter-spacing:.04em;color:var(--accent);text-transform:none}
+.rq{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap}.rq-i{display:flex;flex-direction:column;gap:2px;width:78px}.rq-i span,.rq-t span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rq-i input{width:100%;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:13px;text-align:right;font-variant-numeric:tabular-nums}.rq-i input:focus{outline:0;border-color:var(--accent)}.rq-t{display:flex;flex-direction:column;gap:2px;min-width:110px;padding-left:8px;text-align:right}.rq-t b{font:700 14px var(--display);font-variant-numeric:tabular-nums;line-height:30px}.row .who{flex:1 1 220px}
 </style>
 </head>
 <body>
@@ -1942,7 +1943,10 @@ const tally = r => statsOf(r);
 function viewChars() {
   const rows = state.order.map(id => {
     const c = state.chars[id], all = tally(allRounds(c)), i = state.active.indexOf(id);
-    return `<div class="row"><div class="who"><b>${esc(c.name)}</b><span>${i >= 0 ? 'Đang chơi · ' : ''}${c.rounds.length} ván hiện tại · ${c.archives.length} phiên đã lưu · tổng ${all.W} thắng, ${all.D} hòa, ${all.L} thua</span></div>
+    const bh = c.baseHold || {}, bt = holdTotal(bh);   // vốn gốc theo số lượng từng vật phẩm, nhập ngay trên dòng (user 2026-11-25)
+    const qty = `<div class="rq" title="Vốn gốc của ${esc(c.name)}: số lượng từng vật phẩm">${(state.settings.items || []).map(x => `<label class="rq-i"><span>${esc(x.n)}</span><input type="text" inputmode="decimal" data-money="1" data-cfg="bhold" data-id="${id}" data-k="${esc(x.k)}" value="${num(bh[x.k]) > 0 ? fmtN(bh[x.k]) : ''}" placeholder="0" aria-label="Số lượng ${esc(x.n)} của ${esc(c.name)}"></label>`).join('')}
+      <div class="rq-t"><span>Vốn gốc</span><b>${bt > 0 ? fmtN(bt) : baseOf(c) > 0 ? fmtN(baseOf(c)) : '–'}</b></div></div>`;
+    return `<div class="row"><div class="who"><b>${esc(c.name)}</b><span>${i >= 0 ? 'Đang chơi · ' : ''}${c.rounds.length} ván hiện tại · ${c.archives.length} phiên đã lưu · tổng ${all.W} thắng, ${all.D} hòa, ${all.L} thua</span></div>${qty}
       <div class="btns"><button class="btn small" data-act="pick" data-id="${id}" ${i >= 0 ? 'disabled' : ''}>${i >= 0 ? 'Đang chơi' : 'Chọn chơi'}</button>
       <button class="btn small ghost" data-act="rename" data-id="${id}">Đổi tên</button>
       <button class="btn small danger" data-act="delChar" data-id="${id}">Xóa</button></div></div>`;
