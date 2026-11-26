@@ -1097,6 +1097,8 @@ const num = x => { const v = typeof x === 'number' ? x : parseFloat(String(x).re
 const alignTs = (a, n) => Array.from({ length: n }, (_, i) => { const v = Array.isArray(a) ? +a[i] : 0; return isFinite(v) && v > 0 ? v : 0; });
 const alignBets = (a, n) => Array.from({ length: n }, (_, i) => { const b = Array.isArray(a) ? a[i] : null; if (!(b && typeof b === 'object' && num(b.q) > 0)) return null;
   const add = Array.isArray(b.add) ? b.add.filter(p => p && num(p.q) > 0).slice(0, 29).map(p => ({ i: String(p.i || '').slice(0, 16), q: num(p.q), v: Math.max(0, num(p.v)) })) : [];
+  /* nút gộp cũ ghi 500 Xu + 100 KV(B) → đúng là 500 Xu + 1 B (user 2026-11-26: sửa tất cả các ván) */
+  if (!b.mix && b.i === 'xu' && num(b.q) === 500 && add.length === 1 && add[0].i === 'kv' && add[0].q === 100) add[0].q = 1;
   return { i: String(b.i || '').slice(0, 16), q: num(b.q), v: Math.max(0, num(b.v)), ...(add.length ? { add } : {}), ...(b.mix ? { mix: 1 } : {}) }; });   // mix = cược “Đồ” (nhiều vật phẩm tự nhập)
 /* báo cáo ngày đã lưu: { 'yyyy-mm-dd': {n, W, D, L, p} } */
 function normDaily(d) { const o = {}; if (d && typeof d === 'object') for (const k of Object.keys(d)) { const v = d[k]; if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === 'object') o[k] = { n: Math.max(0, Math.round(num(v.n))), W: Math.max(0, Math.round(num(v.W))), D: Math.max(0, Math.round(num(v.D))), L: Math.max(0, Math.round(num(v.L))), p: num(v.p) }; } return o; }
@@ -1521,7 +1523,7 @@ function pnlLineHTML(c) {
       ${ed === 'base' ? capEditHTML(c, 'base', T) : ''}
       ${row('day', 'Đầu ngày', dayH, T.start > 0 ? fmtN(T.start) : '–', '', carried ? 'Tự lấy từ cuối ngày trước – bấm để sửa số lượng hôm nay' : 'Vốn lúc bắt đầu hôm nay (qua ngày tự lấy vốn cuối ngày trước) – bấm để nhập số lượng từng vật phẩm', carried ? ' <small class="auto">tự động</small>' : '')}
       ${ed === 'day' ? capEditHTML(c, 'day', T) : ''}
-      <div class="ccr cc-now" title="Hôm nay ${fmtS(T.p)}${T.base > 0 ? ' · từ vốn gốc ' + fmtS(T.tot) : ''}"><span class="ccl">Hiện tại${T.start > 0 && T.p ? ` <small class="${sgnCls(T.p)}">${fmtP(T.p / T.start * 100)}</small>` : ''}</span>
+      <div class="ccr cc-now" title="Hôm nay ${fmtS(T.p)}${T.base > 0 ? ' · từ vốn gốc ' + fmtS(T.tot) : ''}"><span class="ccl">Hiện tại${T.start > 0 && T.p ? ` <small class="${sgnCls(T.p)}" title="Lãi/lỗ hôm nay ${fmtS(T.p)} ÷ vốn đầu ngày ${fmtN(T.start)}">${fmtP(T.p / T.start * 100)}</small>` : ''}</span>
         <span class="ccq"></span><b class="${T.p > 0 ? 'pos' : T.p < 0 ? 'neg' : 'flat'}">${fmtN(T.bal)}</b></div></div>
     ${limHTML(c)}</div>`;
 }
