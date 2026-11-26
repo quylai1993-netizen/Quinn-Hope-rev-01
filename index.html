@@ -1445,7 +1445,9 @@ function netItems(c) {                              // lãi/lỗ theo từng v�
   }));
   return out;
 }
-const betTxt = b => partsOf(b).map(p => { const it = itemOf(p.i); return `${qLabel(p.q)} ${it ? it.n : p.i}`; }).join(' + ');
+const betTxt0 = b => partsOf(b).map(p => { const it = itemOf(p.i); return `${qLabel(p.q)} ${it ? it.n : p.i}`; }).join(' + ');
+const betTxt = b => b && b.mix ? `${(itemOf(MIX_K) || {}).n || 'Đồ'} (${betTxt0(b)})` : betTxt0(b);   // cược Đồ: “Đồ (2 TST + 3 Trâu)” để phân biệt (user 2026-11-26)
+const betShort = b => b && b.mix ? (itemOf(MIX_K) || {}).n || 'Đồ' : betTxt0(b);   // bảng kết quả: chỉ chữ “Đồ”, chi tiết + giá trị khi rê chuột (user 2026-11-26)
 const presetsOf = it => !it ? [] : Array.isArray(it.p) && it.p.length ? it.p : it.k === 'xu' ? [100, 200, 300, 500, 1000, COMBO] : [1, 2, 3, 4, 5];   /* Xu: 100 · 200 · 300 · 500 · 1K · “500x + 1B” (một mức chung) */   /* Xu: 100…1000 · vật phẩm khác: 1…5 (user 2026-11-25) */
 /* thẻ: chọn mức cược cho ván sắp chơi (Xu: hiện sẵn 100 · 200 · 300 · 400 · 500 · 1000) */
 function stakeHTML(c) {
@@ -1905,7 +1907,7 @@ function histFrameHTML(id) {
     for (let i = sg.rounds.length - 1; i >= 0; i--) {
       if (!keep(sg, i)) continue;
       const d = dec(sg.rounds[i]);
-      items.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${id}" data-x="${esc(sg.seg)}:${i}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td>${(() => { const b = sg.bets[i], v = pnlOf(sg.rounds[i], b); const eb = `data-act="editBet" data-id="${id}" data-x="${esc(sg.seg)}:${i}"`; return b && b.q > 0 ? `<td class="pl ${sgnCls(v)}"><button class="rbtn" ${eb} title="Cược ${esc(betTxt(b))} · lãi/lỗ ${fmtS(v)} – bấm để sửa">${esc(betTxt(b))}</button></td>` : `<td class="pl zero"><button class="rbtn" ${eb} title="Không cược – bấm để sửa">·</button></td>`; })()}</tr>` });
+      items.push({ head: false, h: `<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '*' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${id}" data-x="${esc(sg.seg)}:${i}" title="Bấm để sửa kết quả ván ${i + 1}">${RES_NAME[d.r]}</button></td>${(() => { const b = sg.bets[i], v = pnlOf(sg.rounds[i], b); const eb = `data-act="editBet" data-id="${id}" data-x="${esc(sg.seg)}:${i}"`; return b && b.q > 0 ? `<td class="pl ${sgnCls(v)}"><button class="rbtn" ${eb} title="Cược ${esc(betTxt(b))}${b.mix ? ' ≈ ' + fmtN(betValue(b)) : ''} · lãi/lỗ ${fmtS(v)} – bấm để sửa">${esc(betShort(b))}</button></td>` : `<td class="pl zero"><button class="rbtn" ${eb} title="Không cược – bấm để sửa">·</button></td>`; })()}</tr>` });
     }
   });
   const body = st.n
@@ -2046,7 +2048,7 @@ function viewHist() {
   const tl = s.rounds.slice(-120).map((r, i, arr) => { const d = dec(r); return `<i class="sq ${RES_CLS[d.r]}" title="Ván ${s.rounds.length - arr.length + i + 1}: ${MV_NAME[d.m]} · đối thủ ${MV_NAME[d.o]} · ${RES_NAME[d.r]}"></i>`; }).join('');
   const total = s.rounds.length, shown = Math.min(total, Math.max(ui.rows, 200));
   const rows = []; for (let i = total - 1; i >= total - shown; i--) { const d = dec(s.rounds[i]), b = s.bets[i], v = pnlOf(s.rounds[i], b);
-    rows.push(`<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '<sup class="swm">AI</sup>' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${c.id}" data-x="${esc(loc(i))}" title="Bấm để sửa kết quả">${RES_NAME[d.r]}</button></td><td class="bt"><button class="rbtn" data-act="editBet" data-id="${c.id}" data-x="${esc(loc(i))}" title="Bấm để sửa cược">${b && b.q > 0 ? esc(betTxt(b)) : '·'}</button></td><td class="r ${sgnCls(v)}">${b && b.q > 0 ? fmtS(v) : ''}</td></tr>`); }
+    rows.push(`<tr${d.sw !== null ? ` title="Đã đổi từ ${MV_NAME[d.sw]} theo AI"` : ''}><td class="n">${i + 1}</td><td>${mvh(d.m)}${d.sw !== null ? '<sup class="swm">AI</sup>' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${c.id}" data-x="${esc(loc(i))}" title="Bấm để sửa kết quả">${RES_NAME[d.r]}</button></td><td class="bt"><button class="rbtn" data-act="editBet" data-id="${c.id}" data-x="${esc(loc(i))}" title="${b && b.q > 0 ? esc(betTxt(b)) + (b.mix ? ' ≈ ' + fmtN(betValue(b)) : '') + ' – ' : ''}Bấm để sửa cược">${b && b.q > 0 ? esc(betShort(b)) : '·'}</button></td><td class="r ${sgnCls(v)}">${b && b.q > 0 ? fmtS(v) : ''}</td></tr>`); }
   const table = s.rounds.length ? `<div class="htbl"><table><thead><tr><th class="n">#</th><th>Bạn ra</th><th>Đối thủ</th><th>Kết quả</th><th>Cược</th><th class="r">Lãi/lỗ</th></tr></thead><tbody>${rows.join('')}</tbody></table>
       ${total > shown ? `<div class="actions" style="justify-content:center"><button class="btn small" data-act="rowsMore">Xem thêm (còn ${total - shown} ván)</button></div>` : ''}</div>`
     : `<div class="hf-empty">Chưa có ván</div>`;
