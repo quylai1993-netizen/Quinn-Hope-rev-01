@@ -585,6 +585,20 @@ h1::before{content:none}.brand{display:grid;place-items:center;width:38px;height
 .rq{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap}.rq-i{display:flex;flex-direction:column;gap:2px;width:78px}.rq-i span,.rq-t span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rq-i input{width:100%;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:13px;text-align:right;font-variant-numeric:tabular-nums}.rq-i input:focus{outline:0;border-color:var(--accent)}.rq-t{display:flex;flex-direction:column;gap:2px;min-width:110px;padding-left:8px;text-align:right}
 /* trang Chơi: ô chọn vật phẩm cược – chữ canh giữa, cả trong danh sách thả xuống (user 2026-11-26) */
 .stake select{text-align:center;text-align-last:center;font-weight:700}.stake select option{text-align:center}
+/* con trỏ chuột (user 2026-11-26): mũi tên ở chỗ thường · chữ I chỉ ở ô nhập · bàn tay ở chỗ bấm được */
+html,body,body *{cursor:default}
+input:not([type]),input[type=text],input[type=number],input[type=search],input[type=email],input[type=password],textarea,[contenteditable="true"]{cursor:text}
+a[href],a[href] *,button:not(:disabled),button:not(:disabled) *,[data-act]:not(:disabled),[data-act]:not(:disabled) *,[role=button],[role=button] *,[role=tab],[role=option],select:not(:disabled),summary,summary *,label.sw,label.sw *,input[type=checkbox],input[type=radio],input[type=range],input[type=file],label[for]{cursor:pointer}
+button:disabled,button:disabled *,select:disabled,input:disabled{cursor:not-allowed}
+input[readonly]{cursor:default}
+/* danh sách chọn vật phẩm tự vẽ: canh giữa, rộng vừa chữ */
+.isel{position:relative;display:inline-flex}
+.isel-b{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:4px 12px;border-radius:999px;border:1px solid rgba(155,144,232,.45);background:rgba(155,144,232,.14);color:#fff;font:700 13px var(--body);white-space:nowrap}
+.isel-b:hover,.isel-b[aria-expanded="true"]{border-color:var(--accent);background:rgba(155,144,232,.24)}
+.isel-b i{font-style:normal;font-size:10px;opacity:.7}
+.isel-l{position:absolute;z-index:40;top:calc(100% + 5px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:2px;min-width:100%;width:max-content;padding:4px;border-radius:12px;background:var(--surface2);border:1px solid rgba(155,144,232,.3);box-shadow:0 16px 34px -12px rgba(0,0,0,.7)}
+.isel-o{border:0;background:none;color:var(--chalk);padding:5px 14px;border-radius:8px;text-align:center;font:600 13px var(--body);white-space:nowrap}
+.isel-o:hover{background:var(--glass2)}.isel-o.on{background:var(--grad);color:#fff}
 /* cược Đồ: ô số lượng từng vật phẩm (trên thẻ và trong Sửa cược) */
 .qmix{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;width:100%}.qmix[hidden],.eb-p[hidden],#ebQ[hidden]{display:none}
 .qm-i{display:flex;flex-direction:column;gap:2px;width:62px}.qm-i span{font-size:11px;font-weight:700;color:var(--chalk);text-align:center;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -680,7 +694,7 @@ h1{font-weight:800}
 .qpre .qp.over{border-color:var(--lose);color:var(--lose);background:rgba(255,107,114,.1)}
 .qm-i input,.stake .qm-i input{background:rgba(6,9,22,.5);border-color:rgba(143,125,255,.35)}
 .qm-i input:focus{border-color:var(--accent2)}
-.need-tx{color:var(--amber)}
+.need-tx{color:var(--amber)}.stake .np{color:var(--amber);font-style:normal;font-size:11.5px}
 
 /* lịch sử, lọc vật phẩm, tab phụ */
 .hi{border-color:rgba(63,213,242,.25);background:rgba(63,213,242,.06)}
@@ -1427,7 +1441,12 @@ const mixBet = m => { const ps = mixParts(m); return ps.length ? { ...ps[0], add
 const mixValue = m => mixParts(m).reduce((a, p) => a + p.q * p.v, 0);
 const mixOf = b => { const m = {}; if (b && b.mix) partsOf(b).forEach(p => { m[p.i] = (m[p.i] || 0) + p.q; }); return m; };
 const mkBet = (it, q) => q === COMBO ? (() => { const ps = comboParts().filter(([k]) => itemOf(k)).map(([k, n]) => ({ i: k, q: n, v: unitPrice(itemOf(k)) })); return ps.length ? { ...ps[0], add: ps.slice(1) } : null; })() : it ? { i: it.k, q, v: unitPrice(it) } : null;
-const partsOf = b => !b || !(b.q > 0) ? [] : [{ i: b.i, q: b.q, v: b.v }, ...(Array.isArray(b.add) ? b.add : [])];
+/* ván cũ ghi mã 'kv' (KV, nay là B): nếu không còn vật phẩm mã 'kv' thì trỏ sang vật phẩm B hiện tại (user 2026-11-26) */
+const fixK = k => k === 'kv' && !itemOf('kv') ? comboB() : k;
+const partsOf = b => !b || !(b.q > 0) ? [] : [{ i: fixK(b.i), q: b.q, v: b.v }, ...(Array.isArray(b.add) ? b.add.map(p => ({ i: fixK(p.i), q: p.q, v: p.v })) : [])];
+/* vật phẩm trong mức cược chưa có giá (giá trị tính thiếu) → tên để cảnh báo */
+const noPrice = b => [...new Set(partsOf(b).filter(p => !(unitOf(p) > 0)).map(p => (itemOf(p.i) || {}).n || p.i))];
+const noPriceTx = b => { const L = noPrice(b); return L.length ? ` <em class="np">⚠ ${esc(L.join(', '))} chưa có giá</em>` : ''; };
 const betValue = b => partsOf(b).reduce((a, p) => a + p.q * unitOf(p), 0);
 const comboValue = () => comboParts().reduce((a, [k, n]) => a + n * unitPrice(itemOf(k)), 0);
 const betHas = (b, k) => k === MIX_K ? !!(b && b.mix && b.q > 0) : partsOf(b).some(p => p.i === k) && !(b && b.mix);   // ván “Đồ” chỉ thuộc nhóm Đồ
@@ -1456,16 +1475,18 @@ function stakeHTML(c) {
   const it = state.settings.items || [], s = c.stake || {}, sel = itemOf(s.i) ? s.i : (it[0] || {}).k, cur = itemOf(sel), v = unitPrice(cur), q = num(s.q), pre = presetsOf(cur), mx = statusOf(c).maxAmt;
   const valOf = n => n === COMBO ? comboValue() : n * v, over = n => mx > 0 && valOf(n) > 0 && valOf(n) > mx;
   const need = !!s.need;
-  const selH = `<select data-stake="i" data-id="${c.id}" aria-label="Vật phẩm cược">${it.map(x => `<option value="${esc(x.k)}"${x.k === sel ? ' selected' : ''}>${esc(x.n)}</option>`).join('')}</select>`;
+  /* chọn vật phẩm: danh sách tự vẽ – chữ canh giữa, rộng vừa tên (user 2026-11-26; <select> của Windows không chỉnh được) */
+  const iop = ui.iselOpen === c.id;
+  const selH = `<span class="isel"><button type="button" class="isel-b" data-act="iselOpen" data-id="${c.id}" aria-haspopup="listbox" aria-expanded="${iop}" aria-label="Vật phẩm cược">${esc(cur ? cur.n : 'Chọn')}<i aria-hidden="true">▾</i></button>${iop ? `<span class="isel-l" role="listbox">${it.map(x => `<button type="button" role="option" class="isel-o${x.k === sel ? ' on' : ''}" data-act="iselPick" data-id="${c.id}" data-x="${esc(x.k)}" aria-selected="${x.k === sel}">${esc(x.n)}</button>`).join('')}</span>` : ''}</span>`;
   if (isMix(cur)) {                                 // Đồ: tự nhập số lượng từng vật phẩm, app tính giá trị (user 2026-11-26)
     const m = s.mix || {}, mb = q > 0 ? mixBet(m) : null, mv = mb ? betValue(mb) : 0, ov = mx > 0 && mv > mx;
     return `<div class="stake mix${need ? ' need' : ''}" data-sid="${c.id}"><span class="lb">Cược</span>${selH}
-    <span class="sv${ov ? ' over' : ''}">${mb ? `${esc(betTxt(mb))} ` + (mv > 0 ? '≈ ' + fmtN(mv) : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Nhập số lượng từng vật phẩm của ${esc(cur.n)}</b>` : ''}</span>
+    <span class="sv${ov ? ' over' : ''}">${mb ? `${esc(betTxt(mb))} ` + (mv > 0 ? '≈ ' + fmtN(mv) + noPriceTx(mb) : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Nhập số lượng từng vật phẩm của ${esc(cur.n)}</b>` : ''}</span>
     <span class="qmix">${mixItems().map(x => `<label class="qm-i"><span>${esc(x.n)}</span><input type="text" inputmode="decimal" data-money="1" data-stake="m" data-id="${c.id}" data-k="${esc(x.k)}" value="${num(m[x.k]) > 0 ? fmtN(num(m[x.k])) : ''}" placeholder="0" aria-label="Số lượng ${esc(x.n)}"></label>`).join('')}<button type="button" class="qp${mb ? '' : ' on'}" data-act="qpick" data-id="${c.id}" data-x="0">Không cược</button></span></div>`;
   }
   return `<div class="stake${need ? ' need' : ''}" data-sid="${c.id}"><span class="lb">Cược</span>
     ${selH}
-    <span class="sv">${q > 0 ? (q === COMBO ? `${esc(betTxt(mkBet(cur, q)))} ` : `${qLabel(q)} ${esc(cur ? cur.n : '')} `) + (valOf(q) > 0 ? '≈ ' + fmtN(valOf(q)) : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Chọn số lượng ${esc(cur ? cur.n : '')}</b>` : ''}</span>
+    <span class="sv">${q > 0 ? (q === COMBO ? `${esc(betTxt(mkBet(cur, q)))} ` : `${qLabel(q)} ${esc(cur ? cur.n : '')} `) + (valOf(q) > 0 ? '≈ ' + fmtN(valOf(q)) + (q === COMBO ? noPriceTx(mkBet(cur, q)) + (itemOf(comboB()) ? '' : ' <em class="np">⚠ chưa có vật phẩm tên “B” trong ⚙ Giá vật phẩm</em>') : '') : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Chọn số lượng ${esc(cur ? cur.n : '')}</b>` : ''}</span>
     ${pre.length ? `<span class="qpre">${pre.map(n => `<button type="button" class="qp${q === n ? ' on' : ''}${over(n) ? ' over' : ''}" data-act="qpick" data-id="${c.id}" data-x="${n}" aria-pressed="${q === n}"${over(n) ? ` title="Vượt cược tối đa ${state.settings.maxBet}% vốn hôm nay (${fmtN(mx)})"` : ''}>${qLabel(n)}</button>`).join('')}<button type="button" class="qp${q > 0 ? '' : ' on'}" data-act="qpick" data-id="${c.id}" data-x="0">Không cược</button></span>` : ''}</div>`;
 }
 /* thẻ: vốn, lãi/lỗ, số dư của nhân vật + lãi/lỗ phiên này và đồng hồ từ ván trước */
@@ -1633,7 +1654,7 @@ function howHTML() {
       ${it('3', 'AI nhận định', 'AI chỉ học lịch sử đang có trên bảng của chính nhân vật đó, theo vật phẩm đang cược; cần 5 ván. Khi AI thấy nước tốt hơn sẽ hiện nút ✓ để đổi.')}
       ${it('4', 'Vốn & lãi/lỗ', 'Nhập vốn ở “Nhập / sửa vốn”, bấm 📌 Vốn gốc để chốt số tiền đầu tư. Qua ngày, vốn đầu ngày tự lấy số dư cuối ngày trước. Giá trị cược = số lượng × giá trong 💎 Giá vật phẩm.')}
       ${it('5', 'Đối thủ đổi', `Quá ${state.settings.gapMin} phút không có ván mới thì phiên cũ tự lưu và tính là đối thủ mới; hoặc bấm “Đối thủ đổi”.`)}
-      ${it('6', 'Xóa lịch sử', 'Nút Xóa lịch sử ở trang chơi chỉ dọn bảng và để AI học lại từ đầu; kết quả vẫn giữ trong tab Lịch sử và Tổng quan. Xóa vĩnh viễn ở tab Nhân vật.')}
+      ${it('6', 'Xóa lịch sử', 'Nút Xóa lịch sử (trang Chơi hoặc tab Lịch sử) xóa sạch ván, phiên đã lưu, biểu đồ lãi/lỗ và vốn của nhân vật, có hỏi lại trước. Tab Lịch sử › “Tất cả nhân vật” xóa được cho mọi nhân vật cùng lúc. Xóa nhân vật ở tab Nhân vật cũng xóa hết dữ liệu của người đó.')}
       ${it('7', 'Giới hạn & cảnh báo', 'Đặt chốt lời / cắt lỗ mỗi ngày, cảnh báo thua liên tiếp và cược tối đa ở tab 🎯.')}
       ${it('8', 'Xem lại', 'Tab Lịch sử: từng phiên, từng ván. Tab Tổng quan: biểu đồ lãi/lỗ, theo ngày / tháng / năm, từng nhân vật. Chỉ hiện 1 bảng thì ô bên cạnh là tổng quan.')}
     </ol>`;
@@ -1918,12 +1939,12 @@ function histFrameHTML(id) {
          return `<button type="button" class="hi${flt === k ? ' on' : ''}" data-act="hfItem" data-id="${id}" data-x="${esc(k)}" title="${esc(nm)}: ${o.n} ván · ${o.W} thắng, ${o.D} hòa, ${o.L} thua · số lượng ${fmtS(o.q)} · lãi/lỗ ${fmtS(o.v)} – bấm để lọc"><span class="hi-n">${esc(nm)}</span><span class="hi-c">${o.n} ván</span><b class="${sgnCls(o.v)}">${fmtS(o.q)}</b></button>`; }).join('')}</div>` : ''}
        <div class="hf-list" data-hf="${id}"></div>`
     : `<div class="hf-empty">Chưa có ván</div>`;
-  const has = c.rounds.length || vis.length;
+  const has = c.rounds.length || c.archives.length || baseOf(c) > 0 || Object.keys(c.daily || {}).length;   // còn ván, phiên cũ, vốn hay báo cáo → cho xóa sạch
   return `<aside class="hf" aria-label="Lịch sử của ${esc(c.name)}"><div class="hf-in">
     <div class="hf-head"><h2>Lịch sử</h2><span class="cap">${st.n ? st.n + ' ván' : ''}</span></div>
     ${body}
     <div class="hf-foot"><button class="btn small" data-act="goHist" data-id="${id}">Xem chi tiết</button><span class="sp"></span>
-      <button class="btn small danger" data-act="clearCur" data-id="${id}" ${has ? '' : 'disabled'} title="Xóa lịch sử chơi hiện tại khỏi màn hình. Kết quả vẫn lưu vào lịch sử của nhân vật (tab Lịch sử, Lãi/lỗ); AI bắt đầu tính lại từ đầu.">Xóa lịch sử</button></div></div></aside>`;
+      <button class="btn small danger" data-act="clearCur" data-id="${id}" ${has ? '' : 'disabled'} title="Xóa sạch lịch sử, các phiên đã lưu, biểu đồ lãi/lỗ và vốn của nhân vật này (có hỏi lại trước khi xóa).">Xóa lịch sử</button></div></div></aside>`;
 }
 function fitList() {                                // chia mỗi danh sách thành 1–3 bảng để vừa khung; quá nhiều thì cuộn trong khung
   if (fitting) return;
@@ -2006,6 +2027,7 @@ function tableHTML(rounds, loc, cid, bets) {
 }
 function viewHist() {
   if (!state.order.length) return `<div class="empty-box"><b>Chưa có nhân vật nào</b>Thêm nhân vật ở tab Nhân vật.</div>`;
+  if (ui.hc === '*') return viewHistAll();
   if (!state.chars[ui.hc]) ui.hc = state.order[0];
   const c = state.chars[ui.hc];
   const chips = state.order.map(id => `<button class="chip-btn" data-act="hChar" data-id="${id}" aria-pressed="${id === ui.hc}"><span class="nm">${esc(state.chars[id].name)}</span></button>`).join('');
@@ -2060,7 +2082,7 @@ function viewHist() {
   const side = s.rounds.length ? `<div class="hside-b"><h3>Đối thủ hay ra</h3><div class="bars">${[0, 1, 2].map(j => `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr"><i style="width:${st.opp[j] / (st.n || 1) * 100}%;background:var(--mv${j})"></i></span><span class="v">${pc(st.opp[j] / (st.n || 1))}%</span></div>`).join('')}</div></div>
       <div class="hside-b"><h3>Bạn ra → kết quả</h3><div class="bars">${[0, 1, 2].map(j => { const b = st.byMove[j], n = b.W + b.D + b.L; return `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr">${n ? `<i class="w" style="width:${b.W / n * 100}%"></i><i class="d" style="width:${b.D / n * 100}%"></i><i class="l" style="width:${b.L / n * 100}%"></i>` : ''}</span><span class="v">${n}</span></div>`; }).join('')}</div></div>
       <div class="hside-b"><h3>Diễn biến${s.rounds.length > 120 ? ' · 120 ván gần nhất' : ''}</h3><div class="timeline">${tl}</div></div>${ai}` : ai;
-  const sel = `<select class="hsel" aria-label="Chọn nhân vật">${state.order.map(id => `<option value="${id}"${id === c.id ? ' selected' : ''}>${esc(state.chars[id].name)}</option>`).join('')}</select>`;
+  const sel = histSel(c.id);
   const slist = sessions.map(z => { const t = tally(z.rounds), p = z.rounds.reduce((q, r, i) => q + pnlOf(r, z.bets[i]), 0), hb = z.bets.some(b => b && b.q > 0);
     return `<button class="hs-i" data-act="hSess" data-x="${z.id}" aria-pressed="${z.id === ui.hs}" title="${esc(z.sub)}"><span class="hs-t">${esc(z.id === 'all' || z.id === 'current' ? z.title : fmtDate(z.arc.at))}${z.arc && z.arc.hid ? ' <small class="muted">· đã xóa khỏi bảng</small>' : ''}</span>
       <span class="hs-m">${t.n} ván · <i class="w">${t.W}</i>/<i class="d">${t.D}</i>/<i class="l">${t.L}</i>${hb ? ` · <b class="${sgnCls(p)}">${fmtC(p)}</b>` : ''}</span></button>`; }).join('');
@@ -2073,6 +2095,39 @@ function viewHist() {
     <aside class="hcol hside">${side || '<div class="hf-empty">Chưa có số liệu</div>'}</aside></div>`;
 }
 const tally = r => statsOf(r);
+/* ô chọn ở tab Lịch sử: “Tất cả nhân vật” + từng nhân vật (user 2026-11-26) */
+const histSel = cur => `<select class="hsel" aria-label="Chọn nhân vật">${state.order.length > 1 ? `<option value="*"${cur === '*' ? ' selected' : ''}>👥 Tất cả nhân vật</option>` : ''}${state.order.map(id => `<option value="${id}"${id === cur ? ' selected' : ''}>${esc(state.chars[id].name)}</option>`).join('')}</select>`;
+/* lịch sử tất cả nhân vật: mọi ván của mọi nhân vật, xếp theo thời gian, có cột nhân vật */
+function viewHistAll() {
+  const R = [];
+  state.order.forEach(id => { const c = state.chars[id];
+    [...[...c.archives].sort((x, y) => x.at < y.at ? -1 : 1).map(a => ({ seg: a.id, z: a })), { seg: 'cur', z: c }].forEach(({ seg, z }) =>
+      z.rounds.forEach((r, i) => R.push({ c, r, b: z.bets[i], t: z.ts[i] || 0, loc: seg + ':' + i }))); });
+  R.sort((x, y) => x.t - y.t);
+  const rounds = R.map(x => x.r), st = statsOf(rounds), total = R.length, shown = Math.min(total, Math.max(ui.rows, 200));
+  const sp = R.reduce((a, x) => a + pnlOf(x.r, x.b), 0), hasB = R.some(x => x.b && x.b.q > 0);
+  const kp = (l, v, cls) => `<div class="hk"><span>${l}</span><b class="${cls || ''}">${v}</b></div>`;
+  const kpis = `<div class="hks">${kp('Ván', st.n)}${kp('Tỉ lệ thắng', st.n ? pc(st.winRate) + '%' : '–')}${kp('T · H · B', `<i class="w">${st.W}</i> · <i class="d">${st.D}</i> · <i class="l">${st.L}</i>`)}${hasB ? kp('Lãi/lỗ', fmtS(sp), sgnCls(sp)) : ''}${kp('Nhân vật', state.order.length)}</div>`;
+  const tm = t => t ? new Date(t).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+  const rows = []; for (let i = total - 1; i >= total - shown; i--) { const x = R[i], d = dec(x.r), b = x.b, v = pnlOf(x.r, b);
+    rows.push(`<tr title="${esc(tm(x.t))}"><td class="n">${i + 1}</td><td class="hn-c"><button class="rbtn" data-act="hChar" data-id="${x.c.id}" title="Xem riêng ${esc(x.c.name)}">${esc(x.c.name)}</button></td><td>${mvh(d.m)}${d.sw !== null ? '<sup class="swm">AI</sup>' : ''}</td><td>${mvh(d.o)}</td><td class="${RES_CLS[d.r][0]}"><button class="rbtn" data-act="editRes" data-id="${x.c.id}" data-x="${esc(x.loc)}" title="Bấm để sửa kết quả">${RES_NAME[d.r]}</button></td><td class="bt"><button class="rbtn" data-act="editBet" data-id="${x.c.id}" data-x="${esc(x.loc)}" title="${b && b.q > 0 ? esc(betTxt(b)) + (b.mix ? ' ≈ ' + fmtN(betValue(b)) : '') + ' – ' : ''}Bấm để sửa cược">${b && b.q > 0 ? esc(betShort(b)) : '·'}</button></td><td class="r ${sgnCls(v)}">${b && b.q > 0 ? fmtS(v) : ''}</td></tr>`); }
+  const table = total ? `<div class="htbl"><table><thead><tr><th class="n">#</th><th>Nhân vật</th><th>Bạn ra</th><th>Đối thủ</th><th>Kết quả</th><th>Cược</th><th class="r">Lãi/lỗ</th></tr></thead><tbody>${rows.join('')}</tbody></table>
+      ${total > shown ? `<div class="actions" style="justify-content:center"><button class="btn small" data-act="rowsMore">Xem thêm (còn ${total - shown} ván)</button></div>` : ''}</div>` : `<div class="hf-empty">Chưa có ván</div>`;
+  /* trái: từng nhân vật (bấm để xem riêng) */
+  const clist = state.order.map(id => { const c = state.chars[id], rs = allRounds(c), t = tally(rs), p = segsOf(c).reduce((a, z) => a + z.rounds.reduce((q, r, i) => q + pnlOf(r, z.bets[i]), 0), 0), hb = segsOf(c).some(z => z.bets.some(b => b && b.q > 0));
+    return `<button class="hs-i" data-act="hChar" data-id="${id}" aria-pressed="false" title="Xem riêng ${esc(c.name)}"><span class="hs-t">${esc(c.name)}</span><span class="hs-m">${t.n} ván · <i class="w">${t.W}</i>/<i class="d">${t.D}</i>/<i class="l">${t.L}</i>${hb ? ` · <b class="${sgnCls(p)}">${fmtC(p)}</b>` : ''}</span></button>`; }).join('');
+  const tl = rounds.slice(-120).map((r, i, arr) => { const d = dec(r); return `<i class="sq ${RES_CLS[d.r]}" title="Ván ${rounds.length - arr.length + i + 1}: ${MV_NAME[d.m]} · đối thủ ${MV_NAME[d.o]} · ${RES_NAME[d.r]}"></i>`; }).join('');
+  const side = total ? `<div class="hside-b"><h3>Đối thủ hay ra</h3><div class="bars">${[0, 1, 2].map(j => `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr"><i style="width:${st.opp[j] / (st.n || 1) * 100}%;background:var(--mv${j})"></i></span><span class="v">${pc(st.opp[j] / (st.n || 1))}%</span></div>`).join('')}</div></div>
+      <div class="hside-b"><h3>Bạn ra → kết quả</h3><div class="bars">${[0, 1, 2].map(j => { const b = st.byMove[j], n = b.W + b.D + b.L; return `<div class="bar"><span class="mc${j}">${MV_NAME[j]}</span><span class="tr">${n ? `<i class="w" style="width:${b.W / n * 100}%"></i><i class="d" style="width:${b.D / n * 100}%"></i><i class="l" style="width:${b.L / n * 100}%"></i>` : ''}</span><span class="v">${n}</span></div>`; }).join('')}</div></div>
+      <div class="hside-b"><h3>Diễn biến${total > 120 ? ' · 120 ván gần nhất' : ''}</h3><div class="timeline">${tl}</div></div>` : '';
+  const any = state.order.some(id => { const c = state.chars[id]; return c.rounds.length || c.archives.length || baseOf(c) > 0; });
+  return `<div class="hv">
+    <aside class="hcol hleft">${histSel('*')}<div class="hs-list">${clist}</div>
+      <button class="btn small danger" data-act="clearHist" data-id="*" ${any ? '' : 'disabled'}>Xóa lịch sử tất cả…</button></aside>
+    <section class="hcol hmain"><div class="hm-head"><div><h2>Tất cả nhân vật</h2><p class="sub">Mọi ván của ${state.order.length} nhân vật, xếp theo thời gian · bấm tên để xem riêng</p></div></div>
+      ${total ? kpis : ''}${table}</section>
+    <aside class="hcol hside">${side || '<div class="hf-empty">Chưa có số liệu</div>'}</aside></div>`;
+}
 
 /* ---------- nhân vật & cài đặt ---------- */
 function viewChars() {
@@ -2134,6 +2189,22 @@ function animateRoll(ids) {
 }
 
 /* ============================== hành động ============================== */
+/* xóa sạch một nhân vật (user 2026-11-26): ván, phiên đã lưu, báo cáo ngày (biểu đồ) và vốn – chỉ giữ tên và mức cược đang chọn */
+function wipeChar(c) {
+  stopRoll(c.id);
+  Object.assign(c, { rounds: [], ts: [], bets: [], archives: [], daily: {}, caps: {}, holds: {}, capital: 0, capAt: 0, capDate: '', pending: null, pendingFrom: null });
+  delete c.baseHold;
+}
+async function wipeFlow(ids) {                       // hỏi rồi xóa sạch các nhân vật này
+  const cs = ids.map(id => state.chars[id]).filter(Boolean); if (!cs.length) return false;
+  const n = cs.reduce((a, c) => a + allRounds(c).length, 0), who = cs.length === 1 ? `“${esc(cs[0].name)}”` : `<b>${cs.length} nhân vật</b>`;
+  if (!await confirmBox(cs.length === 1 ? `Xóa toàn bộ lịch sử của “${cs[0].name}”?` : 'Xóa lịch sử của tất cả nhân vật?',
+    `Xóa vĩnh viễn <b>${n} ván</b> của ${who}: lịch sử, các phiên đã lưu, biểu đồ lãi/lỗ và <b>vốn</b> đều về 0. AI cũng học lại từ đầu. Không khôi phục được.`, 'Xóa sạch', true)) return false;
+  cs.forEach(wipeChar); ui.hs = 'current'; ui.rows = 50;
+  commit({ chars: cs.map(c => c.id) });
+  toast(cs.length === 1 ? `Đã xóa sạch lịch sử và vốn của ${cs[0].name}.` : `Đã xóa sạch lịch sử và vốn của ${cs.length} nhân vật.`);
+  return true;
+}
 async function resetFlow(id) {
   const c = state.chars[id]; if (!c || !c.rounds.length) return;
   const t = tally(c.rounds);
@@ -2263,7 +2334,7 @@ const ACT = {
     const k = String(x).lastIndexOf(':'), seg = String(x).slice(0, k), i = +String(x).slice(k + 1);
     const segOf = () => { const c = state.chars[id]; if (!c) return null; return seg === 'cur' ? c : c.archives.find(a => a.id === seg) || null; };
     const z0 = segOf(); if (!z0 || !z0.rounds[i]) return;
-    const b0 = z0.bets[i] || null, its = state.settings.items || [], sel0 = b0 && b0.mix && itemOf(MIX_K) ? MIX_K : b0 && itemOf(b0.i) ? b0.i : (its[0] || {}).k, m0 = mixOf(b0);
+    const b0 = z0.bets[i] || null, its = state.settings.items || [], sel0 = b0 && b0.mix && itemOf(MIX_K) ? MIX_K : b0 && itemOf(fixK(b0.i)) ? fixK(b0.i) : (its[0] || {}).k, m0 = mixOf(b0);
     const chips = k2 => presetsOf(itemOf(k2)).map(n => `<button type="button" class="qp" data-ebq="${n}">${qLabel(n)}</button>`).join('');
     const p = dialogBox({
       title: `Sửa cược ván ${i + 1}`,
@@ -2330,32 +2401,8 @@ const ACT = {
     if (!await confirmBox('Xóa phiên đã lưu?', `Phiên ${fmtDate(a.at)} (${a.rounds.length} ván) sẽ bị xóa vĩnh viễn.`, 'Xóa phiên', true)) return;
     c.archives = c.archives.filter(z => z.id !== x); ui.hs = 'current'; commit({ chars: [id] });
   },
-  clearCur(id) {                                    // trang Chơi: xóa lịch sử chơi hiện tại, kết quả lưu vào lịch sử nhân vật để tracking tổng
-    const c = state.chars[id], vis = c ? c.archives.filter(a => !a.hid) : [];
-    if (!c || (!c.rounds.length && !vis.length)) { toast('Chưa có ván nào để xóa.'); return; }
-    stopRoll(id); const n = c.rounds.length + vis.reduce((z, a) => z + a.rounds.length, 0);
-    if (c.rounds.length) { const st = statsOf(c.rounds), p = pnlSeg({ rounds: c.rounds, ts: c.ts, bets: c.bets }, c); archiveCurrent(c, `${c.rounds.length} ván · ${st.W}T ${st.D}H ${st.L}B${c.bets.some(b => b && b.q > 0) ? ' · ' + fmtS(p) : ''}`); }
-    c.archives.forEach(a => { a.hid = 1; });
-    c.rounds = []; c.ts = []; c.bets = []; c.pending = null; c.pendingFrom = null;
-    ui.hs = 'current'; ui.rows = 50; commit({ chars: [id] });
-    toast(`Đã xóa ${n} ván khỏi màn hình. Kết quả vẫn lưu trong lịch sử của ${c.name}; AI tính lại từ đầu.`);
-  },
-  async clearHist(id) {                             // xóa lịch sử đã lưu (và tùy chọn cả phiên đang chơi)
-    const c = state.chars[id]; if (!c) return;
-    const na = c.archives.length, nr = c.rounds.length, sv = c.archives.reduce((z, a) => z + a.rounds.length, 0);
-    if (!na && !nr) { toast('Chưa có lịch sử để xóa.'); return; }
-    const buttons = [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }];
-    if (na) buttons.push({ id: 'saved', label: `Chỉ xóa ${na} phiên đã lưu`, kind: 'danger' });
-    buttons.push({ id: 'all', label: 'Xóa toàn bộ', kind: 'danger', primary: true });
-    const r = await dialogBox({ title: `Xóa lịch sử của “${c.name}”`, text: `Đang có <b>${nr} ván</b> ở phiên hiện tại và <b>${na} phiên đã lưu</b> (${sv} ván). Dữ liệu bị xóa không khôi phục được, AI cũng sẽ quên các ván này.`, buttons });
-    if (r.id === 'cancel') return;
-    stopRoll(id);
-    c.archives = [];
-    if (r.id === 'all') { c.rounds = []; c.ts = []; c.bets = []; c.pending = null; c.pendingFrom = null; }
-    ui.hs = 'current'; ui.rows = 50;
-    commit({ chars: [id] });
-    toast(r.id === 'all' ? `Đã xóa toàn bộ lịch sử của ${c.name}.` : `Đã xóa ${na} phiên đã lưu của ${c.name}. Phiên đang chơi được giữ nguyên.`);
-  },
+  clearCur(id) { return wipeFlow([id]); },          // trang Chơi: xóa sạch lịch sử, biểu đồ và vốn của nhân vật (user 2026-11-26)
+  clearHist(id) { return wipeFlow(id === '*' ? state.order.slice() : [id]); },   // tab Lịch sử: một nhân vật hoặc tất cả
   demo() { makeDemo(); },
   addItem() { const it = state.settings.items; let k = 'vp' + (it.length + 1); while (it.some(x => x.k === k)) k += 'x'; it.push({ k, n: 'Vật phẩm ' + (it.length + 1), v: 0 }); ui.itOpen = true; commit({ meta: true }); },
   async delItem(id, x) { const it = itemOf(x); if (!it) return; if (!await confirmBox(`Xóa vật phẩm “${it.n}”?`, 'Các ván đã cược bằng vật phẩm này vẫn giữ giá trị đã ghi lúc chơi.', 'Xóa', true)) return; state.settings.items = state.settings.items.filter(z => z.k !== x); ui.itOpen = true; commit({ meta: true }); },
@@ -2390,6 +2437,17 @@ const ACT = {
     commit({ chars: state.order, meta: true, removed: gone }); toast('Đã khôi phục dữ liệu.');
   },
 };
+/* đổi vật phẩm cược: phải chọn lại số lượng (user 2026-11-25) */
+function setStakeItem(c, k) {
+  c.stake = c.stake || { i: '', q: 0 }; if (c.stake.i === k) return false;
+  c.stake.i = k; delete c.stake.mix;
+  ui.hfItem = ui.hfItem || {}; ui.hfItem[c.id] = k;   // lịch sử bên phải tự lọc theo vật phẩm vừa chọn (bấm “Tất cả” để xem hết)
+  c.stake.q = 0; c.stake.need = 1; toast(`Đã đổi sang ${(itemOf(k) || {}).n || k}: chọn số lượng cược.`); return true;
+}
+ACT.iselOpen = id => { ui.iselOpen = ui.iselOpen === id ? null : id; render(); };
+ACT.iselPick = (id, k) => { const c = state.chars[id]; ui.iselOpen = null; if (!c) return; setStakeItem(c, k); commit({ chars: [id] }); };
+document.addEventListener('click', e => { if (ui.iselOpen && !e.target.closest('.isel')) { ui.iselOpen = null; render(); } }, true);   // bấm ra ngoài: đóng danh sách
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && ui.iselOpen) { ui.iselOpen = null; render(); } });
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if (!el || el.disabled || el.tagName === 'INPUT') return;
   const f = ACT[el.dataset.act]; if (f) f(el.dataset.id, el.dataset.x, el);
@@ -2414,10 +2472,7 @@ document.addEventListener('change', e => {
     else if (el.dataset.stake === 'm') {            // Đồ: số lượng một vật phẩm trong mức cược gộp
       const m = c.stake.mix = { ...(c.stake.mix || {}) }, v = Math.max(0, parseMoney(el.value)); if (v > 0) m[el.dataset.k] = v; else delete m[el.dataset.k];
       c.stake.q = mixParts(m).length ? MIX : 0; if (c.stake.q) delete c.stake.need; commit({ chars: [c.id], defer: true }); return; }   // defer: Tab sang ô kế vẫn giữ con trỏ
-    else if (c.stake.i !== el.value) {              // đổi sang vật phẩm nào cũng phải chọn lại số lượng (user 2026-11-25)
-      c.stake.i = el.value; delete c.stake.mix;
-      ui.hfItem = ui.hfItem || {}; ui.hfItem[c.id] = el.value;   // lịch sử bên phải tự lọc theo vật phẩm vừa chọn (bấm “Tất cả” để xem hết)
-      c.stake.q = 0; c.stake.need = 1; toast(`Đã đổi sang ${(itemOf(el.value) || {}).n || el.value}: chọn số lượng cược.`); }
+    else setStakeItem(c, el.value);
     commit({ chars: [c.id] }); return; }
   if (el.dataset.cfg) { const S = state.settings, it = itemOf(el.dataset.k);
     if (el.dataset.cfg === 'bhold' || el.dataset.cfg === 'cbase') { const c = state.chars[el.dataset.id]; if (c) {   // vốn gốc: số lượng từng vật phẩm, hoặc tổng tiền
