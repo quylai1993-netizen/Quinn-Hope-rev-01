@@ -582,7 +582,118 @@ h1::before{content:none}.brand{display:grid;place-items:center;width:38px;height
 .cc-rows .ccq,.cc-rows .ccq span,.cc-rows .ccq em{text-transform:none;letter-spacing:0;font-size:11.5px;overflow:visible}.cce .hold-row .hn,.cce span,.cce label span{text-transform:none;letter-spacing:0}
 .cce-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px}.cce-i{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;gap:1px 6px;min-width:0}.cce-i i{font-style:normal;font-size:12px;color:var(--chalk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cce-i input{width:100%;min-width:0;box-sizing:border-box;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}.cce-i input:focus{outline:0;border-color:var(--accent)}.cce-i small{grid-column:2;min-height:13px;font-size:10.5px;color:var(--dim);text-align:right}
 .cc-stats.cc-rows>.ccr .ccd{grid-column:1/-1;justify-self:end;display:flex;gap:8px;margin-top:2px;font-size:11px;color:var(--dim);text-transform:none;letter-spacing:0}.ccd span{font-weight:600}.ccl small.auto{margin-left:6px;font-size:9.5px;letter-spacing:.04em;color:var(--accent);text-transform:none}
-.rq{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap}.rq-i{display:flex;flex-direction:column;gap:2px;width:78px}.rq-i span,.rq-t span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rq-i input{width:100%;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:13px;text-align:right;font-variant-numeric:tabular-nums}.rq-i input:focus{outline:0;border-color:var(--accent)}.rq-t{display:flex;flex-direction:column;gap:2px;min-width:110px;padding-left:8px;text-align:right}.rq-t b{font:700 14px var(--display);font-variant-numeric:tabular-nums;line-height:30px}.row .who{flex:1 1 220px}
+.rq{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap}.rq-i{display:flex;flex-direction:column;gap:2px;width:78px}.rq-i span,.rq-t span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rq-i input{width:100%;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--board);color:var(--chalk);font:inherit;font-size:13px;text-align:right;font-variant-numeric:tabular-nums}.rq-i input:focus{outline:0;border-color:var(--accent)}.rq-t{display:flex;flex-direction:column;gap:2px;min-width:110px;padding-left:8px;text-align:right}
+/* trang Chơi: ô chọn vật phẩm cược – chữ canh giữa, cả trong danh sách thả xuống (user 2026-11-26) */
+.stake select{text-align:center;text-align-last:center;font-weight:700}.stake select option{text-align:center}
+/* cược Đồ: ô số lượng từng vật phẩm (trên thẻ và trong Sửa cược) */
+.qmix{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;width:100%}.qmix[hidden],.eb-p[hidden],#ebQ[hidden]{display:none}
+.qm-i{display:flex;flex-direction:column;gap:2px;width:62px}.qm-i span{font-size:11px;font-weight:700;color:var(--chalk);text-align:center;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qm-i input{width:100%;min-width:0;text-align:center;font-weight:700;padding:5px 4px}.eb-m{margin-top:8px}.eb-m .qm-i input{background:var(--surface2);border:1px solid var(--faint);border-radius:8px;color:var(--chalk);font:inherit;font-size:13px;font-weight:700}
+.stake .sv.over{color:var(--loss, #ff6b6b)}
+/* tab Nhân vật: tên vật phẩm, số lượng và vốn gốc chữ đậm, canh giữa (user 2026-11-26) */
+.rq-i span,.rq-t span{font-size:11px;font-weight:700;color:var(--chalk);text-align:center;line-height:1.6;padding-top:1px}   /* đủ cao cho dấu chữ hoa (ĐỒ, TRÂU) không bị cắt */.rq-i input{text-align:center;font-weight:700}.rq-t{text-align:center}.rq-t b{font:700 14px var(--display);font-variant-numeric:tabular-nums;line-height:30px}.row .who{flex:1 1 220px}
+
+/* ================= redesign 2026-11-26: phối màu sinh động, nút có màu (user 2026-11-26) =================
+   Nền xanh đêm ấm hơn, màu nhấn tím–hồng, phụ xanh ngọc; mỗi loại nút một màu theo việc nó làm */
+:root{
+  --board:#0a0e1d; --board-hi:#121935; --surface:#111731; --surface2:#19213f;
+  --chalk:#eef1fb; --dim:#97a2c3; --ink:#0a0e1d;
+  /* dịu mắt (user 2026-11-26): màu pastel trầm, ít phát sáng */
+  --accent:#9b90e8; --accent2:#d891b5; --cyan:#7cc6d8; --teal:#6cc7ae; --amber:#e2bd6e;
+  --win:#6fcf9c; --draw:#e2bd6e; --lose:#e58b8f;
+  --sky:#86b8e6; --lilac:#b69ee0;
+  --line:rgba(160,170,255,.10); --glass:rgba(155,144,232,.04); --glass2:rgba(155,144,232,.08);
+  --grad:linear-gradient(135deg,#7d74c9 0%,#9a7cc4 55%,#b97ea3 100%);
+}
+body{background:radial-gradient(1000px 560px at 8% -10%,rgba(155,144,232,.10),transparent 62%),radial-gradient(900px 520px at 100% -6%,rgba(216,145,181,.06),transparent 60%),var(--board);background-attachment:fixed}
+::selection{background:rgba(143,125,255,.45)}
+
+/* header */
+h1{font-weight:800}
+.tabs{background:rgba(17,23,49,.75);border-color:var(--line)}
+.tab{color:var(--dim)}.tab:hover{color:var(--chalk);background:var(--glass)}
+.tabs .tab[aria-selected="true"]{background:var(--grad);color:#fff!important;opacity:1;text-shadow:0 1px 2px rgba(40,0,60,.35);box-shadow:0 6px 18px -8px rgba(125,116,201,.5)}
+.hx-add{color:var(--cyan);border-color:rgba(63,213,242,.35);background:rgba(63,213,242,.08)}
+.hx-add:hover{color:#fff;background:rgba(63,213,242,.18);border-color:var(--cyan)}
+.it-cfg summary{color:var(--amber);border-color:rgba(255,194,74,.35);background:rgba(255,194,74,.08)}
+.it-cfg summary:hover,.it-cfg[open] summary{color:#fff;background:rgba(255,194,74,.18);border-color:var(--amber)}
+.vis-cfg summary{color:var(--lilac);border-color:rgba(193,139,255,.35);background:rgba(193,139,255,.08)}
+.vis-cfg summary:hover{color:#fff;background:rgba(193,139,255,.18)}
+
+/* khung & thẻ */
+.panel,.hf,.col,.detail,.sess,.sov{background:linear-gradient(180deg,rgba(143,125,255,.07),rgba(143,125,255,.015) 45%),var(--surface);border-color:var(--line)}
+.col{box-shadow:0 20px 50px -30px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.04)}
+.col[data-slot="1"]{--slot:var(--sky)}.col[data-slot="2"]{--slot:var(--accent2)}
+.col::before{left:0;right:0;height:3px;border-radius:22px 22px 0 0;background:linear-gradient(90deg,transparent,var(--slot),transparent)}
+.play-box{background:rgba(6,9,22,.45);border-color:var(--line)}
+.cc-stats{background:rgba(6,9,22,.35);border-color:var(--line)}
+.ai{border-color:rgba(143,125,255,.25);background:linear-gradient(180deg,rgba(143,125,255,.08),transparent)}
+.advice{background:rgba(143,125,255,.12);border:1px solid rgba(143,125,255,.22)}
+.ring{background:rgba(143,125,255,.08)}
+
+/* nút chung: viền màu nhấn nhẹ */
+.btn{border-color:rgba(143,125,255,.30);background:rgba(143,125,255,.08);color:var(--chalk)}
+.btn:hover{background:rgba(143,125,255,.18);border-color:var(--accent)}
+.btn:disabled,.btn:disabled:hover{background:rgba(255,255,255,.03);border-color:var(--line);color:var(--dim)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--dim)}
+.btn.ghost:hover{background:var(--glass2);color:var(--chalk)}
+.btn.fill{background:var(--grad);border:0;color:#fff;box-shadow:0 8px 20px -10px rgba(125,116,201,.55)}
+.btn.fill:hover{filter:brightness(1.12);background:var(--grad)}
+.btn.danger{background:rgba(255,107,114,.10);border-color:rgba(255,107,114,.45);color:var(--lose)}
+.btn.danger:hover{background:var(--lose);border-color:var(--lose);color:#2a0609}
+.btn.roll{background:var(--grad);color:#fff;box-shadow:0 10px 26px -10px rgba(125,116,201,.6)}
+.btn.roll:hover{background:var(--grad);filter:brightness(1.12)}
+.btn.agree{background:linear-gradient(135deg,#e6c983,#d2aa5c);border:0;color:#2c2108}
+.btn.agree:hover{filter:brightness(1.07);background:linear-gradient(135deg,#e6c983,#d2aa5c)}
+/* nút theo việc */
+.btn[data-act="pick"]:not(:disabled){background:rgba(47,214,176,.12);border-color:rgba(47,214,176,.5);color:var(--teal)}
+.btn[data-act="pick"]:not(:disabled):hover{background:var(--teal);color:#032a20}
+.btn[data-act="pick"]:disabled{background:rgba(47,214,176,.06);color:rgba(47,214,176,.7);border-color:rgba(47,214,176,.2);opacity:1}
+.btn.vg,.btn[data-act="setBase"]{background:rgba(47,214,176,.12);border-color:rgba(47,214,176,.5);color:var(--teal)}
+.btn[data-act="goHist"]{background:rgba(63,213,242,.10);border-color:rgba(63,213,242,.45);color:var(--cyan)}
+.btn[data-act="goHist"]:hover{background:var(--cyan);color:#03222a}
+.foot .btn[data-act="undo"]:not(:disabled){color:var(--amber)}
+.foot .btn[data-act="reset"]:not(:disabled){color:var(--lose)}
+.foot .btn[data-act="swap"]:not(:disabled){color:var(--lilac)}
+.foot .btn:not(:disabled):hover{background:rgba(255,255,255,.06)}
+
+/* ghi kết quả: nút đặc màu */
+.res{border:0;font-weight:800}
+.res.win{background:linear-gradient(135deg,#79cfa2,#55b585);color:#0c2a1c;box-shadow:0 8px 18px -14px rgba(111,207,156,.7)}
+.res.draw{background:linear-gradient(135deg,#e6c983,#d2aa5c);color:#2c2108;box-shadow:0 8px 18px -14px rgba(226,189,110,.7)}
+.res.lose{background:linear-gradient(135deg,#e69a9d,#d3797e);color:#300d10;box-shadow:0 8px 18px -14px rgba(229,139,143,.7)}
+.res.win:not(:disabled):hover,.res.draw:not(:disabled):hover,.res.lose:not(:disabled):hover{filter:brightness(1.07);transform:translateY(-1px)}
+.res.win:not(:disabled):hover{background:linear-gradient(135deg,#79cfa2,#55b585);color:#0c2a1c}
+.res.draw:not(:disabled):hover{background:linear-gradient(135deg,#e6c983,#d2aa5c);color:#2c2108}
+.res.lose:not(:disabled):hover{background:linear-gradient(135deg,#e69a9d,#d3797e);color:#300d10}
+.res:disabled{opacity:.28;box-shadow:none}
+
+/* mức cược: mỗi nút một màu, nút đang chọn tô gradient */
+.stake select{background-color:rgba(143,125,255,.14);border-color:rgba(143,125,255,.45);color:#fff}
+.stake select option{background:var(--surface2);color:var(--chalk)}
+.qpre .qp,.qmix .qp{--qc:155,144,232;color:rgb(var(--qc));border-color:rgba(var(--qc),.32);background:rgba(var(--qc),.07)}
+.qpre .qp:nth-child(6n+1){--qc:124,198,216}.qpre .qp:nth-child(6n+2){--qc:108,199,174}.qpre .qp:nth-child(6n+3){--qc:226,189,110}
+.qpre .qp:nth-child(6n+4){--qc:222,154,120}.qpre .qp:nth-child(6n+5){--qc:216,145,181}.qpre .qp:nth-child(6n){--qc:182,158,224}
+.qpre .qp:last-child,.qmix .qp:last-child{--qc:151,162,195}
+.qpre .qp:hover,.qmix .qp:hover{background:rgba(var(--qc),.22);color:#fff;border-color:rgb(var(--qc))}
+.qpre .qp.on,.qmix .qp.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 6px 16px -8px rgba(125,116,201,.55)}
+.qpre .qp.over{border-color:var(--lose);color:var(--lose);background:rgba(255,107,114,.1)}
+.qm-i input,.stake .qm-i input{background:rgba(6,9,22,.5);border-color:rgba(143,125,255,.35)}
+.qm-i input:focus{border-color:var(--accent2)}
+.need-tx{color:var(--amber)}
+
+/* lịch sử, lọc vật phẩm, tab phụ */
+.hi{border-color:rgba(63,213,242,.25);background:rgba(63,213,242,.06)}
+.hi:hover{border-color:var(--cyan);color:#fff}
+.hi.on{background:var(--grad);border-color:transparent;color:#fff}.hi.on .hi-n,.hi.on b{color:#fff}
+.hft tr.sh td{background:linear-gradient(90deg,rgba(143,125,255,.18),rgba(255,111,177,.06))}
+.pl-tabs,.cf-tabs{border-color:var(--line)}
+.pl-tab[aria-selected="true"],.pl-tab.on,.cf-tab.on{background:var(--grad);color:#fff}
+.chip-btn[aria-pressed="true"],.sess[aria-pressed="true"],.hs-i[aria-pressed="true"]{background:rgba(143,125,255,.18);border-color:var(--accent)}
+.vis-row.on .vis-sw{background:var(--grad)}
+.toast{background:linear-gradient(135deg,#1d2350,#2a1f4d);border:1px solid rgba(143,125,255,.4);color:#fff}
+dialog{background:rgba(20,26,56,.98);border-color:rgba(143,125,255,.3)}
+.slot-ic{background:var(--glass2);color:var(--accent)}
 </style>
 </head>
 <body>
@@ -645,7 +756,7 @@ function fmtDate(iso) {
 
 /* ============================== luật chơi & random ============================== */
 const dec = s => { const m = MV.indexOf(s[0]), r = s[1]; return { m, r, o: r === 'W' ? (m + 1) % 3 : r === 'D' ? m : (m + 2) % 3, sw: s.length > 2 ? MV.indexOf(s[2]) : null }; };
-const mvh = j => `<span class="mc${j}" title="${MV_NAME[j]}">${MV_GLYPH[j]}<span class="mn"> ${MV_NAME[j]}</span></span>`;   // tên nước đi có màu riêng
+const mvh = j => `<span class="mc${j}" title="${MV_NAME[j]}">${MV_NAME[j]}</span>`;   // bảng kết quả: chữ Búa/Kéo/Bao có màu riêng, không icon (user 2026-11-26)
 const outcomeOf = (m, o) => m === o ? 'D' : (m + 1) % 3 === o ? 'W' : 'L';   // Búa(0) thắng Kéo(1), Kéo thắng Bao(2), Bao thắng Búa
 
 /* ============================== thống kê ============================== */
@@ -985,8 +1096,8 @@ const num = x => { const v = typeof x === 'number' ? x : parseFloat(String(x).re
 /* ts & bets luôn cùng độ dài với rounds (dữ liệu cũ không có thì để trống) */
 const alignTs = (a, n) => Array.from({ length: n }, (_, i) => { const v = Array.isArray(a) ? +a[i] : 0; return isFinite(v) && v > 0 ? v : 0; });
 const alignBets = (a, n) => Array.from({ length: n }, (_, i) => { const b = Array.isArray(a) ? a[i] : null; if (!(b && typeof b === 'object' && num(b.q) > 0)) return null;
-  const add = Array.isArray(b.add) ? b.add.filter(p => p && num(p.q) > 0).slice(0, 4).map(p => ({ i: String(p.i || '').slice(0, 16), q: num(p.q), v: Math.max(0, num(p.v)) })) : [];
-  return { i: String(b.i || '').slice(0, 16), q: num(b.q), v: Math.max(0, num(b.v)), ...(add.length ? { add } : {}) }; });
+  const add = Array.isArray(b.add) ? b.add.filter(p => p && num(p.q) > 0).slice(0, 29).map(p => ({ i: String(p.i || '').slice(0, 16), q: num(p.q), v: Math.max(0, num(p.v)) })) : [];
+  return { i: String(b.i || '').slice(0, 16), q: num(b.q), v: Math.max(0, num(b.v)), ...(add.length ? { add } : {}), ...(b.mix ? { mix: 1 } : {}) }; });   // mix = cược “Đồ” (nhiều vật phẩm tự nhập)
 /* báo cáo ngày đã lưu: { 'yyyy-mm-dd': {n, W, D, L, p} } */
 function normDaily(d) { const o = {}; if (d && typeof d === 'object') for (const k of Object.keys(d)) { const v = d[k]; if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === 'object') o[k] = { n: Math.max(0, Math.round(num(v.n))), W: Math.max(0, Math.round(num(v.W))), D: Math.max(0, Math.round(num(v.D))), L: Math.max(0, Math.round(num(v.L))), p: num(v.p) }; } return o; }
 function normChar(id, c) {
@@ -1007,7 +1118,7 @@ function normChar(id, c) {
     ...(() => { const x = {}; if (c.baseHold && typeof c.baseHold === 'object') for (const i of Object.keys(c.baseHold)) if (num(c.baseHold[i]) > 0) x[String(i).slice(0, 16)] = num(c.baseHold[i]); return Object.keys(x).length ? { baseHold: x } : {}; })(),   // vốn gốc theo số lượng vật phẩm
     caps: (() => { const o = {}; if (c.caps && typeof c.caps === 'object') for (const k of Object.keys(c.caps)) if (/^\d{4}-\d{2}-\d{2}$/.test(k) && num(c.caps[k]) > 0) o[k] = num(c.caps[k]); return o; })(),
     daily: normDaily(c.daily),
-    stake: c.stake && typeof c.stake === 'object' ? { i: String(c.stake.i || '').slice(0, 16), q: Math.max(0, num(c.stake.q)), ...(c.stake.need ? { need: 1 } : {}) } : { i: '', q: 0 },
+    stake: c.stake && typeof c.stake === 'object' ? { i: String(c.stake.i || '').slice(0, 16), q: Math.max(0, num(c.stake.q)), ...(c.stake.need ? { need: 1 } : {}), ...(c.stake.mix && typeof c.stake.mix === 'object' ? { mix: Object.fromEntries(Object.entries(c.stake.mix).filter(([, v]) => num(v) > 0).slice(0, 30).map(([k, v]) => [String(k).slice(0, 16), num(v)])) } : {}) } : { i: '', q: 0 },
     pending: p === 0 || p === 1 || p === 2 ? p : null,
     pendingFrom: (c.pendingFrom === 0 || c.pendingFrom === 1 || c.pendingFrom === 2) && p !== null && c.pendingFrom !== p ? c.pendingFrom : null,   // nước random gốc nếu đã đồng ý đổi theo AI
     archives: (Array.isArray(c.archives) ? c.archives : []).filter(a => a && typeof a === 'object').map(a => ({
@@ -1299,14 +1410,26 @@ const itemOf = k => (state.settings.items || []).find(x => x.k === k) || null;
 const perOf = it => it && it.per > 0 ? it.per : 1;
 const unitPrice = it => it ? it.v / perOf(it) : 0;
 const unitOf = b => b && b.v > 0 ? b.v : unitPrice(itemOf(b && b.i));
-/* mức cược gộp “500x + 100KV” = 500 Xu + 100 KV cùng lúc, giá theo ⚙ Giá vật phẩm (user 2026-11-25) */
-const COMBO = 900000001, COMBO_PARTS = [['xu', 500], ['kv', 100]];
-const mkBet = (it, q) => q === COMBO ? (() => { const ps = COMBO_PARTS.filter(([k]) => itemOf(k)).map(([k, n]) => ({ i: k, q: n, v: unitPrice(itemOf(k)) })); return ps.length ? { ...ps[0], add: ps.slice(1) } : null; })() : it ? { i: it.k, q, v: unitPrice(it) } : null;
+/* mức cược gộp, nút ghi “500x + 1B” (user 2026-11-26) = 500 Xu + 100 KV cùng lúc, giá theo ⚙ Giá vật phẩm (user 2026-11-25) */
+/* “500x + 1B” = 500 Xu + 1 B (user 2026-11-26): B = vật phẩm tên “B” trong ⚙ Giá vật phẩm (trước là KV, mã 'kv'), giá lấy từ đó */
+const comboB = () => { const its = state.settings.items || []; return (its.find(x => String(x.n).trim().toLowerCase() === 'b') || its.find(x => x.k === 'b') || itemOf('kv') || {}).k || 'kv'; };
+const COMBO = 900000001;
+const comboParts = () => [['xu', 500], [comboB(), 1]];
+/* Đồ (user 2026-11-26): không có giá riêng – chọn Đồ thì nhập số lượng từng vật phẩm khác (vd 2 TST + 3 Trâu),
+   giá trị = Σ số lượng × giá 1 đơn vị trong ⚙ Giá vật phẩm. Ván ghi các vật phẩm đó + mix:1 (lọc/AI theo “Đồ”) */
+const MIX_K = 'do', MIX = 900000002;
+const isMix = it => !!it && it.k === MIX_K;
+const mixItems = () => (state.settings.items || []).filter(x => x.k !== MIX_K);
+const mixParts = m => mixItems().filter(x => num((m || {})[x.k]) > 0).map(x => ({ i: x.k, q: num(m[x.k]), v: unitPrice(x) }));
+const mixBet = m => { const ps = mixParts(m); return ps.length ? { ...ps[0], add: ps.slice(1), mix: 1 } : null; };
+const mixValue = m => mixParts(m).reduce((a, p) => a + p.q * p.v, 0);
+const mixOf = b => { const m = {}; if (b && b.mix) partsOf(b).forEach(p => { m[p.i] = (m[p.i] || 0) + p.q; }); return m; };
+const mkBet = (it, q) => q === COMBO ? (() => { const ps = comboParts().filter(([k]) => itemOf(k)).map(([k, n]) => ({ i: k, q: n, v: unitPrice(itemOf(k)) })); return ps.length ? { ...ps[0], add: ps.slice(1) } : null; })() : it ? { i: it.k, q, v: unitPrice(it) } : null;
 const partsOf = b => !b || !(b.q > 0) ? [] : [{ i: b.i, q: b.q, v: b.v }, ...(Array.isArray(b.add) ? b.add : [])];
 const betValue = b => partsOf(b).reduce((a, p) => a + p.q * unitOf(p), 0);
-const comboValue = () => COMBO_PARTS.reduce((a, [k, n]) => a + n * unitPrice(itemOf(k)), 0);
-const betHas = (b, k) => partsOf(b).some(p => p.i === k);
-const qLabel = n => n === COMBO ? '500x + 100KV' : n === 1000500000 ? '500x + 1B' : n >= 1e9 ? fmtN(n / 1e9) + 'B' : n >= 1e6 ? fmtN(n / 1e6) + 'M' : n >= 1e4 ? fmtN(n / 1e3) + 'x' : n === 1000 ? '1K' : fmtN(n);
+const comboValue = () => comboParts().reduce((a, [k, n]) => a + n * unitPrice(itemOf(k)), 0);
+const betHas = (b, k) => k === MIX_K ? !!(b && b.mix && b.q > 0) : partsOf(b).some(p => p.i === k) && !(b && b.mix);   // ván “Đồ” chỉ thuộc nhóm Đồ
+const qLabel = n => n === COMBO ? '500x + 1B' : n === 1000500000 ? '500x + 1B' : n >= 1e9 ? fmtN(n / 1e9) + 'B' : n >= 1e6 ? fmtN(n / 1e6) + 'M' : n >= 1e4 ? fmtN(n / 1e3) + 'x' : n === 1000 ? '1K' : fmtN(n);
 const pnlOf = (s, b) => !b || !(b.q > 0) ? 0 : (s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0) * betValue(b);
 const qtyOf = (s, b) => !b || !(b.q > 0) ? 0 : (s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0) * b.q;
 const inCap = (c, t) => !c.capAt || (t || 0) >= c.capAt;
@@ -1329,8 +1452,15 @@ function stakeHTML(c) {
   const it = state.settings.items || [], s = c.stake || {}, sel = itemOf(s.i) ? s.i : (it[0] || {}).k, cur = itemOf(sel), v = unitPrice(cur), q = num(s.q), pre = presetsOf(cur), mx = statusOf(c).maxAmt;
   const valOf = n => n === COMBO ? comboValue() : n * v, over = n => mx > 0 && valOf(n) > 0 && valOf(n) > mx;
   const need = !!s.need;
+  const selH = `<select data-stake="i" data-id="${c.id}" aria-label="Vật phẩm cược">${it.map(x => `<option value="${esc(x.k)}"${x.k === sel ? ' selected' : ''}>${esc(x.n)}</option>`).join('')}</select>`;
+  if (isMix(cur)) {                                 // Đồ: tự nhập số lượng từng vật phẩm, app tính giá trị (user 2026-11-26)
+    const m = s.mix || {}, mb = q > 0 ? mixBet(m) : null, mv = mb ? betValue(mb) : 0, ov = mx > 0 && mv > mx;
+    return `<div class="stake mix${need ? ' need' : ''}" data-sid="${c.id}"><span class="lb">Cược</span>${selH}
+    <span class="sv${ov ? ' over' : ''}">${mb ? `${esc(betTxt(mb))} ` + (mv > 0 ? '≈ ' + fmtN(mv) : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Nhập số lượng từng vật phẩm của ${esc(cur.n)}</b>` : ''}</span>
+    <span class="qmix">${mixItems().map(x => `<label class="qm-i"><span>${esc(x.n)}</span><input type="text" inputmode="decimal" data-money="1" data-stake="m" data-id="${c.id}" data-k="${esc(x.k)}" value="${num(m[x.k]) > 0 ? fmtN(num(m[x.k])) : ''}" placeholder="0" aria-label="Số lượng ${esc(x.n)}"></label>`).join('')}<button type="button" class="qp${mb ? '' : ' on'}" data-act="qpick" data-id="${c.id}" data-x="0">Không cược</button></span></div>`;
+  }
   return `<div class="stake${need ? ' need' : ''}" data-sid="${c.id}"><span class="lb">Cược</span>
-    <select data-stake="i" data-id="${c.id}" aria-label="Vật phẩm cược">${it.map(x => `<option value="${esc(x.k)}"${x.k === sel ? ' selected' : ''}>${esc(x.n)}</option>`).join('')}</select>
+    ${selH}
     <span class="sv">${q > 0 ? (q === COMBO ? `${esc(betTxt(mkBet(cur, q)))} ` : `${qLabel(q)} ${esc(cur ? cur.n : '')} `) + (valOf(q) > 0 ? '≈ ' + fmtN(valOf(q)) : '<em>chưa nhập giá gốc</em>') : need ? `<b class="need-tx">⚠ Chọn số lượng ${esc(cur ? cur.n : '')}</b>` : ''}</span>
     ${pre.length ? `<span class="qpre">${pre.map(n => `<button type="button" class="qp${q === n ? ' on' : ''}${over(n) ? ' over' : ''}" data-act="qpick" data-id="${c.id}" data-x="${n}" aria-pressed="${q === n}"${over(n) ? ` title="Vượt cược tối đa ${state.settings.maxBet}% vốn hôm nay (${fmtN(mx)})"` : ''}>${qLabel(n)}</button>`).join('')}<button type="button" class="qp${q > 0 ? '' : ' on'}" data-act="qpick" data-id="${c.id}" data-x="0">Không cược</button></span>` : ''}</div>`;
 }
@@ -1382,7 +1512,7 @@ function pnlLineHTML(c) {
   const dayH = startHold(c, today), net = netToday(c), carried = dayH && !(c.holds || {})[today];
   const nowH = dayH ? addQ(dayH, net) : null;
   const row = (key, label, h, total, cls, tip, extra) => `<div class="ccr${key ? ' ed' : ''}${ed === key && key ? ' on' : ''}"${key ? ` data-act="capEdit" data-id="${c.id}" data-x="${key}" role="button" tabindex="0"` : ''} title="${esc(tip)}">
-      <span class="ccl">${label}${extra || ''}</span><span class="ccq">${h ? qtyLine(h, false) || '' : ''}${key && !(h && qtyLine(h)) ? '<em>+ số lượng</em>' : ''}</span><b class="${cls || ''}">${total}</b></div>`;
+      <span class="ccl">${label}${extra || ''}</span><span class="ccq"></span><b class="${cls || ''}">${total}</b></div>`;
   return `<div class="cap-card">
     <div class="cc-stats cc-rows">
       ${row('base', 'Vốn gốc', c.baseHold, T.base > 0 ? fmtN(T.base) : '–', '', 'Số tiền đầu tư ban đầu – bấm để nhập số lượng từng vật phẩm')}
@@ -1390,7 +1520,7 @@ function pnlLineHTML(c) {
       ${row('day', 'Đầu ngày', dayH, T.start > 0 ? fmtN(T.start) : '–', '', carried ? 'Tự lấy từ cuối ngày trước – bấm để sửa số lượng hôm nay' : 'Vốn lúc bắt đầu hôm nay (qua ngày tự lấy vốn cuối ngày trước) – bấm để nhập số lượng từng vật phẩm', carried ? ' <small class="auto">tự động</small>' : '')}
       ${ed === 'day' ? capEditHTML(c, 'day', T) : ''}
       <div class="ccr cc-now" title="Hôm nay ${fmtS(T.p)}${T.base > 0 ? ' · từ vốn gốc ' + fmtS(T.tot) : ''}"><span class="ccl">Hiện tại${T.start > 0 && T.p ? ` <small class="${sgnCls(T.p)}">${fmtP(T.p / T.start * 100)}</small>` : ''}</span>
-        <span class="ccq">${nowH ? qtyLine(nowH, false) : ''}</span><b class="${T.p > 0 ? 'pos' : T.p < 0 ? 'neg' : 'flat'}">${fmtN(T.bal)}</b></div></div>
+        <span class="ccq"></span><b class="${T.p > 0 ? 'pos' : T.p < 0 ? 'neg' : 'flat'}">${fmtN(T.bal)}</b></div></div>
     ${limHTML(c)}</div>`;
 }
 const lastTs = c => c.ts.length ? c.ts[c.ts.length - 1] || 0 : 0;
@@ -1494,7 +1624,7 @@ function howHTML() {
       <small>${state.order.length} nhân vật · ${nR} ván · khoảng ${kb} KB</small></div>
       <div class="hw-btns"><button type="button" class="btn small" data-act="copyBackup">Sao lưu</button><button type="button" class="btn small ghost" data-act="restoreBackup">Khôi phục…</button></div></div>
     <ol class="hw">
-      ${it('1', 'Chọn cược', 'Chọn vật phẩm và số lượng (Xu: 100 … 1K, 500x + 100KV; vật phẩm khác 1–5) hoặc “Không cược”. Đổi vật phẩm thì phải chọn lại số lượng.')}
+      ${it('1', 'Chọn cược', 'Chọn vật phẩm và số lượng (Xu: 100 … 1K, 500x + 1B; vật phẩm khác 1–5; Đồ: tự nhập số lượng từng vật phẩm, vd 2 TST + 3 Trâu, app tính giá trị) hoặc “Không cược”. Đổi vật phẩm thì phải chọn lại số lượng.')}
       ${it('2', 'Random → chơi → ghi kết quả', 'Bấm Random lấy nước đi, chơi xong bấm Thắng / Hòa / Thua. Ghi nhầm thì bấm vào kết quả hoặc cược trong bảng lịch sử để sửa.')}
       ${it('3', 'AI nhận định', 'AI chỉ học lịch sử đang có trên bảng của chính nhân vật đó, theo vật phẩm đang cược; cần 5 ván. Khi AI thấy nước tốt hơn sẽ hiện nút ✓ để đổi.')}
       ${it('4', 'Vốn & lãi/lỗ', 'Nhập vốn ở “Nhập / sửa vốn”, bấm 📌 Vốn gốc để chốt số tiền đầu tư. Qua ngày, vốn đầu ngày tự lấy số dư cuối ngày trước. Giá trị cược = số lượng × giá trong 💎 Giá vật phẩm.')}
@@ -1762,7 +1892,8 @@ function histFrameHTML(id) {
   const segs = [{ label: 'Đang chơi', note: '', rounds: c.rounds, ts: c.ts, bets: c.bets, seg: 'cur' }, ...[...vis].sort((x, y) => x.at < y.at ? 1 : -1).map(a => ({ label: fmtDate(a.at).replace(/\/\d{4}/, ''), note: a.note, at: a.at, rounds: a.rounds, ts: a.ts, bets: a.bets, seg: a.id }))].filter(z => z.rounds.length);
   const items = hfItems[id] = [];
   /* phân loại theo vật phẩm: số ván, thắng/hòa/thua, số lượng ròng, lãi/lỗ – bấm để lọc bảng */
-  const by = {}; segs.forEach(sg => sg.rounds.forEach((s, i) => { const sgn = s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0; partsOf(sg.bets[i]).forEach(p => { const o = by[p.i] || (by[p.i] = { n: 0, W: 0, D: 0, L: 0, q: 0, v: 0 }); o.n++; o[s[1]]++; o.q += sgn * p.q; o.v += sgn * p.q * unitOf(p); }); }));
+  const by = {}; segs.forEach(sg => sg.rounds.forEach((s, i) => { const sgn = s[1] === 'W' ? 1 : s[1] === 'L' ? -1 : 0; const b = sg.bets[i], ps = b && b.mix ? [{ i: MIX_K, q: partsOf(b).reduce((a, p) => a + p.q, 0), val: betValue(b) }] : partsOf(b).map(p => ({ i: p.i, q: p.q, val: p.q * unitOf(p) }));   // ván “Đồ” gộp vào nhóm Đồ
+    ps.forEach(p => { const o = by[p.i] || (by[p.i] = { n: 0, W: 0, D: 0, L: 0, q: 0, v: 0 }); o.n++; o[s[1]]++; o.q += sgn * p.q; o.v += sgn * p.val; }); }));
   let flt = (ui.hfItem || {})[id] || ''; if (flt && !by[flt]) flt = '';
   const keep = (sg, i) => !flt || betHas(sg.bets[i], flt);
   segs.forEach(sg => {
@@ -1778,7 +1909,7 @@ function histFrameHTML(id) {
     }
   });
   const body = st.n
-    ? `<div class="hf-sum" title="Đối thủ ra: ${[0, 1, 2].map(j => `${MV_NAME[j]} ${st.opp[j]} ván`).join(', ')}"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span><span class="mc${j}">${MV_GLYPH[j]}</span> <b>${pc(st.opp[j] / st.n)}%</b></span>`).join('')}</div>
+    ? `<div class="hf-sum" title="Đối thủ ra: ${[0, 1, 2].map(j => `${MV_NAME[j]} ${st.opp[j]} ván`).join(', ')}"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span><span class="mc${j}">${MV_NAME[j]}</span> <b>${pc(st.opp[j] / st.n)}%</b></span>`).join('')}</div>
        ${Object.keys(by).length ? `<div class="hf-items" role="group" aria-label="Lọc theo vật phẩm"><button type="button" class="hi${flt ? '' : ' on'}" data-act="hfItem" data-id="${id}" data-x="">Tất cả</button>${Object.keys(by).sort((a, b) => by[b].n - by[a].n).map(k => { const o = by[k], it = itemOf(k), nm = it ? it.n : k;
          return `<button type="button" class="hi${flt === k ? ' on' : ''}" data-act="hfItem" data-id="${id}" data-x="${esc(k)}" title="${esc(nm)}: ${o.n} ván · ${o.W} thắng, ${o.D} hòa, ${o.L} thua · số lượng ${fmtS(o.q)} · lãi/lỗ ${fmtS(o.v)} – bấm để lọc"><span class="hi-n">${esc(nm)}</span><span class="hi-c">${o.n} ván</span><b class="${sgnCls(o.v)}">${fmtS(o.q)}</b></button>`; }).join('')}</div>` : ''}
        <div class="hf-list" data-hf="${id}"></div>`
@@ -1968,6 +2099,7 @@ function render() {
   document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.x === ui.tab));
   const fo = document.activeElement, key = fo && fo.dataset && fo.dataset.act ? [fo.dataset.act, fo.dataset.id, fo.dataset.x].join('|') : null;
   const nameKey = fo && fo.classList && fo.classList.contains('name-in') ? fo.dataset.id : null;
+  const mixKey = fo && fo.dataset && fo.dataset.stake === 'm' ? `[data-stake="m"][data-id="${fo.dataset.id}"][data-k="${fo.dataset.k}"]` : null;   // ô số lượng Đồ đang nhập
   const y = window.scrollY;
   $('#view').innerHTML = ui.tab === 'play' ? viewPlay() : ui.tab === 'hist' ? viewHist() : ui.tab === 'rep' ? viewRep() : viewChars();
   $('#hx').innerHTML = ui.tab === 'play' ? visHTML() + capHTML() : '';
@@ -1976,6 +2108,7 @@ function render() {
   fitList();
   if (key) for (const el of document.querySelectorAll('[data-act]')) if (!el.disabled && [el.dataset.act, el.dataset.id, el.dataset.x].join('|') === key) { el.focus({ preventScroll: true }); break; }
   if (nameKey) { const el = document.querySelector(`.name-in[data-id="${nameKey}"]`); if (el) el.focus({ preventScroll: true }); }
+  if (mixKey) { try { const el = document.querySelector(mixKey); if (el) { el.focus({ preventScroll: true }); el.select(); } } catch (e) {} }
   setCloud(Cloud.status);
 }
 const rollTimers = new Map();
@@ -2096,7 +2229,7 @@ const ACT = {
     autoSwapCheck(c);                               // quá mốc thời gian: ván này thuộc đối thủ mới
     const st = c.stake || {}, it = itemOf(st.i) || (state.settings.items || [])[0], q = num(st.q);
     c.rounds.push(MV[c.pending] + r + (c.pendingFrom !== null ? MV[c.pendingFrom] : '')); c.ts.push(Date.now());
-    c.bets.push(q > 0 && it ? mkBet(it, q) : null); c.pending = null; c.pendingFrom = null;
+    c.bets.push(q > 0 && it ? (isMix(it) ? mixBet(st.mix) : mkBet(it, q)) : null); c.pending = null; c.pendingFrom = null;
     commit({ chars: [id] });
     const b = c.bets[c.bets.length - 1]; if (b) { const v = pnlOf(c.rounds[c.rounds.length - 1], b); toast(`${c.name}: ${RES_NAME[r]} · cược ${betTxt(b)} · ${fmtS(v)} · số dư ${fmtN(todayOf(c).bal)}`); }
     const z1 = statusOf(c);                         // vừa chạm mốc: báo ngay
@@ -2126,23 +2259,26 @@ const ACT = {
     const k = String(x).lastIndexOf(':'), seg = String(x).slice(0, k), i = +String(x).slice(k + 1);
     const segOf = () => { const c = state.chars[id]; if (!c) return null; return seg === 'cur' ? c : c.archives.find(a => a.id === seg) || null; };
     const z0 = segOf(); if (!z0 || !z0.rounds[i]) return;
-    const b0 = z0.bets[i] || null, its = state.settings.items || [], sel0 = b0 && itemOf(b0.i) ? b0.i : (its[0] || {}).k;
+    const b0 = z0.bets[i] || null, its = state.settings.items || [], sel0 = b0 && b0.mix && itemOf(MIX_K) ? MIX_K : b0 && itemOf(b0.i) ? b0.i : (its[0] || {}).k, m0 = mixOf(b0);
     const chips = k2 => presetsOf(itemOf(k2)).map(n => `<button type="button" class="qp" data-ebq="${n}">${qLabel(n)}</button>`).join('');
     const p = dialogBox({
       title: `Sửa cược ván ${i + 1}`,
       text: `Đang ghi: <b>${b0 && b0.q > 0 ? esc(betTxt(b0)) : 'không cược'}</b> · ${RES_NAME[dec(z0.rounds[i]).r]}</p>
         <div class="eb"><select id="ebI" aria-label="Vật phẩm">${its.map(it => `<option value="${esc(it.k)}"${it.k === sel0 ? ' selected' : ''}>${esc(it.n)}</option>`).join('')}</select>
-        <input id="ebQ" type="text" inputmode="decimal" value="${b0 && b0.add ? qLabel(COMBO) : b0 && b0.q > 0 ? fmtN(b0.q) : ''}" placeholder="số lượng" aria-label="Số lượng"></div>
-        <div class="eb-p" id="ebP">${chips(sel0)}</div><p class="dlg-text" style="margin:8px 0 0">Số lượng 0 hoặc để trống = không cược.`,
+        <input id="ebQ" type="text" inputmode="decimal" value="${b0 && b0.mix ? '' : b0 && b0.add ? qLabel(COMBO) : b0 && b0.q > 0 ? fmtN(b0.q) : ''}" placeholder="số lượng" aria-label="Số lượng"></div>
+        <div class="eb-p" id="ebP">${chips(sel0)}</div>
+        <div class="qmix eb-m" id="ebM">${mixItems().map(x => `<label class="qm-i"><span>${esc(x.n)}</span><input type="text" inputmode="decimal" data-ebm="${esc(x.k)}" value="${num(m0[x.k]) > 0 ? fmtN(num(m0[x.k])) : ''}" placeholder="0" aria-label="Số lượng ${esc(x.n)}"></label>`).join('')}</div><p class="dlg-text" style="margin:8px 0 0">Số lượng 0 hoặc để trống = không cược.`,
       buttons: [{ id: 'cancel', label: 'Hủy', kind: 'ghost' }, { id: 'none', label: 'Không cược', kind: '' }, { id: 'ok', label: 'Lưu', kind: 'fill', primary: true }],
     });
-    const ebI = $('#ebI'), ebQ = $('#ebQ'), ebP = $('#ebP');
-    ebI.addEventListener('change', () => { ebP.innerHTML = chips(ebI.value); });
+    const ebI = $('#ebI'), ebQ = $('#ebQ'), ebP = $('#ebP'), ebM = $('#ebM');
+    const ebMode = () => { const mx = ebI.value === MIX_K; ebQ.hidden = mx; ebP.hidden = mx; ebM.hidden = !mx; };   // Đồ: nhập số lượng từng vật phẩm
+    ebMode(); ebI.addEventListener('change', () => { ebP.innerHTML = chips(ebI.value); ebMode(); });
     ebP.addEventListener('click', e => { const t = e.target.closest('[data-ebq]'); if (t) { ebQ.value = +t.dataset.ebq === COMBO ? qLabel(COMBO) : fmtN(+t.dataset.ebq); ebP.querySelectorAll('.qp').forEach(q => q.classList.toggle('on', q === t)); } });
     const r = await p; if (r.id !== 'ok' && r.id !== 'none') return;
     const it = itemOf(ebI.value), q = r.id === 'none' ? 0 : ebQ.value.trim() === qLabel(COMBO) ? COMBO : Math.max(0, parseMoney(ebQ.value));
     const z = segOf(); if (!z || z.rounds[i] !== z0.rounds[i]) { toast('Dữ liệu đã thay đổi, hãy thử lại.'); return; }
-    const nb = q === COMBO ? mkBet(it, q) : q > 0 && it ? { i: it.k, q, v: b0 && b0.i === it.k && !b0.add && b0.v > 0 ? b0.v : unitPrice(it) } : null;
+    const em = {}; ebM.querySelectorAll('[data-ebm]').forEach(e => { const v = Math.max(0, parseMoney(e.value)); if (v > 0) em[e.dataset.ebm] = v; });
+    const nb = isMix(it) ? (r.id === 'none' ? null : mixBet(em)) : q === COMBO ? mkBet(it, q) : q > 0 && it ? { i: it.k, q, v: b0 && b0.i === it.k && !b0.add && b0.v > 0 ? b0.v : unitPrice(it) } : null;
     z.bets[i] = nb; commit({ chars: [id] });
     toast(`Đã sửa cược ván ${i + 1}: ${b0 && b0.q > 0 ? betTxt(b0) : 'không cược'} → ${nb ? betTxt(nb) + ' (' + fmtS(pnlOf(z.rounds[i], nb)) + ')' : 'không cược'}.`);
   },
@@ -2233,7 +2369,7 @@ const ACT = {
     const id = newId(); state.chars[id] = normChar(id, { name }); state.order.push(id); if (state.active.length < MAX_ACTIVE) state.active.push(id);
     ui.itOpen = true; commit({ chars: [id], meta: true }); toast(`Đã thêm ${name}. Chọn tên này ở ô tên trên thẻ.`);
   },
-  qpick(id, x) { const c = state.chars[id]; if (!c) return; c.stake = c.stake || { i: 'xu', q: 0 }; c.stake.q = num(x); delete c.stake.need; if (!itemOf(c.stake.i)) c.stake.i = (state.settings.items[0] || {}).k || 'xu'; commit({ chars: [id] }); },
+  qpick(id, x) { const c = state.chars[id]; if (!c) return; c.stake = c.stake || { i: 'xu', q: 0 }; c.stake.q = num(x); delete c.stake.need; if (!(c.stake.q > 0)) delete c.stake.mix; if (!itemOf(c.stake.i)) c.stake.i = (state.settings.items[0] || {}).k || 'xu'; commit({ chars: [id] }); },
   rChar(id) { ui.rc = id; render(); },
   repCsv() { repCsv(); },
   async copyBackup() {
@@ -2271,8 +2407,11 @@ document.addEventListener('change', e => {
     const to = el.value, from = el.dataset.id, a = state.active.slice(), i = a.indexOf(from), j = a.indexOf(to);
     if (i < 0 || to === from || !state.chars[to]) return; if (j >= 0) a[j] = from; a[i] = to; state.active = a; commit({ meta: true }); return; }
   if (el.dataset.stake) { const c = state.chars[el.dataset.id]; if (!c) return; c.stake = c.stake || { i: '', q: 0 }; if (el.dataset.stake === 'q') c.stake.q = Math.max(0, num(el.value));
+    else if (el.dataset.stake === 'm') {            // Đồ: số lượng một vật phẩm trong mức cược gộp
+      const m = c.stake.mix = { ...(c.stake.mix || {}) }, v = Math.max(0, parseMoney(el.value)); if (v > 0) m[el.dataset.k] = v; else delete m[el.dataset.k];
+      c.stake.q = mixParts(m).length ? MIX : 0; if (c.stake.q) delete c.stake.need; commit({ chars: [c.id], defer: true }); return; }   // defer: Tab sang ô kế vẫn giữ con trỏ
     else if (c.stake.i !== el.value) {              // đổi sang vật phẩm nào cũng phải chọn lại số lượng (user 2026-11-25)
-      c.stake.i = el.value;
+      c.stake.i = el.value; delete c.stake.mix;
       ui.hfItem = ui.hfItem || {}; ui.hfItem[c.id] = el.value;   // lịch sử bên phải tự lọc theo vật phẩm vừa chọn (bấm “Tất cả” để xem hết)
       c.stake.q = 0; c.stake.need = 1; toast(`Đã đổi sang ${(itemOf(el.value) || {}).n || el.value}: chọn số lượng cược.`); }
     commit({ chars: [c.id] }); return; }
