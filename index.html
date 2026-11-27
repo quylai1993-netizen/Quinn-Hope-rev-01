@@ -1163,7 +1163,7 @@ function backtestOf(c) {
 
 /* ============================== dữ liệu: chuẩn hóa & lưu ============================== */
 const DEFAULT_SETTINGS = { learnArchives: true, crossLearn: true, ai2: true, autoSwap: true, gapMin: 3, capital: 0, capAt: 0, items: null, tp: null, sl: null, streak: 4, maxBet: 0, slAsk: true, beep: false, goals: [] };
-const DEFAULT_ITEMS = [{ k: 'xu', n: 'Xu', per: 1000, v: 1000 }, { k: 'tst', n: 'TST', per: 1, v: 0 }, { k: 'trau', n: 'Trâu', v: 0 }, { k: 'pb12', n: 'PB#12', v: 0 }, { k: 'kv', n: 'KV', v: 0 }, { k: 'do', n: 'Đồ', v: 0 }];
+const DEFAULT_ITEMS = [{ k: 'xu', n: 'Xu', per: 1000, v: 1000 }, { k: 'tst', n: 'TST', per: 1, v: 0 }, { k: 'trau', n: 'Trâu', v: 0 }, { k: 'pb12', n: 'PB#12', v: 0 }, { k: 'kv', n: 'B', v: 0 }, { k: 'do', n: 'Đồ', v: 0 }];
 const GAP_DEFAULT = 3;   // phút: quá mốc này chưa có ván mới thì coi như đối thủ đã đổi
 const num = x => { const v = typeof x === 'number' ? x : parseFloat(String(x).replace(/\s/g, '').replace(',', '.')); return isFinite(v) ? v : 0; };
 /* ts & bets luôn cùng độ dài với rounds (dữ liệu cũ không có thì để trống) */
@@ -1238,7 +1238,8 @@ function normState(raw) {
     showMoney: !!s.showMoney,                            // hiện giá tiền ở trang Chơi + bảng kết quả (mặc định ẩn, vẫn tính ngầm)
     visV: !!s.visV,                                      // đã từng ẩn hết bảng: không tự hiện lại
     items: (Array.isArray(s.items) && s.items.length ? s.items : DEFAULT_ITEMS).filter(x => x && x.k).slice(0, 30).map(x => { const k = String(x.k).slice(0, 16), had = num(x.per) > 0, per = had ? num(x.per) : k === 'xu' ? 1000 : 1;
-      return { k, n: String(x.n || x.k).slice(0, 16), per, v: Math.max(0, num(x.v)) * (had ? 1 : per) }; }),   /* Xu cũ (giá 1 xu) → giá của 1.000 xu */
+      const n0 = String(x.n || x.k).slice(0, 16);   /* KV nay gọi là B ở mọi chỗ (user 2026-11-27) */
+      return { k, n: k === 'kv' && /^kv$/i.test(n0.trim()) ? 'B' : n0, per, v: Math.max(0, num(x.v)) * (had ? 1 : per) }; }),   /* Xu cũ (giá 1 xu) → giá của 1.000 xu */
   };
   return { chars, order, active, settings };
 }
@@ -1534,7 +1535,9 @@ function netItems(c) {                              // lãi/lỗ theo từng v�
   }));
   return out;
 }
-const betTxt0 = b => partsOf(b).map(p => { const it = itemOf(p.i); return `${qLabel(p.q)} ${it ? it.n : p.i}`; }).join(' + ');
+/* ván gộp 500 Xu + 1 B: luôn ghi “500x + 1B” (user 2026-11-27: trước hiện “500 Xu + 1 KV”) */
+const isCombo = b => { const ps = partsOf(b); return !(b && b.mix) && ps.length === 2 && ps[0].i === 'xu' && ps[0].q === 500 && ps[1].q === 1 && (ps[1].i === comboB() || ps[1].i === 'kv'); };
+const betTxt0 = b => isCombo(b) ? qLabel(COMBO) : partsOf(b).map(p => { const it = itemOf(p.i); return `${qLabel(p.q)} ${it ? it.n : p.i}`; }).join(' + ');
 const betTxt = b => b && b.mix ? `${(itemOf(MIX_K) || {}).n || 'Đồ'} (${betTxt0(b)})` : betTxt0(b);   // cược Đồ: “Đồ (2 TST + 3 Trâu)” để phân biệt (user 2026-11-26)
 const betShort = b => b && b.mix ? (itemOf(MIX_K) || {}).n || 'Đồ' : betTxt0(b);   // bảng kết quả: chỉ chữ “Đồ”, chi tiết + giá trị khi rê chuột (user 2026-11-26)
 const presetsOf = it => !it ? [] : Array.isArray(it.p) && it.p.length ? it.p : it.k === 'xu' ? [100, 200, 300, 500, 1000, COMBO] : [1, 2, 3, 4, 5];   /* Xu: 100 · 200 · 300 · 500 · 1K · “500x + 1B” (một mức chung) */   /* Xu: 100…1000 · vật phẩm khác: 1…5 (user 2026-11-25) */
