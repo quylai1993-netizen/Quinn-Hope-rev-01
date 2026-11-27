@@ -747,7 +747,10 @@ dialog{background:rgba(29,24,16,.98)}
 /* 📌 ghim "luôn hiện tất cả" trong bảng lịch sử */
 .hi.hi-pin{opacity:.6;filter:grayscale(.6)}.hi.hi-pin:hover{opacity:1;filter:none}
 .hi.hi-pin.pin{opacity:1;filter:none;background:rgba(214,178,92,.16);border-color:var(--accent);color:var(--chalk);font-weight:700}
-.hi.hi-mny{font-weight:800;min-width:30px;justify-content:center}.hi.hi-mny.pin{color:var(--accent)}
+/* ⚙ 📌 $ trên header (user 2026-11-27): nút tròn chỉ có biểu tượng */
+.hx .cap-bar{gap:6px 8px}.hx .it-cfg summary{width:32px;padding:0;justify-content:center;font-size:16px}
+.hxb{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--dim);font:800 15px var(--body);cursor:pointer;opacity:.6;filter:grayscale(.6);transition:opacity .15s,border-color .15s,background .15s}.hxb:hover{opacity:1;filter:none;color:var(--chalk)}
+.hxb.pin{opacity:1;filter:none;background:rgba(214,178,92,.16);border-color:var(--accent);color:var(--chalk)}.hxb-mny.pin{color:var(--accent)}
 /* 🏁 mốc lợi nhuận (user 2026-11-27) */
 .gl-box{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.gl-box>.cf-tx{display:flex;flex-direction:column;gap:2px}.gl-box>.cf-tx>span{font-size:12px;color:var(--dim)}
 .gl-row{display:grid;grid-template-columns:130px minmax(0,1fr) 92px 30px;gap:6px;align-items:center;margin-top:6px}
@@ -1702,9 +1705,9 @@ function capHTML() {
       ${fld('⏱', 'Đối thủ đổi sau', 'Quá số phút này chưa có ván mới thì ván tới tính là đối thủ mới (tắt/bật ở tab Nhân vật).', `<input type="number" min="1" max="120" step="1" data-cfg="gap" value="${S.gapMin}"><em>phút</em>`)}
       <div class="cf-sw">${sw('slAsk', 'Hỏi lại khi đã chạm cắt lỗ', 'Bấm ghi kết quả sau khi chạm cắt lỗ thì app hỏi xác nhận trước.')}${sw('beep', 'Âm báo', 'Kêu “bíp” khi chạm chốt lời, cắt lỗ, thua liên tiếp hoặc mốc lợi nhuận.')}</div>
       ${goalsCfgHTML()}`;
-  return `<div class="cap-bar"><details class="it-cfg"${ui.itOpen ? ' open' : ''}><summary>⚙ Cài đặt chung</summary><div class="it-pop">
+  return `<div class="cap-bar"><details class="it-cfg"${ui.itOpen ? ' open' : ''}><summary title="Cài đặt chung" aria-label="Cài đặt chung">⚙</summary><div class="it-pop">
       <div class="cf-tabs" role="tablist"><button type="button" role="tab" class="cf-tab${tab === 'items' ? ' on' : ''}" data-act="cfgTab" data-x="items" aria-selected="${tab === 'items'}">💎 Giá vật phẩm</button><button type="button" role="tab" class="cf-tab${tab === 'lim' ? ' on' : ''}" data-act="cfgTab" data-x="lim" aria-selected="${tab === 'lim'}">🎯 Giới hạn & cảnh báo${on(' <i class="dot"></i>')}</button><button type="button" role="tab" class="cf-tab${tab === 'how' ? ' on' : ''}" data-act="cfgTab" data-x="how" aria-selected="${tab === 'how'}">ℹ️ Cách hoạt động</button></div>
-      ${tab === 'items' ? items : tab === 'lim' ? lim : howHTML()}</div></details></div>`;
+      ${tab === 'items' ? items : tab === 'lim' ? lim : howHTML()}</div></details><button type="button" class="hxb${state.settings.hfAll ? ' pin' : ''}" data-act="hfAll" aria-pressed="${!!state.settings.hfAll}" title="${state.settings.hfAll ? 'Đang ghim: luôn hiện tất cả vật phẩm, chọn vật phẩm cược không tự lọc. Bấm để bỏ ghim.' : 'Ghim: luôn hiện tất cả vật phẩm (chọn vật phẩm cược không tự lọc bảng nữa)'}">📌</button><button type="button" class="hxb hxb-mny${MNY() ? ' pin' : ''}" data-act="mnyTgl" aria-pressed="${MNY()}" title="${MNY() ? 'Đang hiện tiền (vốn, lãi/lỗ, giá trị cược). Bấm để ẩn, chỉ hiện số lượng.' : 'Đang ẩn tiền, chỉ hiện số lượng. Bấm để hiện tiền.'}">$</button></div>`;
 }
 /* ⚙ Cài đặt chung › ℹ️ Cách hoạt động: dữ liệu lưu ở đâu + các bước dùng app */
 function howHTML() {
@@ -2032,7 +2035,7 @@ function histFrameHTML(id) {
   });
   const body = st.n
     ? `<div class="hf-sum" title="Đối thủ ra: ${[0, 1, 2].map(j => `${MV_NAME[j]} ${st.opp[j]} ván`).join(', ')}"><span>Đối thủ ra</span>${[0, 1, 2].map(j => `<span><span class="mc${j}">${MV_NAME[j]}</span> <b>${pc(st.opp[j] / st.n)}%</b></span>`).join('')}</div>
-       ${Object.keys(by).length ? `<div class="hf-items" role="group" aria-label="Lọc theo vật phẩm"><button type="button" class="hi hi-pin${state.settings.hfAll ? ' pin' : ''}" data-act="hfAll" aria-pressed="${!!state.settings.hfAll}" title="${state.settings.hfAll ? 'Đang ghim: luôn hiện tất cả vật phẩm, chọn vật phẩm cược không tự lọc. Bấm để bỏ ghim.' : 'Ghim: luôn hiện tất cả vật phẩm (chọn vật phẩm cược không tự lọc bảng nữa)'}">📌</button><button type="button" class="hi hi-pin hi-mny${MNY() ? ' pin' : ''}" data-act="mnyTgl" aria-pressed="${MNY()}" title="${MNY() ? 'Đang hiện tiền (vốn, lãi/lỗ, giá trị cược). Bấm để ẩn, chỉ hiện số lượng.' : 'Đang ẩn tiền, chỉ hiện số lượng. Bấm để hiện tiền.'}">$</button><button type="button" class="hi${flt ? '' : ' on'}" data-act="hfItem" data-id="${id}" data-x="">Tất cả</button>${Object.keys(by).sort((a, b) => by[b].n - by[a].n).map(k => { const o = by[k], it = itemOf(k), nm = it ? it.n : k;
+       ${Object.keys(by).length ? `<div class="hf-items" role="group" aria-label="Lọc theo vật phẩm"><button type="button" class="hi${flt ? '' : ' on'}" data-act="hfItem" data-id="${id}" data-x="">Tất cả</button>${Object.keys(by).sort((a, b) => by[b].n - by[a].n).map(k => { const o = by[k], it = itemOf(k), nm = it ? it.n : k;
          return `<button type="button" class="hi${flt === k ? ' on' : ''}" data-act="hfItem" data-id="${id}" data-x="${esc(k)}" title="${esc(nm)}: ${o.n} ván · ${o.W} thắng, ${o.D} hòa, ${o.L} thua · số lượng ${fmtSR(o.q)}${MNY() ? ' · lãi/lỗ ' + fmtS(o.v) : ''} – bấm để lọc"><span class="hi-n">${esc(nm)}</span><span class="hi-c">${o.n} ván</span><b class="${sgnCls(o.v)}">${fmtSR(o.q)}</b></button>`; }).join('')}</div>` : ''}
        <div class="hf-list" data-hf="${id}"></div>`
     : `<div class="hf-empty">Chưa có ván</div>`;
